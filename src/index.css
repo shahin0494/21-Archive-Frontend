@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "CHORUS-BLACK";
+  src: url("./assets//fonts//CHORUS-BLACK.otf");
+}
+
+@font-face {
+  font-family: "LeagueGothic-Regular";
+  src: url('./assets//fonts/LeagueGothic-Regular.woff');
+}
+
+*{
+  font-family: "LeagueGothic-Regular";
+}
+
