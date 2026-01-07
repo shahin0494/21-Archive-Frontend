@@ -1,6 +1,7 @@
 import './App.css'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { AnimatePresence } from 'framer-motion'
 import Home from './User/Home'
 import Shop from './User/Shop'
 import ProductDetail from './User/ProductDetail'
@@ -27,20 +28,22 @@ function App() {
 
   return (
     <>
-      {loading && <Ploader active={loading} />}
+      <Ploader active={loading} />
 
-      <Routes location={location} key={location.pathname}>
-        <Route path='/' element={<Home />} />
-        <Route path='/shop' element={<Shop />} />
-        <Route path='/product/:id' element={<ProductDetail />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/wishlist' element={<Wishlist />} />
-        <Route path='/orders' element={<Orders />} />
-        <Route path='/checkout' element={<Checkout />} />
-        <Route path='/login' element={<SignIn />} />
-        <Route path='/register' element={<SignIn register />} />
-        <Route path='*' element={<Pnf />} />
-      </Routes>
+      <AnimatePresence mode="wait">
+        <Routes location={location}>
+          <Route path='/' element={<Home />} />
+          <Route path='/shop' element={<Shop />} />
+          <Route path='/product/:id' element={<ProductDetail />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/wishlist' element={<Wishlist />} />
+          <Route path='/orders' element={<Orders />} />
+          <Route path='/checkout' element={<Checkout />} />
+          <Route path='/login' element={<SignIn />} />
+          <Route path='/register' element={<SignIn register />} />
+          <Route path='*' element={<Pnf />} />
+        </Routes>
+      </AnimatePresence>
     </>
   )
 }

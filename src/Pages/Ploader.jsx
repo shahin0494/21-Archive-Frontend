@@ -1,6 +1,6 @@
 // --- Dependencies ---
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // --- Shared Hook (Loader Logic) ---
 const useLoader = (isActive, duration = 3000) => {
@@ -33,57 +33,84 @@ const useLoader = (isActive, duration = 3000) => {
   return progress;
 };
 
-// --- IMPULSE: GLITCH ---
-const VarietyImpulseGlitch = ({ active }) => {
-  if (!active) return null;
-  const rawProgress = useLoader(active, 3000);
-
-  useEffect(() => {
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, []);
-
-  const progress = Math.floor(rawProgress / 5) * 5; // quantized steps
+// --- KINETIC PRELOADER: SYS / TEM ---
+const Ploader = ({ active }) => {
+  const progress = useLoader(active, 3000);
 
   return (
-    <div className="fixed inset-0 z-50 bg-white flex justify-center">
-      <style>{`body { overflow: hidden; }`}</style>
-      <div className="absolute top-[13vh] w-full">
-        
-        <div className="w-full h-[5px] bg-white overflow-hidden relative rounded-none">
-          {/* Main Bar */}
+    <AnimatePresence>
+      {active && (
+        <motion.div
+          key="kinetic-loader"
+          className="fixed inset-0 z-50 flex flex-col font-sans pointer-events-none"
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 1 }}
+        >
+          {/* Top Panel */}
           <motion.div
-            className="h-full bg-neutral-900"
-            animate={{ width: `${progress}%` }}
-            transition={{ type: 'tween', duration: 0.1 }}
-          />
-
-          {/* Glitch Flash */}
-          <motion.div
-            key={progress}
-            className="absolute inset-0 bg-white/80"
-            initial={{ opacity: 0.8 }}
-            animate={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          />
-        </div>
-
-        {/* Status Text */}
-        <div className="mt-2 flex justify-between font-mono text-[10px] text-stone-400 uppercase">
-          <span>Loading_Packet_{Math.floor(progress / 10)}</span>
-          <motion.span
-            key={`text-${progress}`}
-            initial={{ opacity: 0, x: -5 }}
-            animate={{ opacity: 1, x: 0 }}
+            className="flex-1 bg-neutral-900 flex items-end justify-start p-4 md:p-12 overflow-hidden"
+            initial={{ y: 0 }}
+            animate={{ y: 0 }}
+            exit={{ y: "-100%" }}
+            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
           >
-            {progress < 100 ? 'BUFFERING...' : 'COMPLETE'}
-          </motion.span>
-        </div>
+            <h1 className="text-white text-[12vw] leading-[0.85] font-bold tracking-tighter overflow-hidden">
+              <motion.span
+                className="block"
+                initial={{ y: 160 }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              >
+                21
+              </motion.span>
+            </h1>
+          </motion.div>
 
-      </div>
-    </div>
+          {/* Progress Strip – Center Split */}
+          <div className="relative w-full h-1 md:h-1 z-20 overflow-hidden bg-transparent">
+            <motion.div
+              className="absolute left-1/2 top-0 h-full bg-red-700"
+              initial={{ width: 0 }}
+              animate={{ width: '100%' }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+              style={{ transform: 'translateX(-50%)' }}
+            >
+              <motion.div
+                className="absolute left-0 top-0 h-full bg-white"
+                style={{ width: `${progress}%` }}
+              />
+            </motion.div>
+          </div>
+
+          {/* Bottom Panel */}
+          <motion.div
+            className="flex-1 bg-white h-full flex items-start justify-end p-4 md:p-12 overflow-hidden"
+            initial={{ y: 0 }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+          >
+            <div className="text-right">
+              <h1 className="text-neutral-900 text-[12vw]  leading-[0.85] font-bold  mix-blend-multiply overflow-hidden">
+                <motion.span
+                  className="block"
+                  initial={{ y: 160 }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+                >
+                  ARCHIVE
+                </motion.span>
+              </h1>
+              <div className="mt-4 font-mono text-sm md:text-xl tracking-widest uppercase">
+                Loading Resources… {Math.floor(progress)}%
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
-export default VarietyImpulseGlitch;
+export default Ploader;

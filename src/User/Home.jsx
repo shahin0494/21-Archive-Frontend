@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import Ploader from '../Pages/Ploader'
-import AnimatedContent from '../reactbits/AnimatedContent'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import Header from '../components/Header'
-import { Search, ChevronUp,   ArrowRight, ArrowLeft, ShoppingBag, Plus, ChevronDown,  X, Minimize2, Maximize2} from 'lucide-react'
+import { Search, ChevronUp, ArrowRight, ArrowLeft, ShoppingBag, ArrowUpRight, Plus, ChevronDown, X, Minimize2, Maximize2, Zap, ChevronLeft, ChevronRight, Heart, Star } from 'lucide-react'
+
+
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -171,28 +171,28 @@ const UtilityTextButton = ({ label, count, highlight, index }) => (
 const SNEAKERS = [
   {
     id: 1,
-    name: "AIR MAX 90",
+    name: "SB AIR MAX ISHOD ",
     subtitle: "INFRARED / OG",
     price: "$130",
-    description: "The original Air Max 90 returns with its iconic Infrared colorway. Featuring the classic waffle sole and stitched overlays.",
+    description: "Infused with elements taken from iconic '90s hoops shoes, the Air Max Ishod is built with all the durability you need to skate hard. This creative twist on the original Ishod design features our iconic bullet-train-inspired colourway, exposed Nike Air (with Max Air technology) and a flexible sole that breaks in easily. Now step in and skate like you mean it.",
     image: "https://cdn.shopify.com/s/files/1/0619/5347/4815/files/IshSilv-14_1024x1024.jpg?v=1741811758",
-    bg: "#f3f4f6"
+    bg: "#f3f4f6",
   },
   {
     id: 2,
-    name: "JORDAN 1 HIGH",
+    name: "AIR JORDAN 1 RETRO LOW OG SP TRAVIS SCOTT",
     subtitle: "RETRO / MOCHA",
     price: "$180",
-    description: "A fresh twist on a classic. The Dark Mocha offers a versatile look with premium leather and soft nubuck accents.",
+    description: "The Nike Air Jordan 1 Retro Low OG SP Travis Scott Medium Olive redefines sneaker culture with premium suede and leather overlays, reverse Swooshes, and earthy olive tones. Comfortable Air cushioning and a sleek profile make it perfect for any wardrobe.",
     image: "https://snrkickz.com/cdn/shop/files/air-jordan-1-low-og-x-travis-scott-medium-olivedm7866-200snrkickz-9859130.jpg?v=1762983540",
     bg: "#e7e5e4"
   },
   {
     id: 3,
-    name: "ADIDAS SAMBA",
+    name: "ADIDAS SAMBA XLG",
     subtitle: "RETRO / ZEBRA",
     price: "$230",
-    description: "Re-engineered Primeknit upper with a post-dyed monofilament side stripe. The Boost midsole ensures comfort.",
+    description: "The adidas Samba shoes have dominated the street scene for decades. This version stays authentic to the original look but absorbs influences from two dominant cultures: football and skateboarding. Signature XLG tooling and the sidewall pattern add attitude, and a thicker midsole gives it a slight lift. Comfort comes in strong with a full-length EVA drop-in plus extra padding on the moulded tongue.",
     image: "https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/AP8075s.jpg",
     bg: "#e5e5e5"
   },
@@ -216,6 +216,44 @@ const SNEAKERS = [
   }
 ];
 
+const DROPSNEAKERS = [
+  {
+    id: 1,
+    name: "CONS CTAS Pro Milton Martinez",
+    subtitle: "INFRARED / OG",
+    price: "$130",
+    image: "https://localitystore.com.au/cdn/shop/files/A17708C_D_2048x.jpg?v=1764629115",
+    bg: "#f3f4f6",
+  },
+  {
+    id: 2,
+    name: "ADIDAS Campus 00s ",
+    subtitle: "RETRO / MOCHA",
+    price: "$180",
+    description: "The Nike Air Jordan 1 Retro Low OG SP Travis Scott Medium Olive redefines sneaker culture with premium suede and leather overlays, reverse Swooshes, and earthy olive tones. Comfortable Air cushioning and a sleek profile make it perfect for any wardrobe.",
+    image: "https://www.outbacksylt.com/img/38769/adidas-campus-00s-cream-white-green-js3446-1.jpg?options=rs:fill:1000:1000/g:ce/dpr:1",
+    bg: "#e7e5e4"
+  },
+  {
+    id: 3,
+    name: "Nike C1TY",
+    subtitle: "RETRO / ZEBRA",
+    price: "$230",
+    description: "The adidas Samba shoes have dominated the street scene for decades. This version stays authentic to the original look but absorbs influences from two dominant cultures: football and skateboarding. Signature XLG tooling and the sidewall pattern add attitude, and a thicker midsole gives it a slight lift. Comfort comes in strong with a full-length EVA drop-in plus extra padding on the moulded tongue.",
+    image: "https://static.nike.com/a/images/t_web_pdp_535_v2/f_auto/1ddd7376-2b7c-449e-977c-d40f439cc114/NIKE+C1TY.png",
+    bg: "#e5e5e5"
+  },
+  {
+    id: 4,
+    name: "Nike Shox Ride 2",
+    subtitle: "PANDA / RETRO",
+    price: "$110",
+    description: "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with perfectly sheened overlays.",
+    image: "https://static.nike.com/a/images/t_web_pdp_936_v2/f_auto/b73245fe-db3d-4b32-a7f7-254fa6a57a66/NIKE+SHOX+RIDE+2+PRM.png",
+    bg: "#f8fafc"
+  }
+];
+
 
 const VerticalSplit = () => {
   const [index, setIndex] = useState(0);
@@ -229,7 +267,7 @@ const VerticalSplit = () => {
 
   return (
     <div className="relative w-full h-screen flex flex-col md:flex-row bg-white overflow-hidden">
-      
+
       {/* Left: Text */}
       <div className="w-full md:w-1/2 h-1/2 md:h-full flex items-center justify-center p-8 md:p-20 relative z-10 bg-white">
         <AnimatePresence mode="wait">
@@ -252,7 +290,7 @@ const VerticalSplit = () => {
               {current.name}
             </h1>
 
-            <p className="text-neutral-600 text-lg leading-relaxed mb-8">
+            <p style={{ fontFamily: 'General San,sans-serif' }} className="text-neutral-600 text-sm font-bold leading-relaxed mb-8">
               {current.description}
             </p>
 
@@ -330,6 +368,270 @@ const delayedRevealVariant = {
   }
 };
 
+const GlassCards = () => {
+  return (
+    <div className="w-full flex flex-wrap gap-6 justify-center">
+      {DROPSNEAKERS.map((product) => (
+        <GlassItem key={product.id} product={product} />
+      ))}
+    </div>
+  );
+};
+
+const GlassItem = ({ product }) => {
+  return (
+    <div className="w-full max-w-sm mx-auto h-[400px] rounded-2xl overflow-hidden relative border-neutral-200/70 border transition-all  group">
+
+      {/* Background Image Layer */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="absolute inset-0"
+      >
+        <img
+          src={product.image}
+          className="w-full h-full object-cover"
+          alt={product.name}
+        />
+      </motion.div>
+
+      {/* Glass Overlay */}
+      <div className="absolute inset-x-4 bottom-2  bg-white/10  backdrop-blur-md border border-neutral-100  p-4 rounded-xl shadow-sm">
+        <div className="flex justify-between items-start">
+          <div className="text-neutral-800 h-3 drop-shadow-md">
+            <motion.h3
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              className="font-bold text-lg"
+              style={{ fontFamily: 'General San,sans-serif' }}
+            >
+              {product.name}
+            </motion.h3>
+            <p style={{ fontFamily: 'General San,sans-serif' }} className="text-sm font-bold opacity-90">{product.subtitle}</p>
+          </div>
+          {/* <span className="bg-black/50 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">
+            {product.price}
+          </span> */}
+        </div>
+
+        <div className="mt-4 flex justify-end items-center">
+          {/* <div className="flex gap-1">
+            {[1, 2, 3].map(i => (
+              <div
+                key={i}
+                className="w-2 h-2 rounded-full bg-white/70"
+              />
+            ))}
+          </div> */}
+          <button className="text-md uppercase text-end tracking-widest text-black">
+            <><ArrowUpRight /></>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const DROPS = [
+  {
+    id: 1,
+    name: "Air Jordan 1 'Lost & Found'",
+    date: "2023-11-19T09:00:00",
+    price: "$180",
+    image: "./snkr5.png",
+    brand: "Jordan",
+    status: "Dropping Soon",
+    sku: "DZ5485-612",
+    colorway: "Varsity Red / Black / Sail"
+  },
+
+];
+const DROPS1 = [
+  {
+    id: 2,
+    name: "Dunk Low 'GATO'",
+    date: "2023-11-21T10:00:00",
+    price: "$110",
+    image: "./snkr88.png",
+    brand: "Nike",
+    status: "Restock",
+    sku: "DD1391-100",
+    colorway: "White / Black"
+  }
+];
+const DROPS2 = [
+  {
+    id: 4,
+    name: "VANS AHS Knu-Skool",
+    date: "2023-12-01T00:00:00",
+    price: "$200",
+    image: "./snkr44.png",
+    brand: "VANS",
+    status: "Upcoming",
+    sku: "M990GL6",
+    colorway: "Grey / Castlerock"
+  }
+];
+
+const AcidBrutalistDrop = () => {
+  const drop = DROPS[0];
+
+  return (
+    <div className="w-full bg- border-4 border-black p-4 md:p-8 relative overflow-hidden group">
+      {/* Background Marquee Text */}
+      <div className="  absolute inset-0 opacity-10 font-black text-9xl text-black leading-none whitespace-nowrap overflow-hidden select-none pointer-events-none flex items-center -rotate-12 transform scale-150">
+        DROP DROP DROP DROP DROP DROP
+      </div>
+
+      <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+        {/* Image Container with hard shadow */}
+        <motion.div
+          whileHover={{ rotate: 3, scale: 1.05 }}
+          className="w-full md:w-1/2 bg-white border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-2"
+        >
+          <img src={drop.image} className="w-full h-64 object-cover border-2 border-black" alt="acid-drop" />
+          <div className="bg-black text-white text-center py-2 font-mono font-bold mt-2 uppercase tracking-widest">
+            {drop.status}
+          </div>
+        </motion.div>
+
+        {/* Content Side */}
+        <div className="w-full md:w-1/2 flex flex-col gap-4">
+          <div className="bg-black text-white px-4 py-1 self-start transform -rotate-2 font-bold uppercase text-sm border-2 border-white inline-block shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
+            Warning: High Heat
+          </div>
+
+          <h2 className="text-5xl md:text-7xl font-black uppercase leading-[0.85] tracking-wide  text-black mix-blend-multiply">
+            {drop.brand}  <span className="text-white  bg-black px-2">{drop.name.split(' ').slice(2).join(' ')}</span>
+          </h2>
+
+          <div className="flex gap-4 font-mono font-bold text-lg border-t-4 border-black pt-4 mt-2">
+            <div className="flex-1">
+              <span className="block text-xs uppercase">Date</span>
+              {new Date(drop.date).toLocaleDateString()}
+            </div>
+            <div className="flex-1 border-l-4 border-black pl-4">
+              <span className="block text-xs uppercase">Price</span>
+              {drop.price}
+            </div>
+          </div>
+
+          <button className="w-full py-4 hover:bg-red-600/80 text-black border-4 border-black font-black uppercase text-xl  hover:text-white hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-3">
+            <Zap size={24} fill="black" /> Cop Now
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+const AcidBrutalistDrop1 = () => {
+  const drop = DROPS1[0];
+
+  return (
+    <div className="w-full bg-lime-00 border-4 border-black p-4 md:p-8 relative overflow-hidden group">
+      {/* Background Marquee Text */}
+      <div className="absolute inset-0 opacity-10 font-black text-9xl text-black leading-none whitespace-nowrap overflow-hidden select-none pointer-events-none flex items-center -rotate-12 transform scale-150">
+        RESTOCK RESTOCK RESTOCK RESTOCK RESTOCK
+      </div>
+
+      <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+
+
+        {/* Content Side */}
+        <div className="w-full md:w-1/2 flex flex-col gap-4">
+          <div className="bg-black text-white px-4 py-1 self-start transform -rotate-2 font-bold uppercase text-sm border-2 border-white inline-block shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
+            Warning: High Heat
+          </div>
+
+          <h2 className="text-5xl md:text-7xl font-black uppercase leading-[0.85] tracking-wide  text-black mix-blend-multiply">
+            {drop.brand}  <span className="text-white  bg-black px-2">{drop.name.split(' ').slice(2).join(' ')}</span>
+          </h2>
+
+          <div className="flex gap-4 font-mono font-bold text-lg border-t-4 border-black pt-4 mt-2">
+            <div className="flex-1">
+              <span className="block text-xs uppercase">Date</span>
+              {new Date(drop.date).toLocaleDateString()}
+            </div>
+            <div className="flex-1 border-l-4 border-black pl-4">
+              <span className="block text-xs uppercase">Price</span>
+              {drop.price}
+            </div>
+          </div>
+
+          <button className="w-full py-4 hover:bg-amber-700 text-black border-4 border-black font-black uppercase text-xl bg-white hover:text-white hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-3">
+            <Zap size={24} fill="black" /> Cop Now
+          </button>
+        </div>
+
+        {/* Image Container with hard shadow */}
+        <motion.div
+          whileHover={{ rotate: 3, scale: 1.05 }}
+          className="w-full md:w-1/2 bg-white border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-2"
+        >
+          <img src={drop.image} className="w-full h-64 object-cover border-2 border-black" alt="acid-drop" />
+          <div className="bg-black text-white text-center py-2 font-mono font-bold mt-2 uppercase tracking-widest">
+            {drop.status}
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+const AcidBrutalistDrop2 = () => {
+  const drop = DROPS2[0];
+
+  return (
+    <div className="w-full  border-4 border-black p-4 md:p-8 relative overflow-hidden group">
+      {/* Background Marquee Text */}
+      <div className="absolute inset-0 opacity-10 font-black text-9xl text-black leading-none whitespace-nowrap overflow-hidden select-none pointer-events-none flex items-center -rotate-12 transform scale-150">
+        DROP DROP DROP DROP DROP DROP
+      </div>
+
+      <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+        {/* Image Container with hard shadow */}
+        <motion.div
+          whileHover={{ rotate: 3, scale: 1.05 }}
+          className="w-full md:w-1/2 bg-white border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-2"
+        >
+          <img src={drop.image} className="w-full h-64 object-cover border-2 border-black" alt="acid-drop" />
+          <div className="bg-black text-white text-center py-2 font-mono font-bold mt-2 uppercase tracking-widest">
+            {drop.status}
+          </div>
+        </motion.div>
+
+        {/* Content Side */}
+        <div className="w-full md:w-1/2 flex flex-col gap-4">
+          <div className="bg-black text-white px-4 py-1 self-start transform -rotate-2 font-bold uppercase text-sm border-2 border-white inline-block shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
+            Warning: High Heat
+          </div>
+
+          <h2 className="text-5xl md:text-7xl font-black uppercase leading-[0.85] tracking-wide  text-black mix-blend-multiply">
+            {drop.brand}  <span className="text-white  bg-black px-2">{drop.name.split(' ').slice(2).join(' ')}</span>
+          </h2>
+
+          <div className="flex gap-4 font-mono font-bold text-lg border-t-4 border-black pt-4 mt-2">
+            <div className="flex-1">
+              <span className="block text-xs uppercase">Date</span>
+              {new Date(drop.date).toLocaleDateString()}
+            </div>
+            <div className="flex-1 border-l-4 border-black pl-4">
+              <span className="block text-xs uppercase">Price</span>
+              {drop.price}
+            </div>
+          </div>
+
+          <button className="w-full py-4 hover:bg-blue-400 hover:text-white text-black border-4 border-black font-black uppercase text-xl bg-white hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-3">
+            <Zap size={24} fill="black" /> Cop Now
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+
 function Home() {
   return (
     <div className='bg-white'>
@@ -337,7 +639,7 @@ function Home() {
       <SplitText
         text="21 ARCHIVE"
         variants={textUpVariants}
-        className="top-[1vh] ms-3 absolute text-9xl gap-0.5 font-light tracking-tighter text-slate-700"
+        className="top-[1vh] ms-3 absolute text-9xl gap-0.5 font-light tracking-tighter text-red-800"
       />
       <div className="absolute top-[13vh] w-full h-[5px] bg-gradient-to-r from-neutral-600 to-neutral-600" />
       <Header />
@@ -348,14 +650,34 @@ function Home() {
         className="top-[14vh] ms-3 absolute text-7xl gap-0.5 font-light tracking-tighter text-neutral-800"
       />
       <hr className='text-neutral-300' />
-      
+
       <motion.div
         variants={delayedRevealVariant}
         initial="hidden"
         animate="show"
       >
         <VerticalSplit />
-      </motion.div>
+      </motion.div> <hr className='text-neutral-200' />
+
+      <h2 className="text-9xl font-black text-center py-2 uppercase italic">FEED</h2>
+
+      <section className="space-y- ">
+        <AcidBrutalistDrop />
+        <AcidBrutalistDrop1 />
+        <AcidBrutalistDrop2 />
+      </section>
+
+      <h2 className="font-bold text-8xl  py-2 uppercase italic text-center text-neutral-900  border-b-4">LATEST DROPS</h2>
+
+      <section className="flex flex-col gap-1">
+        <GlassCards />
+      </section>
+
+      <div className='flex justify-center  items-center '>
+        <button style={{ fontFamily: 'General San,sans-serif' }} className="font-bold text-xl gap-1 text-center py-5 text-neutral-900  ">Explore More </button> <ArrowRight className='text-black' />
+      </div>
+
+
     </div>
   )
 }
