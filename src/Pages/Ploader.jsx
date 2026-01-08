@@ -85,7 +85,7 @@ const Ploader = ({ active }) => {
 
           {/* Bottom Panel */}
           <motion.div
-            className="flex-1 bg-white h-full flex items-start justify-end p-4 md:p-12 overflow-hidden"
+            className="flex-1 bg-white h-full flex-col items-start justify-end p-4 md:p-12 overflow-hidden"
             initial={{ y: 0 }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
@@ -102,10 +102,11 @@ const Ploader = ({ active }) => {
                   ARCHIVE
                 </motion.span>
               </h1>
-              <div className="mt-4 font-mono text-sm md:text-xl tracking-widest uppercase">
-                Loading Resources… {Math.floor(progress)}%
-              </div>
+              
             </div>
+            <div style={{fontSize:"250px" , marginBottom:"5rem"}} className="  font-bold text-neutral-300  grotesq text tracking-tight uppercase">
+                {Math.floor(progress)}
+              </div>
           </motion.div>
         </motion.div>
       )}

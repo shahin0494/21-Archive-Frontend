@@ -15,16 +15,20 @@ import Ploader from './Pages/Ploader'
 
 function App() {
   const location = useLocation()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(() => {
+    return !sessionStorage.getItem("hasLoadedOnce");
+  });
 
   useEffect(() => {
-    setLoading(true)
-    const timer = setTimeout(() => {
-      setLoading(false)
-    }, 4000)
+    if (!loading) return;
 
-    return () => clearTimeout(timer)
-  }, [location.pathname])
+    const timer = setTimeout(() => {
+      setLoading(false);
+      sessionStorage.setItem("hasLoadedOnce", "true");
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [loading]);
 
   return (
     <>
@@ -34,6 +38,8 @@ function App() {
         <Routes location={location}>
           <Route path='/' element={<Home />} />
           <Route path='/shop' element={<Shop />} />
+          <Route path='/shop/men'  element={<Shop />} />
+          <Route path='/shop/women'  element={<Shop />} />
           <Route path='/product/:id' element={<ProductDetail />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/wishlist' element={<Wishlist />} />
