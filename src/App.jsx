@@ -33,9 +33,10 @@ function App() {
   return (
     <>
       <Ploader active={loading} />
+      
 
-      <AnimatePresence mode="wait">
-        <Routes location={location}>
+      <AnimatePresence mode="wait" initial={false}>
+        <Routes location={location} key={location.pathname}>
           <Route path='/' element={<Home />} />
           <Route path='/shop' element={<Shop />} />
           <Route path='/shop/men'  element={<Shop />} />

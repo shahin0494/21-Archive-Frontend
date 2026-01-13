@@ -1,28 +1,96 @@
+import React from "react";
 import { motion } from "framer-motion";
 
-export const curtainVariants = {
-  initial: { clipPath: "inset(0 100% 0 0)" },
-  enter: {
-    clipPath: "inset(0 0% 0 0)",
-    transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] }
+// Swiss easing curve
+const swissEase = [0.16, 1, 0.3, 1];
+
+const swissFadeVariants = {
+  container: {
+    initial: {
+      opacity: 0,
+      y: 30,
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: swissEase,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -20,
+      transition: {
+        duration: 0.4,
+        ease: "easeIn",
+      },
+    },
   },
-  exit: {
-    clipPath: "inset(0 0 0 100%)",
-    transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] }
-  }
+
+  content: {
+    initial: {
+      opacity: 0,
+      y: 10,
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.2,
+        duration: 0.5,
+        ease: swissEase,
+      },
+    },
+    exit: { opacity: 0 },
+  },
+
+  image: {
+    initial: { scale: 1.05 },
+    animate: {
+      scale: 1,
+      transition: {
+        duration: 1.2,
+        ease: swissEase,
+      },
+    },
+    exit: { opacity: 0 },
+  },
 };
 
-export const CurtainTransition = ({ children }) => {
+const SwissFadeTransition = ({
+  children,
+  backgroundImage,
+  className = "",
+}) => {
   return (
     <motion.div
-      variants={curtainVariants}
+      variants={swissFadeVariants.container}
       initial="initial"
-      animate="enter"
+      animate="animate"
       exit="exit"
-      className="w-full h-full bg-black"
+      className={`relative w-full ${className}`}
     >
-      {children}
+      {/* Optional background image */}
+      {backgroundImage && (
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <motion.img
+            src={backgroundImage}
+            variants={swissFadeVariants.image}
+            className="w-full h-full object-cover"
+            alt=""
+          />
+        </div>
+      )}
+
+      {/* Content layer */}
+      <div className="relative z-10">
+        <motion.div variants={swissFadeVariants.content}>
+          {children}
+        </motion.div>
+      </div>
     </motion.div>
   );
 };
-export default CurtainTransition;
+
+export default SwissFadeTransition;

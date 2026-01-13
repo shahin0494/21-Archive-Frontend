@@ -9,7 +9,7 @@ const hasLoadedOnce = sessionStorage.getItem("hasLoadedOnce");
 const baseDelay = hasLoadedOnce ? 0 : 4;
 
 
-const containerVariants = {
+export const containerVariants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -21,7 +21,7 @@ const containerVariants = {
   }
 };
 
-const textUpVariants = {
+export const textUpVariants = {
   hidden: {
     y: "120%",
     opacity: 1,
@@ -40,7 +40,7 @@ const textUpVariants = {
   }
 };
 
-const textDownVariants = {
+export const textDownVariants = {
   hidden: {
     y: "-120%",
     opacity: 1,
@@ -59,7 +59,7 @@ const textDownVariants = {
   }
 };
 
-const springRiseVariant = {
+export const springRiseVariant = {
   hidden: {
     y: "100%",
     opacity: 0
@@ -77,7 +77,7 @@ const springRiseVariant = {
   })
 };
 
-const SplitText = ({ text, variants, className }) => {
+export const SplitText = ({ text, variants, className }) => {
   return (
     <motion.div
       variants={containerVariants}
@@ -99,78 +99,7 @@ const SplitText = ({ text, variants, className }) => {
   );
 };
 
-const NavTextUtility = () => {
-  return (
-    <nav className="w-full h-20 mt-5 flex items-center justify-between  px-8">
-      {/* Search Section */}
-      <div className="flex-1 max-w-sm left-174  relative group">
-        <motion.span
-          variants={springRiseVariant}
-          custom={0}
-          initial="hidden"
-          animate="show"
-          className="absolute top-1/2 -translate-y-1/2 left-0"
-        >
-          <Search
-            size={14}
-            className="text-neutral-900 group-focus-within:text-black transition-colors"
-          />
-        </motion.span>
-        <motion.input
-          type="text"
-          placeholder="SEARCH"
-          variants={springRiseVariant}
-          custom={1}
-          initial="hidden"
-          animate="show"
-          className="w-full pl-6 pr-4 py-2 bg-transparent border-b border-neutral-900 outline-none text-xs font-medium tracking-widest placeholder:text-neutral-300 focus:border-black transition-colors"
-        />
-      </div>
 
-      {/* Text Links */}
-      <div className="flex items-center ms-15 gap-8">
-        <UtilityTextButton label="WISHLIST" count={2} index={0} />
-        <UtilityTextButton label="ACCOUNT" index={1} />
-        <UtilityTextButton label="CART" count={0} highlight index={2} />
-      </div>
-    </nav>
-  );
-};
-
-const UtilityTextButton = ({ label, count, highlight, index }) => (
-  <motion.button
-    whileHover={{ y: -1 }}
-    className={`group text-3xl font-medium tracking-widest flex items-center gap-1 ${highlight ? 'text-black' : 'text-neutral-500 hover:text-black'
-      } transition-colors`}
-  >
-    <span className="relative block h-[1em] overflow-hidden leading-none">
-      <motion.span
-        variants={springRiseVariant}
-        custom={index}
-        initial="hidden"
-        animate="show"
-        className="block transition-transform duration-300 ease-out group-hover:-translate-y-full"
-      >
-        {label}
-      </motion.span>
-
-      <motion.span
-        variants={springRiseVariant}
-        custom={index}
-        initial="hidden"
-        animate="show"
-        className="absolute left-0 top-full block transition-transform duration-300 ease-out group-hover:-translate-y-full"
-        aria-hidden="true"
-      >
-        {label}
-      </motion.span>
-    </span>
-
-    {count !== undefined && (
-      <span className="text-[10px] align-top opacity-50">({count})</span>
-    )}
-  </motion.button>
-);
 
 const SNEAKERS = [
   {
@@ -285,7 +214,7 @@ const VerticalSplit = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={index}
-            initial={{ y: 50, opacity: 0 }}
+            initial={hasLoadedOnce ? false : { y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -50, opacity: 0 }}
             transition={{ duration: 0.5 }}
@@ -642,45 +571,6 @@ const AcidBrutalistDrop2 = () => {
   );
 };
 
-// const brands = [
-//   { name: "Smart Kicks", icon: Globe, hover: "hover:bg-orange-500 hover:text-white" },
-//   { name: "Souled Store", icon: Ghost, hover: "hover:bg-red-600/90 hover:text-white" },
-//   { name: "Comet", icon: Sparkle, hover: "hover:bg-amber-400/90 hover:text-white" },
-//   { name: "Culture Circle", icon: LoaderCircle, hover: "hover:bg-blue-600 hover:text-white" },
-//   { name: "Sole Savy", icon: Footprints, hover: "hover:bg-teal-700 hover:text-white" },
-//   { name: "Klekt", icon: Triangle, hover: "hover:bg-green-600 hover:text-white" },
-// ];
-
-// const RetroHalftone = () => {
-//     return (
-//       <section className="py-20 bg-sky-100 overflow-hidden">
-//         <div className="container mx-auto px-4 text-center">
-//             <div className="flex flex-wrap justify-center gap-10">
-//                 {brands.map((brand, i) => (
-//                     <motion.div 
-//                         key={i}
-//                         whileHover={{ x: -4, y: -4 }}
-//                         className="relative group cursor-pointer"
-//                     >
-//                         {/* Halftone Shadow (Simulated with radial gradient) */}
-//                         <div className="absolute inset-0 translate-x-1 translate-y-1 bg-black opacity-20 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300"
-//                              style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '4px 4px' }}>
-//                         </div>
-                        
-//                         {/* Content */}
-//                         <div className="relative bg-white border-2 border-black px-6 py-3 flex items-center gap-3 z-10">
-//                              <brand.icon className="w-5 h-5 stroke-[2px]" />
-//                              <span className="font-bold grotesq1 uppercase text-sm tracking-tight">{brand.name}</span>
-//                         </div>
-//                     </motion.div>
-//                 ))}
-//             </div>
-//         </div>
-//       </section>
-//     );
-// };
-
-
 const testimonials = [
   {
     id: 1,
@@ -753,54 +643,43 @@ const TestimonialSpeechBubble = () => {
 function Home() {
   return (
     <>
-      <div className='bg-neutral-50'>
-        {/* <Ploader /> */}
-        <SplitText
-          text="21 ARCHIVE"
-          variants={textUpVariants}
-          className="top-[1vh] ms-3 absolute text-9xl gap-0.5 font-light tracking-tighter text-red-800"
-        />
-        <div className="absolute top-[13vh] w-full h-[5px] bg-gradient-to-r from-neutral-600 to-neutral-600" />
-        <Header />
-        <NavTextUtility />
-        <SplitText
-          text="WELCOME TO"
-          variants={textDownVariants}
-          className="top-[14vh] ms-3 absolute text-7xl gap-0.5 font-light tracking-tighter text-neutral-800"
-        />
-        <hr className='text-neutral-300' />
-        <motion.div
-          variants={delayedRevealVariant}
-          initial="hidden"
-          animate="show"
-        >
-          <VerticalSplit />
-        </motion.div> <hr className='text-neutral-200' />
-        <div className=''>
-          <h2  className="font-bold text-7xl py-5 uppercase grotesq text-center  text-neutral-900 border-neutral-500 ">LATEST DROPS</h2>
-          <section className="flex flex-col gap-1" >
-            <GlassCards />
+    <Header />
+      <CurtainTransition>
+        <div className='bg-neutral-50'>
+      
+          <motion.div
+            variants={delayedRevealVariant}
+            initial="hidden"
+            animate="show"
+          >
+            <VerticalSplit />
+          </motion.div>
+          <hr className='text-neutral-200' />
+          <div className=''>
+            <h2 className="font-bold text-7xl py-5 uppercase grotesq text-center  text-neutral-900 border-neutral-500 ">LATEST DROPS</h2>
+            <section className="flex flex-col gap-1" >
+              <GlassCards />
+            </section>
+          </div>
+          <div className="flex flex-col items-center gap-4 py-5  border-b-4  ">
+            <button
+              className="group relative inline-flex items-center  justify-center px-8 py-3 font-bold text-black transition-all duration-200 bg-neutral-50 font-sans border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none">
+              <span  className="mr-2 text-3xl  uppercase  tracking-tight">Explore More</span>
+              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            </button>
+          </div>
+          <h2 className="text-9xl font-black  text-center py-2 uppercase grotesq">FEED</h2>
+          <section className="space-y- ">
+            <AcidBrutalistDrop />
+            <AcidBrutalistDrop1 />
+            <AcidBrutalistDrop2 />
           </section>
         </div>
-        <div  className="flex flex-col items-center gap-4 py-5  border-b-4  ">
-        <button
-          className="group relative inline-flex items-center  justify-center px-8 py-3 font-bold text-black transition-all duration-200 bg-neutral-50 font-sans border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none">
-          <span className="mr-2 text-3xl  uppercase  tracking-tight">Explore More</span>
-          <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-        </button>
-      </div>
-        <h2 className="text-9xl font-black  text-center py-2 uppercase grotesq">FEED</h2>
-        <section className="space-y- ">
-          <AcidBrutalistDrop />
-          <AcidBrutalistDrop1 />
-          <AcidBrutalistDrop2 />
-        </section>
-        
-      </div>
-      <div>
-        <TestimonialSpeechBubble />
-      </div>
-      <FooterCleanClassic/>
+        <div>
+          <TestimonialSpeechBubble />
+        </div>
+        <FooterCleanClassic />
+      </CurtainTransition>
     </>
   )
 }

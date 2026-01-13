@@ -48,13 +48,13 @@ const Ploader = ({ active }) => {
         >
           {/* Top Panel */}
           <motion.div
-            className="flex-1 bg-neutral-900 flex items-end justify-start p-4 md:p-12 overflow-hidden"
+            className="flex-1 bg-white flex items-end justify-start p-4 md:p-12 overflow-hidden"
             initial={{ y: 0 }}
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
           >
-            <h1 className="text-white text-[12vw] leading-[0.85] font-bold tracking-tighter overflow-hidden">
+            <h1 className="text-black text-[12vw] leading-[0.85] font-bold tracking-tighter overflow-hidden">
               <motion.span
                 className="block"
                 initial={{ y: 160 }}
@@ -85,14 +85,14 @@ const Ploader = ({ active }) => {
 
           {/* Bottom Panel */}
           <motion.div
-            className="flex-1 bg-white h-full flex-col items-start justify-end p-4 md:p-12 overflow-hidden"
+            className="flex-1 bg-black h-full flex-col items-start justify-end p-4 md:p-12 overflow-hidden"
             initial={{ y: 0 }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
           >
             <div className="text-right">
-              <h1 className="text-neutral-900 text-[12vw]  leading-[0.85] font-bold  mix-blend-multiply overflow-hidden">
+              <h1 className="text-white text-[12vw]  leading-[0.85] font-bold  mix-blend-multiply overflow-hidden">
                 <motion.span
                   className="block"
                   initial={{ y: 160 }}
