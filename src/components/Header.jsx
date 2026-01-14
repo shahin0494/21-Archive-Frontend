@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion'; // Ensure AnimatePresence is imported if you plan to use it later
 import { ShoppingBag, Search, User, Menu } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import CurtainTransition from './CurtainTransition'
 
 // --- Animation Variants ---
 
@@ -110,96 +111,89 @@ const PremiumHeader = () => {
   const navLinks = [
     { label: "Men", path: "/shop/men" },
     { label: "Women", path: "/shop/women" },
-    { label: "Archive", path: "/archive" },
+    { label: "Red", path: "/archive" },
     { label: "Origin", path: "/about" },
   ];
 
   return (
     // 3. Changed <header> to <motion.header> for entrance animation
-    <motion.header
-
-      key={location.pathname}
-      initial={{ y: "-20%", opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: "-20%", opacity: 0 }}
-      transition={{ duration: 0.54, ease: [0.16, 1, 0.3, 1] }}
-
-      className={`fixed top-0  bg-white left-0 w-full z-50 transition-colors duration-500 border-b  ${isScrolled
-          ? 'bg-white/80 backdrop-blur py-4 border-neutral-200'
-          : 'bg-transparent py-4 border-transparent'
-        }`}
-    >
-      <div className="max-w-[1600px] h-full mx-auto px-6  lg:px-12">
-
-        <motion.nav
-          className="flex items-center justify-between"
-          variants={navContainerVariants}
-          initial="hidden"
-          // 4. Bind the internal items animation to the loading state
-          animate={isLoaded ? "show" : "hidden"}
-        >
-          {/* Left Section: Logo & Brand */}
-          <div className="flex-1 flex items-center justify-start">
-            <Link to="/" className="group relative z-20">
-              <div className="overflow-hidden">
-                <motion.h1
-                  variants={springRiseVariant}
-                  custom={0}
-                  className="text-5xl font-black tracking-wid text-red-800 leading-none"
-                >
-                  21 ARCHIVE
-                </motion.h1>
-              </div>
-              <div className="overflow-hidden">
-                <motion.span
-                  variants={springRiseVariant}
-                  custom={1}
-                  className="text-[9px] sat font-bold tracking-[0.3em] uppercase text-neutral-400 block ml-1"
-                >
-                  Est. 2006 — Pluto
-                </motion.span>
-              </div>
-            </Link>
-          </div>
-
-          {/* Center Section: Navigation Links */}
-          <div className="hidden md:flex flex-1 items-center justify-center gap-12">
-            {navLinks.map((link, i) => (
-              <MagnetLink
-                key={i}
-                {...link}
-                index={i}
-              />
-            ))}
-          </div>
-
-          {/* Right Section: Utilities */}
-          <div className="flex-1 flex items-center justify-end gap-8">
-
-            <div className={`relative flex items-center transition-all duration-300 ${isSearchOpen ? 'w-48' : 'w-24'}`}>
-              <Search size={16} strokeWidth={1.5} className="absolute left-0 text-neutral-900 pointer-events-none" />
-              <input
-                type="text"
-                placeholder="SEARCH"
-                onFocus={() => setIsSearchOpen(true)}
-                onBlur={() => setIsSearchOpen(false)}
-                className="w-full sat bg-transparent border-b border-neutral-300 focus:border-black py-1 pl-6 text-[10px] font-bold tracking-widest uppercase placeholder:text-neutral-400 outline-none transition-all"
-              />
+    <>
+      <motion.header
+        key={location.pathname}
+        initial={{ y: "-20%", opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: "-20%", opacity: 0 }}
+        transition={{ duration: 0.54, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed top-0  bg-white left-0 w-full z-50 transition-colors duration-500 border-b  ${isScrolled
+            ? 'bg-white/90 backdrop-blur py-4 border-neutral-200'
+            : 'bg-transparent py-4 border-transparent'
+          }`}
+      >
+        <div className="max-w-[1600px] h-full mx-auto px-6  lg:px-12">
+          <motion.nav
+            className="flex items-center justify-between"
+            variants={navContainerVariants}
+            initial="hidden"
+            // 4. Bind the internal items animation to the loading state
+            animate={isLoaded ? "show" : "hidden"}
+          >
+            {/* Left Section: Logo & Brand */}
+            <div className="flex-1 flex items-center justify-start">
+              <Link to="/" className="group relative z-20">
+                <div className="overflow-hidden">
+                  <motion.h1
+                    variants={springRiseVariant}
+                    custom={0}
+                    className="text-5xl goth font-black tracking-wid text-red-800 leading-none"
+                  >
+                    21 ARCHIVE
+                  </motion.h1>
+                </div>
+                <div className="overflow-hidden">
+                  <motion.span
+                    variants={springRiseVariant}
+                    custom={1}
+                    className="text-[9px] sat font-bold tracking-[0.3em] uppercase text-neutral-400 block ml-1"
+                  >
+                    Est. 2006 — Pluto
+                  </motion.span>
+                </div>
+              </Link>
             </div>
-
-            <div className="hidden sm:flex items-center gap-6">
-              <UtilityItem label="Account" index={0} />
-              <UtilityItem label="Cart" count={2} index={1} />
+            {/* Center Section: Navigation Links */}
+            <div className="hidden md:flex flex-1 items-center justify-center gap-12">
+              {navLinks.map((link, i) => (
+                <MagnetLink
+                  key={i}
+                  {...link}
+                  index={i}
+                />
+              ))}
             </div>
-
-            <button className="md:hidden text-neutral-900">
-              <Menu size={24} strokeWidth={1} />
-            </button>
-          </div>
-
-        </motion.nav>
-      </div>
-    </motion.header>
+            {/* Right Section: Utilities */}
+            <div className="flex-1 flex items-center justify-end gap-8">
+              <div className={`relative flex items-center transition-all duration-300 ${isSearchOpen ? 'w-48' : 'w-24'}`}>
+                <Search size={16} strokeWidth={1.5} className="absolute left-0 text-neutral-900 pointer-events-none" />
+                <input
+                  type="text"
+                  placeholder="SEARCH"
+                  onFocus={() => setIsSearchOpen(true)}
+                  onBlur={() => setIsSearchOpen(false)}
+                  className="w-full sat bg-transparent border-b border-neutral-300 focus:border-black py-1 pl-6 text-[10px] font-bold tracking-widest uppercase placeholder:text-neutral-400 outline-none transition-all"
+                />
+              </div>
+              <div className="hidden sm:flex items-center gap-6">
+                <UtilityItem label="Account" index={0}  />
+                <UtilityItem label="Cart" count={2} index={1} />
+              </div>
+              <button className="md:hidden text-neutral-900">
+                <Menu size={24} strokeWidth={1} />
+              </button>
+            </div>
+          </motion.nav>
+        </div>
+      </motion.header>
+    </>
   );
 };
 

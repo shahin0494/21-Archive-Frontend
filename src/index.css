@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: "CHORUS-BLACK";
+  font-family: "CHORUS";
   src: url("./assets//fonts//CHORUS-BLACK.otf");
 }
 
@@ -10,8 +10,18 @@
   src: url('./assets//fonts/LeagueGothic-Regular.woff');
 }
 
+@font-face {
+  font-family: "Bithea";
+  src: url("./Bithea.otf");
+}
+
+@font-face {
+  font-family: "monig";
+  src: url('./delago.otf');
+}
+
 *{
-  font-family: "LeagueGothic-Regular";
+font-family: 'Satoshi', sans-serif;
 }
 
 .grotesq{
@@ -22,3 +32,11 @@
 font-family: 'Satoshi', sans-serif;
 
 }
+
+.goth{
+    font-family: 'Bebas Neue', sans-serif;
+
+
+
+}
+

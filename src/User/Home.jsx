@@ -222,12 +222,12 @@ const VerticalSplit = () => {
           >
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-[2px] bg-black" />
-              <span className="text-5xl font-medium tracking-widest uppercase text-neutral-500">
+              <span className="text-5xl goth font-medium tracking-widest uppercase text-neutral-500">
                 Featured This Week
               </span>
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
+            <h1 className="text-5xl goth md:text-7xl font-bold leading-tight mb-6">
               {current.name}
             </h1>
 
