@@ -1,21 +1,8 @@
 import React, { useState } from 'react';
-import {
-    ShoppingBag,
-    Heart,
-    Settings,
-    LogOut,
-    Package,
-    CreditCard,
-    User,
-    ArrowRight,
-    ChevronRight,
-    X,
-    Plus,
-    LayoutGrid,
-    MapPin,
-    Bell,
-    Shield
-} from 'lucide-react';
+import {ShoppingBag,Heart,Settings,LogOut,Package,CreditCard,User,ArrowRight,ChevronRight,X,Plus,LayoutGrid,MapPin,Bell,Shield} from 'lucide-react';
+import Curtain from '../components/CurtainTransition'
+import Header from '../components/Header'
+
 
 // --- MOCK DATA ---
 const USER = {
@@ -322,7 +309,13 @@ const DesignOne = () => {
 const App = () => {
 
     return (
-        <DesignOne />
+        <>
+        <Header />
+         <Curtain>
+            <DesignOne />
+        </Curtain>
+        </>
+       
     );
 };
 

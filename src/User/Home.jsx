@@ -222,7 +222,7 @@ const VerticalSplit = () => {
           >
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-[2px] bg-black" />
-              <span className="text-5xl goth font-medium tracking-widest uppercase text-neutral-500">
+              <span className="text-5xl goth font-medium tracking-widest uppercase text-red-800">
                 Featured This Week
               </span>
             </div>
@@ -236,7 +236,7 @@ const VerticalSplit = () => {
             </p>
 
             <div className="flex items-center justify-between border-t border-neutral-100 pt-8">
-              <span className="text-3xl font-black">
+              <span className="text-3xl goth ">
                 {current.price}
               </span>
               <button className="text-xs font-bold uppercase tracking-widest border-b-2 border-black pb-1 hover:text-neutral-500 hover:border-neutral-500 transition-colors">
@@ -321,7 +321,7 @@ const GlassCards = () => {
 
 const GlassItem = ({ product }) => {
   return (
-    <div className="w-full max-w-sm mx-auto h-[400px]  border border-neutral-300/80 p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 rounded-2xl overflow-hidden relative mt-5 hover:scale-103   group">
+    <div className="w-full max-w-sm mx-auto h-[400px]  border border-neutral-300/80 p-6 shadow-[4px_4px_0px_0px_rgba(198, 40, 40, 1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 rounded-2xl overflow-hidden relative mt-5 hover:scale-103   group">
 
       {/* Background Image Layer */}
       <motion.div
@@ -419,7 +419,7 @@ const AcidBrutalistDrop = () => {
   const drop = DROPS[0];
 
   return (
-    <div className="w-full bg- border-4 border-black p-4 md:p-8 relative overflow-hidden group">
+    <div className="w-full bg- border-t-2 border-black p-4 md:p-8 relative overflow-hidden group">
       {/* Background Marquee Text */}
       <div className="  absolute inset-0 opacity-10 font-black text-9xl text-black leading-none whitespace-nowrap overflow-hidden select-none pointer-events-none flex items-center -rotate-12 transform scale-150">
         DROP DROP DROP DROP DROP DROP
@@ -429,7 +429,7 @@ const AcidBrutalistDrop = () => {
         {/* Image Container with hard shadow */}
         <motion.div
           whileHover={{ rotate: 3, scale: 1.05 }}
-          className="w-full md:w-1/2 bg-white border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-2"
+          className="w-full md:w-1/2 bg-white border-8 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-2"
         >
           <img src={drop.image} className="w-full h-64 object-cover border-2 border-black" alt="acid-drop" />
           <div className="bg-black text-white text-center py-2 font-mono font-bold mt-2 uppercase tracking-widest">
@@ -443,16 +443,16 @@ const AcidBrutalistDrop = () => {
             Warning: High Heat
           </div>
 
-          <h2 className="text-5xl md:text-7xl font-black uppercase leading-[0.85] tracking-wide  text-black mix-blend-multiply">
-            {drop.brand}  <span className="text-white  bg-black px-2">{drop.name.split(' ').slice(2).join(' ')}</span>
+          <h2 className="text-5xl md:text-7xl font-black goth uppercase leading-[0.85] tracking-wide  text-black mix-blend-multiply">
+            {drop.brand}  <span className="text-white goth bg-black px-2">{drop.name.split(' ').slice(2).join(' ')}</span>
           </h2>
 
-          <div className="flex gap-4 font-mono font-bold text-lg border-t-4 border-black pt-4 mt-2">
+          <div className="flex gap-4 font-mono font-bold text-lg border-t-4 border-red-500 pt-4 mt-2">
             <div className="flex-1">
               <span className="block text-xs uppercase">Date</span>
               {new Date(drop.date).toLocaleDateString()}
             </div>
-            <div className="flex-1 border-l-4 border-black pl-4">
+            <div className="flex-1  border-black pl-4">
               <span className="block text-xs uppercase">Price</span>
               {drop.price}
             </div>
@@ -470,7 +470,7 @@ const AcidBrutalistDrop1 = () => {
   const drop = DROPS1[0];
 
   return (
-    <div className="w-full bg-lime-00 border-4 border-black p-4 md:p-8 relative overflow-hidden group">
+    <div className="w-full bg-lime-00 border-t-2 border-black p-4 md:p-8 relative overflow-hidden group">
       {/* Background Marquee Text */}
       <div className="absolute inset-0 opacity-10 font-black text-9xl text-black leading-none whitespace-nowrap overflow-hidden select-none pointer-events-none flex items-center -rotate-12 transform scale-150">
         RESTOCK RESTOCK RESTOCK RESTOCK RESTOCK
@@ -482,7 +482,7 @@ const AcidBrutalistDrop1 = () => {
         {/* Image Container with hard shadow */}
         <motion.div
           whileHover={{ rotate: 3, scale: 1.05 }}
-          className="w-full md:w-1/2 bg-white border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-2"
+          className="w-full md:w-1/2 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-2"
         >
           <img src={drop.image} className="w-full h-64 object-cover border-2 border-black" alt="acid-drop" />
           <div className="bg-black text-white text-center py-2 font-mono font-bold mt-2 uppercase tracking-widest">
@@ -495,16 +495,16 @@ const AcidBrutalistDrop1 = () => {
             Warning: High Heat
           </div>
 
-          <h2 className="text-5xl md:text-7xl font-black uppercase leading-[0.85] tracking-wide  text-black mix-blend-multiply">
-            {drop.brand}  <span className="text-white  bg-black px-2">{drop.name.split(' ').slice(2).join(' ')}</span>
+          <h2 className="text-5xl md:text-7xl font-black goth uppercase leading-[0.85] tracking-wide  text-black mix-blend-multiply">
+            {drop.brand}  <span className="text-white goth  bg-black px-2">{drop.name.split(' ').slice(2).join(' ')}</span>
           </h2>
 
-          <div className="flex gap-4 font-mono font-bold text-lg border-t-4 border-black pt-4 mt-2">
+          <div className="flex gap-4 font-mono font-bold text-lg border-t-4 border-amber-800 pt-4 mt-2">
             <div className="flex-1">
               <span className="block text-xs uppercase">Date</span>
               {new Date(drop.date).toLocaleDateString()}
             </div>
-            <div className="flex-1 border-l-4 border-black pl-4">
+            <div className="flex-1  border-black pl-4">
               <span className="block text-xs uppercase">Price</span>
               {drop.price}
             </div>
@@ -523,17 +523,17 @@ const AcidBrutalistDrop2 = () => {
   const drop = DROPS2[0];
 
   return (
-    <div className="w-full  border-4 border-black p-4 md:p-8 relative overflow-hidden group">
+    <div className="w-full  border-b-2 border-t-2 border-black p-4 md:p-8 relative overflow-hidden group">
       {/* Background Marquee Text */}
       <div className="absolute inset-0 opacity-10 font-black text-9xl text-black leading-none whitespace-nowrap overflow-hidden select-none pointer-events-none flex items-center -rotate-12 transform scale-150">
-        DROP DROP DROP DROP DROP DROP
+       UPCOMING UPCOMING UPCOMING UPCOMING UPCOMING
       </div>
 
       <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
         {/* Image Container with hard shadow */}
         <motion.div
-          whileHover={{ rotate: 3, scale: 1.05 }}
-          className="w-full md:w-1/2 bg-white border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-2"
+          whileHover={{ rotate: 3, scale: 1.01 }}
+          className="w-full md:w-1/2 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-2"
         >
           <img src={drop.image} className="w-full h-64 object-cover border-2 border-black" alt="acid-drop" />
           <div className="bg-black text-white text-center py-2 font-mono font-bold mt-2 uppercase tracking-widest">
@@ -547,16 +547,16 @@ const AcidBrutalistDrop2 = () => {
             Warning: High Heat
           </div>
 
-          <h2 className="text-5xl md:text-7xl font-black uppercase leading-[0.85] tracking-wide  text-black mix-blend-multiply">
-            {drop.brand}  <span className="text-white  bg-black px-2">{drop.name.split(' ').slice(2).join(' ')}</span>
+          <h2 className="text-5xl md:text-7xl font-black goth uppercase leading-[0.85] tracking-wide  text-black mix-blend-multiply">
+            {drop.brand}  <span className="text-white goth bg-black px-2">{drop.name.split(' ').slice(2).join(' ')}</span>
           </h2>
 
-          <div className="flex gap-4 font-mono font-bold text-lg border-t-4 border-black pt-4 mt-2">
+          <div className="flex gap-4 font-mono font-bold text-lg border-t-4 border-sky-700 pt-4 mt-2">
             <div className="flex-1">
               <span className="block text-xs uppercase">Date</span>
               {new Date(drop.date).toLocaleDateString()}
             </div>
-            <div className="flex-1 border-l-4 border-black pl-4">
+            <div className="flex-1  border-black pl-4">
               <span className="block text-xs uppercase">Price</span>
               {drop.price}
             </div>
@@ -570,6 +570,7 @@ const AcidBrutalistDrop2 = () => {
     </div>
   );
 };
+
 
 const testimonials = [
   {

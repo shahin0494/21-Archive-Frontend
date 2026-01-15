@@ -53,9 +53,12 @@ const MagnetLink = ({ label, path, index }) => {
   );
 };
 
-const UtilityItem = ({ icon: Icon, label, count }) => {
+const UtilityItem = ({ icon: Icon, label, count, path }) => {
   return (
-    <button className="group flex items-center gap-2 text-neutral-900 hover:text-neutral-500 transition-colors">
+    <Link
+      to={path}
+      className="group flex items-center gap-2 text-neutral-900 hover:text-neutral-500 transition-colors"
+    >
       <div className="relative overflow-hidden h-4 w-auto flex items-center">
         {Icon && <Icon size={16} strokeWidth={1.5} className="mr-2" />}
         <div className="flex flex-col h-full relative">
@@ -68,9 +71,11 @@ const UtilityItem = ({ icon: Icon, label, count }) => {
         </div>
       </div>
       {count !== undefined && (
-        <span className="text-[10px] font-medium text-neutral-400 group-hover:text-black">({count})</span>
+        <span className="text-[10px] font-medium text-neutral-400 group-hover:text-black">
+          ({count})
+        </span>
       )}
-    </button>
+    </Link>
   );
 };
 
@@ -125,7 +130,7 @@ const PremiumHeader = () => {
         exit={{ y: "-20%", opacity: 0 }}
         transition={{ duration: 0.54, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0  bg-white left-0 w-full z-50 transition-colors duration-500 border-b  ${isScrolled
-            ? 'bg-white/90 backdrop-blur py-4 border-neutral-200'
+            ? 'bg-white/95 backdrop-blur py-4 border-neutral-200'
             : 'bg-transparent py-4 border-transparent'
           }`}
       >
@@ -183,8 +188,8 @@ const PremiumHeader = () => {
                 />
               </div>
               <div className="hidden sm:flex items-center gap-6">
-                <UtilityItem label="Account" index={0}  />
-                <UtilityItem label="Cart" count={2} index={1} />
+                <UtilityItem label="Account" path="/account" />
+                <UtilityItem label="Cart" path="/cart" count={2} />
               </div>
               <button className="md:hidden text-neutral-900">
                 <Menu size={24} strokeWidth={1} />
