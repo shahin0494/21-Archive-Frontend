@@ -92,7 +92,7 @@ const Ploader = ({ active }) => {
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
           >
             <div className="text-right">
-              <h1 className="text-white text-[12vw]  leading-[0.85] font-bold  mix-blend-multiply overflow-hidden">
+              <h1 className="text-red-800 text-[12vw]  leading-[0.85] font-bold  mix-blend-multiply overflow-hidden">
                 <motion.span
                   className="block"
                   initial={{ y: 160 }}

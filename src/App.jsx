@@ -15,6 +15,7 @@ import Ploader from './Pages/Ploader'
 import Red from './User/Red'
 import About from './User/About'
 import Account from './User/Account'
+import AdminPanel from './admin/pages/AdminDashboard'
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
           <Route path='/account' element={<Account />} />
           <Route path='/login' element={<SignIn />} />
           <Route path='/register' element={<SignIn register />} />
+          <Route path='/admin' element={<AdminPanel/>} />
           <Route path='*' element={<Pnf />} />
         </Routes>
       </AnimatePresence>

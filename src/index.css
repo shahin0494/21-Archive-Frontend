@@ -20,6 +20,11 @@
   src: url('./delago.otf');
 }
 
+@font-face {
+  font-family: "neue";
+  src: url("./neue.otf");
+}
+
 *{
 font-family: 'Satoshi', sans-serif;
 }

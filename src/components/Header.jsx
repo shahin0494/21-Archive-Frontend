@@ -130,7 +130,7 @@ const PremiumHeader = () => {
         exit={{ y: "-20%", opacity: 0 }}
         transition={{ duration: 0.54, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0  bg-white left-0 w-full z-50 transition-colors duration-500 border-b  ${isScrolled
-            ? 'bg-white/95 backdrop-blur py-4 border-neutral-200'
+            ? 'bg-white/95 backdrop-blur py-4 border-red-950'
             : 'bg-transparent py-4 border-transparent'
           }`}
       >

@@ -664,9 +664,9 @@ function Home() {
           </div>
           <div className="flex flex-col items-center gap-4 py-5  border-b-4  ">
             <button
-              className="group relative inline-flex items-center  justify-center px-8 py-3 font-bold text-black transition-all duration-200 bg-neutral-50 font-sans border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none">
-              <span  className="mr-2 text-3xl  uppercase  tracking-tight">Explore More</span>
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              className="group relative inline-flex items-center hover:bg-red-700 hover:text-white justify-center px-8 py-3 font-bold text-black transition-all duration-200 bg-neutral-50 font-sans border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none">
+              <span  className="mr-2 text-3xl  uppercase tracking-tight">Explore More</span>
+              {/* <ArrowUpRight className="w-15 h-5  transition-transform group-hover:translate-x-1" /> */}
             </button>
           </div>
           <h2 className="text-9xl font-black  text-center py-2 uppercase grotesq">FEED</h2>
