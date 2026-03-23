@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Box, Disc, X, Eye, EyeOff, Hexagon } from 'lucide-react';
-
-// --- Shared Components ---
+import {registerAPI,loginAPI} from '../Services/allAPI'
 
 
 
@@ -85,12 +84,9 @@ const Input = ({ type = "text", placeholder, theme }) => {
 
 const Variant1 = () => {
   const [mode, setMode] = useState('login'); // 'login' | 'register'
+  const [formData,setFormData]= useState({username:"",email:"",password:""})
 
-  const images = [
-    './lg1.jpg',
-    './lg2.jpg',
-    './lg3.jpg',
-  ];
+  const images = ['./lg1.jpg','./lg2.jpg','./lg3.jpg',];
 
   const [imageIndex, setImageIndex] = useState(0);
 
@@ -100,6 +96,14 @@ const Variant1 = () => {
     }, 7500); // slow cinematic change
     return () => clearInterval(interval);
   }, []);
+
+  // registwer
+  const handleRegister = async ()=>{
+    const {username,email,password,confirmPassword}=formData
+    if (!username || !email || !password ||!confirmPassword) {
+      
+    }
+  }
 
   return (
     <div className="relative flex flex-col md:grid  h-full w-full bg-black text-white font-sans selection:bg-white selection:text-black overflow-hidden">
@@ -129,27 +133,6 @@ const Variant1 = () => {
               transition={{ duration: 3.8, ease: 'easeInOut' }}
             />
           </AnimatePresence>
-
-          {/* <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
-            <h1 className="text-[20vw] md:text-[12vw] font-black tracking-tighter rotate-90 md:rotate-0 leading-none">
-              PUSH
-            </h1>
-          </div> */}
-
-          {/* <div className="z-10 space-y-2 hidden md:block">
-            <p className="font-bold text-xs uppercase tracking-widest border-l-2 border-white/20 pl-4">
-              Essential<br />Footwear<br />Division
-            </p>
-          </div> */}
-
-          {/* <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="absolute bottom-0 right-0 p-12 hidden md:block"
-          >
-            <Disc className="w-24 h-24 animate-spin-slow text-red-800" strokeWidth={1} />
-          </motion.div> */}
         </div>
 
         {/* Right: Login */}
@@ -206,8 +189,7 @@ const App = () => {
   const [variant, setVariant] = useState(0);
 
   const variants = [
-    { name: 'Concrete', component: <Variant1 /> }
-  ];
+    { name: 'Concrete', component: <Variant1 /> }];
 
   return (
     <div className="w-full h-screen bg-gray-100 overflow-hidden relative">

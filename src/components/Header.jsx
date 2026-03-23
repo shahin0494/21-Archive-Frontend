@@ -34,7 +34,7 @@ const navContainerVariants = {
 
 const MagnetLink = ({ label, path, index }) => {
   return (
-    <Link to={path} className="group relative block overflow-hidden cursor-pointer py-2">
+    <Link to={path} className="group  relative block overflow-hidden cursor-pointer py-2">
       <div className="relative overflow-hidden text-xs lg:text-sm font-bold uppercase tracking-[0.2em] text-neutral-900">
         <motion.span
           className="block group-hover:-translate-y-full sat transition-transform duration-500 ease-[0.16,1,0.3,1]"
@@ -130,7 +130,7 @@ const PremiumHeader = () => {
         exit={{ y: "-20%", opacity: 0 }}
         transition={{ duration: 0.54, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0  bg-white left-0 w-full z-50 transition-colors duration-500 border-b  ${isScrolled
-            ? 'bg-white/95 backdrop-blur py-4 border-red-950'
+            ? 'bg-white/95 backdrop-blur py-4 border-red-100'
             : 'bg-transparent py-4 border-transparent'
           }`}
       >

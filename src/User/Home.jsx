@@ -598,7 +598,7 @@ const testimonials = [
 
 const TestimonialSpeechBubble = () => {
   return (
-    <section className="py-8 bg-sky-50">
+    <section className="py-8 ">
       <div className="container mx-auto px-4">
         <div className="mb-10 text-start">
           <h2 className="text-7xl font-black mt-2 grotesq uppercase">What They Say :)</h2>

@@ -122,48 +122,52 @@ const SNEAKERS = [
 /* -------------------------------------------------------------------------- */
 
 const SneakerCard = ({ sneaker, onSelect }) => (
-  <motion.div
+  <motion.article
     layoutId={`card-${sneaker.id}`}
-
-    className="cursor-pointer space-y-4 group"
-    initial={{ opacity: 0, y: 20 }}
+    onClick={() => onSelect?.(sneaker)}
+    initial={{ opacity: 0, y: 24 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
+    transition={{ duration: 0.4, ease: "easeOut" }}
+    className="group cursor-pointer border border-neutral-100 rounded-2xl bg-white hover:border-neutral-300 transition-colors"
   >
     {/* Image */}
-    <div className={`relative aspect-[4/5] rounded-xl overflow-hidden ${sneaker.bg}`}>
+    <div className="relative aspect-[4/5] overflow-hidden rounded-t-2xl bg-neutral-50">
       <motion.img
         layoutId={`image-${sneaker.id}`}
         src={sneaker.image}
         alt={sneaker.name}
-        className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition"
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
       />
 
-      {/* Quick add */}
-      <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition">
-        <div className="bg-white p-3 rounded-full shadow">
-          <Plus className="w-5 h-5" />
+      {/* Minimal action */}
+      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="backdrop-blur bg-white/80 border border-neutral-200 p-2 rounded-full">
+          <Plus className="w-4 h-4 text-neutral-700" />
         </div>
       </div>
     </div>
 
-    {/* Info */}
-    <div className="px-3 py-4">
-      <div className="flex justify-between items-baseline ">
-        <h2 className="text-lg sat font-medium tracking-wide text-gray-600">{sneaker.brand}</h2>
-      </div>
-      <div className="flex items-center justify-between  gap-2">
-        <h3 className="text-sm sat font-medium tracking-wide text-gray-500">{sneaker.name}</h3>
+    {/* Typography-first info */}
+    <div className="px-4 py-4 space-y-2">
+      <p className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-medium">
+        {sneaker.brand}
+      </p>
 
-        <span className="sat font-medium text-gray-900">{sneaker.price}</span>
-      </div>
-      <hr className="border-b border-gray-100 my-1" />
-      <div className="flex justify-between items-center">
-        <p className="text-xs text-gray-400 uppercase tracking-widest sat font-medium">{sneaker.category}</p>
-        <div className="w-2 h-2 rounded-full bg-gray-200 group-hover:bg-black transition-colors" />
+      <h3 className="text-sm font-medium text-neutral-800 leading-snug">
+        {sneaker.name}
+      </h3>
+
+      <div className="flex items-center justify-between pt-2">
+        <span className="text-xs text-neutral-400 tracking-wide">
+          {sneaker.category}
+        </span>
+        <span className="text-sm font-semibold text-neutral-900">
+          {sneaker.price}
+        </span>
       </div>
     </div>
-  </motion.div>
+  </motion.article>
 );
 
 
