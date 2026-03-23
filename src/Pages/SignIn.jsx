@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Box, Disc, X, Eye, EyeOff, Hexagon } from 'lucide-react';
-import {registerAPI,loginAPI} from '../Services/allAPI'
+import { registerAPI, loginAPI } from '../Services/allAPI'
+import { Toaster } from '@/components/ui/sonner';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -58,7 +61,7 @@ const NoiseBackground = ({ alpha = 25, refresh = 3 }) => {
   );
 };
 
-const Input = ({ type = "text", placeholder, theme }) => {
+const Input = ({ type = "text", placeholder, theme, value, onChange }) => {
   const [focused, setFocused] = useState(false);
 
   const baseStyles = "w-full outline-none transition-all duration-300 bg-transparent py-3 px-1";
@@ -74,6 +77,8 @@ const Input = ({ type = "text", placeholder, theme }) => {
       <input
         type={type}
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
         className={`${baseStyles} ${themeStyles[theme]}`}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
@@ -84,11 +89,11 @@ const Input = ({ type = "text", placeholder, theme }) => {
 
 const Variant1 = () => {
   const [mode, setMode] = useState('login'); // 'login' | 'register'
-  const [formData,setFormData]= useState({username:"",email:"",password:""})
-
-  const images = ['./lg1.jpg','./lg2.jpg','./lg3.jpg',];
-
+  const images = ['./lg1.jpg', './lg2.jpg', './lg3.jpg',];
   const [imageIndex, setImageIndex] = useState(0);
+
+  const [formData, setFormData] = useState({ username: "", email: "", password: "", confirmPassword: "" })
+  const navigate = useNavigate()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -98,10 +103,69 @@ const Variant1 = () => {
   }, []);
 
   // registwer
-  const handleRegister = async ()=>{
-    const {username,email,password,confirmPassword}=formData
-    if (!username || !email || !password ||!confirmPassword) {
-      
+  const handleRegister = async () => {
+    const { username, email, password, confirmPassword } = formData
+    console.log(formData);
+    if (!username || !email || !password || !confirmPassword) {
+      toast.info("We recommend completing all sections of the form.")
+      return
+    }
+    if (password !== confirmPassword) {
+      toast.warning("That password doesn’t seem to match.")
+      return
+    }
+    try {
+      const payload = { username, email, password };
+
+      const result = await registerAPI(payload)
+      console.log(result);
+      if (result.status == 200) {
+        toast.success("Congrats, you exist now. Log in.")
+        setFormData({ username: "", email: "", password: "", confirmPassword: "" })
+        setMode("login")
+      } else if (result.status == 409) {
+        toast.info(result.response.data)
+        setFormData({ username: "", email: "", password: "", confirmPassword: "" })
+        setMode("login")
+      } else {
+        toast.warning("Well… that didn’t go as planned.")
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleLogin = async () => {
+    const { email, password } = formData
+    if (!email || !password) {
+      toast.info("Yeah… we need you to fill the form")
+      return
+    }
+    try {
+      const result = await loginAPI(formData)
+      console.log(result);
+      if (result.status == 200) {
+        toast.success("Access granted — enjoy the chaos!")
+        sessionStorage.setItem("user", JSON.stringify(result.data.user))
+        sessionStorage.setItem("token", result.data.token)
+        setTimeout(() => {
+          if (result.data.user.role=="admin") {
+            navigate("/admin-dashboard")
+          }else {
+            navigate("/")
+          }
+          
+        }, 1500);
+      }
+      else if (result.status == 401 || result.status == 409) {
+        toast.warning(result.response.data)
+        setFormData({ username: "", email: "", password: "", confirmPassword: "" })
+      } else {
+        toast("Something went wrong 😭");
+        setFormData({ username: "", email: "", password: "", confirmPassword: "" });
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -137,47 +201,87 @@ const Variant1 = () => {
 
         {/* Right: Login */}
         <div className="flex items-center justify-center p-8 md:p-20 bg-transparent relative">
-          <div className="w-full max-w-md">
-            <div className="mb-12">
-              <h1 className="text-5xl goth font-black text-neutral-500 tracking-wide mb-2">
-                {mode === 'login' ? 'ENTER' : 'CLAIM ACCESS'}
-              </h1>
-              <p className="text-gray-400 font-medium">The queue is open.</p>
-            </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={mode}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              className="w-full max-w-md"
+            >
+              <div className="mb-12">
+                <h1 className="text-5xl goth font-black text-neutral-500 tracking-wide mb-2">
+                  {mode === 'login' ? 'ENTER' : 'CLAIM ACCESS'}
+                </h1>
+                <p className="text-gray-400 font-medium">The queue is open.</p>
+              </div>
 
-            <form>
-              {mode === 'register' && (
-                <Input theme="v1" placeholder="FULL NAME" />
-              )}
-              <Input theme="v1" placeholder="ACCESS ID / EMAIL"/>
-              <Input theme="v1" placeholder="PASSWORD" type="password" />
-              {mode === 'register' && (
-                <Input theme="v1" placeholder="CONFIRM PASSWORD" type="password" />
-              )}
-
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-neutral-400/30 text-white/50 font-black rounded uppercase py-4 mt-8 flex items-center justify-between  px-6 hover:text-neutral-400 hover:bg-red-800 transition-colors group"
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (mode === 'login') {
+                    handleLogin();
+                  } else {
+                    handleRegister();
+                  }
+                }}
               >
-                <span>
-                  {mode === 'login' ? 'Secure Login' : 'Request Access'}
-                </span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </motion.button>
-            </form>
+                {mode === 'register' && (
+                  <Input
+                    theme="v1"
+                    placeholder="FULL NAME"
+                    value={formData.username}
+                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                  />
+                )}
+                <Input
+                  theme="v1"
+                  placeholder="ACCESS ID / EMAIL"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                />
+                <Input
+                  theme="v1"
+                  placeholder="PASSWORD"
+                  type="text"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                />
+                {mode === 'register' && (
+                  <Input
+                    theme="v1"
+                    placeholder="CONFIRM PASSWORD"
+                    type="text"
+                    value={formData.confirmPassword}
+                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  />
+                )}
 
-            <div className="mt-8 flex justify-between text-xs font-bold uppercase tracking-widest">
-              {/* <a href="#" className="border-b border-white/20">Recover</a> */}
-              <button
-                type="button"
-                onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-                className="border-b border-white/20 hover:text-red-700 transition-colors"
-              >
-                {mode === 'login' ? 'Claim Access' : 'Back to Login'}
-              </button>
-            </div>
-          </div>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-neutral-400/30 text-white/50 font-black rounded uppercase py-4 mt-8 flex items-center justify-between  px-6 hover:text-neutral-400 hover:bg-red-800 transition-colors group"
+                >
+                  <span>
+                    {mode === 'login' ? 'Secure Login' : 'Request Access'}
+                  </span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </motion.button>
+              </form>
+
+              <div className="mt-8 flex justify-between text-xs font-bold uppercase tracking-widest">
+                {/* <a href="#" className="border-b border-white/20">Recover</a> */}
+                <button
+                  type="button"
+                  onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
+                  className="border-b border-white/20 hover:text-red-700 transition-colors"
+                >
+                  {mode === 'login' ? 'Claim Access' : 'Back to Login'}
+                </button>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
       </div>
@@ -193,6 +297,11 @@ const App = () => {
 
   return (
     <div className="w-full h-screen bg-gray-100 overflow-hidden relative">
+
+      <Toaster
+        position="top-right"
+        richColors
+        theme="dark" />
 
       <div className="w-full h-full">
         <AnimatePresence mode="wait">

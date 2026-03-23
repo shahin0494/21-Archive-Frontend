@@ -5,9 +5,19 @@ const commonAPI = async (httpRequest, url, reqBody, reqHeader) => {
         method: httpRequest,
         url,
         data: reqBody,
-        headers: reqHeader ? reqHeader : {}
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            ...(reqHeader || {})
+        }
     };
-    return await axios(requestConfig).then(res => res).catch(err => err)
+    return await axios(requestConfig)
+    .then(res => res)
+    
+    .catch(err => {
+        console.log("API ERROR:", err.response || err);
+        return err.response || err;
+    })
 
 }
 

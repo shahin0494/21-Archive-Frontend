@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import {ShoppingBag,Heart,Settings,LogOut,Package,CreditCard,User,ArrowRight,ChevronRight,X,Plus,LayoutGrid,MapPin,Bell,Shield} from 'lucide-react';
+import { ShoppingBag, Heart, Settings, LogOut, Package, CreditCard, User, ArrowRight, ChevronRight, X, Plus, LayoutGrid, MapPin, Bell, Shield } from 'lucide-react';
 import Curtain from '../components/CurtainTransition'
 import Header from '../components/Header'
-
+import { addAddressAPI, getAddressAPI, updateAddressAPI } from '@/Services/allAPI';
 
 // --- MOCK DATA ---
 const USER = {
@@ -40,6 +40,8 @@ const SneakerIcon = ({ className }) => (
 // --- CONCEPT 1: STRUCTURE (Professional / Swiss Style) ---
 const DesignOne = () => {
     const [activeTab, setActiveTab] = useState('Overview');
+
+    const [addressData,setAddressData]= useState({userID:"",name:"",phone:"",street:"",city:"",state:"",landmark:"",pincode:"",country:""})
 
     const MenuItem = ({ label }) => (
         <button
@@ -188,6 +190,8 @@ const DesignOne = () => {
     );
 
     const SettingsSection = () => (
+
+        
         <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex items-center justify-between border-b border-black pb-4 mb-10">
                 <h2 className="text-sm font-bold uppercase tracking-widest">Account Config</h2>
@@ -310,12 +314,12 @@ const App = () => {
 
     return (
         <>
-        <Header />
-         <Curtain>
-            <DesignOne />
-        </Curtain>
+            <Header />
+            <Curtain>
+                <DesignOne />
+            </Curtain>
         </>
-       
+
     );
 };
 
