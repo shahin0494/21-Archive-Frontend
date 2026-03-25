@@ -189,6 +189,7 @@ const PremiumHeader = () => {
               </div>
               <div className="hidden sm:flex items-center gap-6">
                 <UtilityItem label="Account" path="/account" />
+                <UtilityItem label="Login" path="/login" />
                 <UtilityItem label="Cart" path="/cart" count={2} />
               </div>
               <button className="md:hidden text-neutral-900">

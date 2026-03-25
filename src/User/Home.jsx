@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import Header from '../components/Header'
-import { Search, ChevronUp, Globe, Hexagon, Anchor, Cpu, Triangle, ArrowRight, ArrowLeft, ShoppingBag, Quote, ArrowUpRight, Plus, ChevronDown, X, Minimize2, Maximize2, Zap, ChevronLeft, ChevronRight, Heart, Star, Ghost, Sparkle, LoaderCircle, Footprints } from 'lucide-react'
+import { Search, ChevronUp, Globe, Hexagon, Anchor, Cpu, Triangle, Calendar, ArrowRight, ArrowLeft, ShoppingBag, Quote, ArrowUpRight, Plus, ChevronDown, X, Minimize2, Maximize2, Zap, ChevronLeft, ChevronRight, Heart, Star, Ghost, Sparkle, LoaderCircle, Footprints } from 'lucide-react'
 import FooterCleanClassic from '../components/Footer'
 import CurtainTransition from '../components/CurtainTransition'
+import Masonry from '../components/Masonry'
 
 const hasLoadedOnce = sessionStorage.getItem("hasLoadedOnce");
 const baseDelay = hasLoadedOnce ? 0 : 4;
@@ -380,7 +381,7 @@ const DROPS = [
     name: "Air Jordan 1 'Lost & Found'",
     date: "2023-11-19T09:00:00",
     price: "$180",
-    image: "./snkr5.png",
+    image: "./feedsnkr1.png",
     brand: "Jordan",
     status: "Dropping Soon",
     sku: "DZ5485-612",
@@ -394,7 +395,7 @@ const DROPS1 = [
     name: "Dunk Low 'GATO'",
     date: "2023-11-21T10:00:00",
     price: "$110",
-    image: "./snkr88.png",
+    image: "./feedsnkr2.png",
     brand: "Nike",
     status: "Restock",
     sku: "DD1391-100",
@@ -407,7 +408,7 @@ const DROPS2 = [
     name: "VANS AHS Knu-Skool",
     date: "2023-12-01T00:00:00",
     price: "$200",
-    image: "./snkr44.png",
+    image: "./feedsnkr3.png",
     brand: "VANS",
     status: "Upcoming",
     sku: "M990GL6",
@@ -415,161 +416,152 @@ const DROPS2 = [
   }
 ];
 
-const AcidBrutalistDrop = () => {
-  const drop = DROPS[0];
 
+
+const items = [
+  {
+    id: "1",
+    img: "./fd1.jpg",
+    url: "./fd1.png",
+    height: 400,
+  },
+  {
+    id: "2",
+    img: "./fd2.jpg",
+    url: "./fd2.jpg",
+    height: 550,
+  },
+  {
+    id: "3",
+    img: "./fd3.jpg",
+    url: "./fd3.jpg",
+    height: 600,
+  },
+  {
+    id: "4",
+    img: "./fd4.jpg",
+    url: "./fd1.png",
+    height: 400,
+  },
+  {
+    id: "5",
+    img: "./fd5.jpg",
+    url: "./fd5.jpg",
+    height: 350,
+  },
+  {
+    id: "6",
+    img: "./fd6.jpg",
+    url: "./fd6.jpg",
+    height: 600,
+  },
+  {
+    id: "7",
+    img: "./fd7.jpg",
+    url: "./fd7.png",
+    height: 400,
+  },
+  {
+    id: "8",
+    img: "./lg2.jpg",
+    url: "./lg2.jpg",
+    height: 350,
+  },
+  {
+    id: "9",
+    img: "./lg1.jpg",
+    url: "./fd3.jpg",
+    height: 600,
+  },
+  {
+    id: "10",
+    img: "./1g3.jpg",
+    url: "./fd1.png",
+    height: 400,
+  },
+  {
+    id: "11",
+    img: "./lg5.jpg",
+    url: "./fd2.jpg",
+    height: 450,
+  },
+  {
+    id: "12",
+    img: "./fd3.jpg",
+    url: "./fd3.jpg",
+    height: 600,
+  },
+  // ... more items
+];
+
+
+
+
+const EditorialDrop = ({ drop }) => {
   return (
-    <div className="w-full bg- border-t-2 border-black p-4 md:p-8 relative overflow-hidden group">
-      {/* Background Marquee Text */}
-      <div className="  absolute inset-0 opacity-10 font-black text-9xl text-black leading-none whitespace-nowrap overflow-hidden select-none pointer-events-none flex items-center -rotate-12 transform scale-150">
-        DROP DROP DROP DROP DROP DROP
+    <div className="bg-stone-100 grid grid-cols-2  text-slate-900 bottom-0  mx-auto overflow-hidden group p-20 ">
+      <div className="relative mx-[5rem] rounded mb-5 h-[25rem] bottom-0 w-[45rem] overflow-hidden">
+        <img src={drop.image} alt="Editorial" className="w-full  h-full bottom-0 object-cover transition-transform duration-1000 group-hover:scale-105" />
+        <div className="absolute inset-0 bottom-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+        {/* <div className="absolute flex flex-col justify-between bottom-0 left-0 w-full px-1 md:p- text-white">
+          <p className="text-7xl  font-bold  text-white ">{drop.name}</p>
+          <h3 className="font-medium  ">{drop.brand}</h3>
+          <h3 className="font-medium  ">{drop.date}</h3>
+          <p className='font-medium max-w-4xl text-justify'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, dolores quos quisquam placeat dolore dolorum esse nisi! Quas aliquid quam expedita nobis repudiandae, eius non? Provident veritatis ratione repellat officiis.
+            Expedita nesciunt illum, aperiam itaque iste sunt, provident nulla earum dicta suscipit reiciendis tenetur numquam optio fugit ipsam, vitae cum ducimus ratione eos rerum sapiente sequi. Voluptas quod quibusdam dolorem?
+            Numquam, debitis! Natus nostrum dignissimos eveniet, et odio ipsum aperiam recusandae debitis molestiae alias ipsa officia nulla quos fugit repellendus, voluptates, sit mollitia nemo quis. Eum nobis corporis nesciunt ab.
+            Voluptates fugit ea quasi molestias. Maiores numquam eius, quas eligendi quaerat, distinctio tempore laudantium debitis non recusandae, perspiciatis a placeat saepe veritatis eveniet! Dignissimos fugit optio laboriosam quisquam a corporis.</p>
+          <span className="font-medium">{drop.sku}</span>
+        </div> */}
+        <>
+
+          {/* <h2 className="text-4xl absolute right-0 bottom-0 text-white md:text-6xl font-light tracking-tight leading-tight max-w-2xl 4">{drop.status}</h2> */}
+
+        </>
+
       </div>
 
-      <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
-        {/* Image Container with hard shadow */}
-        <motion.div
-          whileHover={{ rotate: 3, scale: 1.05 }}
-          className="w-full md:w-1/2 bg-white border-8 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-2"
-        >
-          <img src={drop.image} className="w-full h-64 object-cover border-2 border-black" alt="acid-drop" />
-          <div className="bg-black text-white text-center py-2 font-mono font-bold mt-2 uppercase tracking-widest">
-            {drop.status}
+      <div className=" flex flex-col leading-none ms-80 mb-5 items-end justify-start  w-[30rem] px-1 md:p- text-stone-600">
+        <p className="text-5xl  font-black goth  text-black ">{drop.name}</p>
+        <h3 className="font-medium goth text-xs ">{drop.brand}</h3>
+          {/* <span className="font-medium  ">{drop.date}</span> */}
+          <span className="font-medium goth text-xs">{drop.sku}</span>
+        <p className='font-medium sat max-w-4xl text-xs text-justify'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, dolores quos quisquam placeat dolore dolorum esse nisi! Quas aliquid quam expedita nobis repudiandae, eius non? Provident veritatis ratione repellat officiis.
+          Expedita nesciunt illum, aperiam itaque iste sunt, provident nulla earum dicta suscipit reiciendis tenetur numquam optio fugit ipsam, vitae cum ducimus ratione eos rerum sapiente sequi. Voluptas quod quibusdam dolorem?
+          Numquam, debitis! Natus nostrum dignissimos eveniet, et odio ipsum aperiam recusandae debitis molestiae alias ipsa officia nulla quos fugit repellendus, voluptates, sit mollitia nemo quis. Eum nobis corporis nesciunt ab.
+          Voluptates fugit ea quasi molestias. Maiores numquam eius, quas eligendi quaerat, distinctio tempore laudantium debitis non recusandae, perspiciatis a placeat saepe ddw</p>
+        
+      </div>
+
+      {/* <div className="flex flex-col md:flex-row gap-12 p-8 md:p-12 bg-white">
+        <div className="md:w-1/3 space-y-6 text-sm">
+          <div className="border-t border-slate-200 pt-4">
+            <span className="block text-[10px] uppercase tracking-widest text-slate-400 mb-1">Release Info</span>
+            <span className="font-medium">{drop.price}</span>
           </div>
-        </motion.div>
-
-        {/* Content Side */}
-        <div className="w-full md:w-1/2 flex flex-col gap-4">
-          <div className="bg-black text-white px-4 py-1 self-start transform -rotate-2 font-bold uppercase text-sm border-2 border-white inline-block shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
-            Warning: High Heat
+          <div className="border-t border-slate-200 pt-4">
+            <span className="block text-[10px] uppercase tracking-widest text-slate-400 mb-1">Words By</span>
+            <span className="font-medium">{drop.brand}</span>
           </div>
+        </div>
 
-          <h2 className="text-5xl md:text-7xl font-black goth uppercase leading-[0.85] tracking-wide  text-black mix-blend-multiply">
-            {drop.brand}  <span className="text-white goth bg-black px-2">{drop.name.split(' ').slice(2).join(' ')}</span>
-          </h2>
-
-          <div className="flex gap-4 font-mono font-bold text-lg border-t-4 border-red-500 pt-4 mt-2">
-            <div className="flex-1">
-              <span className="block text-xs uppercase">Date</span>
-              {new Date(drop.date).toLocaleDateString()}
-            </div>
-            <div className="flex-1  border-black pl-4">
-              <span className="block text-xs uppercase">Price</span>
-              {drop.price}
-            </div>
-          </div>
-
-          <button className="w-full py-4 hover:bg-red-600/80 text-black border-4 border-black font-black uppercase text-xl  hover:text-white hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-3">
-            <Zap size={24} fill="black" /> Cop Now
+        <div className="md:w-2/3">
+          <p className="text-xl md:text-2xl font-light leading-relaxed text-slate-600 mb-8">
+            {drop.name}
+          </p>
+          <p className="text-sm leading-loose text-slate-500 max-w-xl">
+            {drop.name}
+          </p>
+          <button className="mt-8 flex items-center gap-3 text-sm font-bold uppercase tracking-widest hover:text-red-600 transition-colors">
+            Read Full Story <ArrowRight size={16} />
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
-const AcidBrutalistDrop1 = () => {
-  const drop = DROPS1[0];
 
-  return (
-    <div className="w-full bg-lime-00 border-t-2 border-black p-4 md:p-8 relative overflow-hidden group">
-      {/* Background Marquee Text */}
-      <div className="absolute inset-0 opacity-10 font-black text-9xl text-black leading-none whitespace-nowrap overflow-hidden select-none pointer-events-none flex items-center -rotate-12 transform scale-150">
-        RESTOCK RESTOCK RESTOCK RESTOCK RESTOCK
-      </div>
-
-      <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
-
-
-        {/* Image Container with hard shadow */}
-        <motion.div
-          whileHover={{ rotate: 3, scale: 1.05 }}
-          className="w-full md:w-1/2 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-2"
-        >
-          <img src={drop.image} className="w-full h-64 object-cover border-2 border-black" alt="acid-drop" />
-          <div className="bg-black text-white text-center py-2 font-mono font-bold mt-2 uppercase tracking-widest">
-            {drop.status}
-          </div>
-        </motion.div>
-        {/* Content Side */}
-        <div className="w-full md:w-1/2 flex flex-col gap-4">
-          <div className="bg-black text-white px-4 py-1 self-start transform -rotate-2 font-bold uppercase text-sm border-2 border-white inline-block shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
-            Warning: High Heat
-          </div>
-
-          <h2 className="text-5xl md:text-7xl font-black goth uppercase leading-[0.85] tracking-wide  text-black mix-blend-multiply">
-            {drop.brand}  <span className="text-white goth  bg-black px-2">{drop.name.split(' ').slice(2).join(' ')}</span>
-          </h2>
-
-          <div className="flex gap-4 font-mono font-bold text-lg border-t-4 border-amber-800 pt-4 mt-2">
-            <div className="flex-1">
-              <span className="block text-xs uppercase">Date</span>
-              {new Date(drop.date).toLocaleDateString()}
-            </div>
-            <div className="flex-1  border-black pl-4">
-              <span className="block text-xs uppercase">Price</span>
-              {drop.price}
-            </div>
-          </div>
-
-          <button className="w-full py-4 hover:bg-amber-700 text-black border-4 border-black font-black uppercase text-xl bg-white hover:text-white hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-3">
-            <Zap size={24} fill="black" /> Cop Now
-          </button>
-        </div>
-
-      </div>
-    </div>
-  );
-};
-const AcidBrutalistDrop2 = () => {
-  const drop = DROPS2[0];
-
-  return (
-    <div className="w-full  border-b-2 border-t-2 border-black p-4 md:p-8 relative overflow-hidden group">
-      {/* Background Marquee Text */}
-      <div className="absolute inset-0 opacity-10 font-black text-9xl text-black leading-none whitespace-nowrap overflow-hidden select-none pointer-events-none flex items-center -rotate-12 transform scale-150">
-       UPCOMING UPCOMING UPCOMING UPCOMING UPCOMING
-      </div>
-
-      <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
-        {/* Image Container with hard shadow */}
-        <motion.div
-          whileHover={{ rotate: 3, scale: 1.01 }}
-          className="w-full md:w-1/2 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-2"
-        >
-          <img src={drop.image} className="w-full h-64 object-cover border-2 border-black" alt="acid-drop" />
-          <div className="bg-black text-white text-center py-2 font-mono font-bold mt-2 uppercase tracking-widest">
-            {drop.status}
-          </div>
-        </motion.div>
-
-        {/* Content Side */}
-        <div className="w-full md:w-1/2 flex flex-col gap-4">
-          <div className="bg-black text-white px-4 py-1 self-start transform -rotate-2 font-bold uppercase text-sm border-2 border-white inline-block shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
-            Warning: High Heat
-          </div>
-
-          <h2 className="text-5xl md:text-7xl font-black goth uppercase leading-[0.85] tracking-wide  text-black mix-blend-multiply">
-            {drop.brand}  <span className="text-white goth bg-black px-2">{drop.name.split(' ').slice(2).join(' ')}</span>
-          </h2>
-
-          <div className="flex gap-4 font-mono font-bold text-lg border-t-4 border-sky-700 pt-4 mt-2">
-            <div className="flex-1">
-              <span className="block text-xs uppercase">Date</span>
-              {new Date(drop.date).toLocaleDateString()}
-            </div>
-            <div className="flex-1  border-black pl-4">
-              <span className="block text-xs uppercase">Price</span>
-              {drop.price}
-            </div>
-          </div>
-
-          <button className="w-full py-4 hover:bg-blue-400 hover:text-white text-black border-4 border-black font-black uppercase text-xl bg-white hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-3">
-            <Zap size={24} fill="black" /> Cop Now
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 
 const testimonials = [
@@ -644,10 +636,10 @@ const TestimonialSpeechBubble = () => {
 function Home() {
   return (
     <>
-    <Header />
+      <Header />
       <CurtainTransition>
         <div className='bg-neutral-50'>
-      
+
           <motion.div
             variants={delayedRevealVariant}
             initial="hidden"
@@ -665,15 +657,26 @@ function Home() {
           <div className="flex flex-col items-center gap-4 py-5  border-b-4  ">
             <button
               className="group relative inline-flex items-center hover:bg-red-700 hover:text-white justify-center px-8 py-3 font-bold text-black transition-all duration-200 bg-neutral-50 font-sans border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none">
-              <span  className="mr-2 text-3xl  uppercase tracking-tight">Explore More</span>
+              <span className="mr-2 text-3xl  uppercase tracking-tight">Explore More</span>
               {/* <ArrowUpRight className="w-15 h-5  transition-transform group-hover:translate-x-1" /> */}
             </button>
           </div>
           <h2 className="text-9xl font-black  text-center py-2 uppercase grotesq">FEED</h2>
-          <section className="space-y- ">
-            <AcidBrutalistDrop />
-            <AcidBrutalistDrop1 />
-            <AcidBrutalistDrop2 />
+          <section className="space-y-0">
+            {/* <Masonry
+              items={items}
+              ease="power3.out"
+              duration={0.6}
+              stagger={0.05}
+              animateFrom="bottom"
+              scaleOnHover
+              hoverScale={0.95}
+              blurToFocus
+              colorShiftOnHover={false}
+            /> */}
+            <EditorialDrop drop={DROPS[0]} />
+            <EditorialDrop drop={DROPS1[0]} />
+            <EditorialDrop drop={DROPS2[0]} />
           </section>
         </div>
         <div>

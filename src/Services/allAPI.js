@@ -24,6 +24,6 @@ export const getAddressAPI = async (reqHeader) => {
 }
 
 // update address
-export const updateAddressAPI = async (id, reqHeader) => {
-    return await commonAPI("PUT", `${SERVERURL}/address/${id}`, {}, reqHeader)
+export const updateAddressAPI = async (id, reqBody, reqHeader) => {
+    return await commonAPI("PUT", `${SERVERURL}/address/${id}`, reqBody, reqHeader)
 }
