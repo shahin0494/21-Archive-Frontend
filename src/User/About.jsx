@@ -166,7 +166,7 @@ export default function BoldRedApp() {
                       </motion.span>
                     </div>
                   </h2>
-                  <MoveDownLeft size={48} className="text-white animate-pulse" />
+                  <MoveDownLeft size={88} className="text-white font-extralight animate-pulse" />
                 </div>
               </div>
               {/* Narrative Timeline */}

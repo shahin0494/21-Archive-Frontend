@@ -30,8 +30,17 @@
   src: url("./neue.otf");
 }
 
+@font-face {
+  font-family: "ogg";
+  src: url("./assets/fonts/ogth.otf");
+}
+
 *{
 font-family: 'Satoshi', sans-serif;
+}
+
+.ogg{
+  font-family: "ogg";
 }
 
 .grotesq{

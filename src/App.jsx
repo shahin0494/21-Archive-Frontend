@@ -16,6 +16,7 @@ import Red from './User/Red'
 import About from './User/About'
 import Account from './User/Account'
 import AdminPanel from './admin/pages/AdminDashboard'
+import NewsLetter from '../src/User/NewsLetter'
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
           <Route path='/checkout' element={<Checkout />} />
           <Route path='/archive' element={<Red />} />
           <Route path='/about' element={<About />} />
+          <Route path='/news' element={<NewsLetter />} />
           <Route path='/account' element={<Account />} />
           <Route path='/login' element={<SignIn />} />
           <Route path='/register' element={<SignIn register />} />
