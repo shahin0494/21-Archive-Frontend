@@ -17,7 +17,7 @@ import About from './User/About'
 import Account from './User/Account'
 import AdminPanel from './admin/pages/AdminDashboard'
 import NewsLetter from '../src/User/NewsLetter'
-
+import AdminAddSneaker from './admin/pages/AdminAddSneaker'
 
 function App() {
   const location = useLocation()
@@ -59,6 +59,7 @@ function App() {
           <Route path='/login' element={<SignIn />} />
           <Route path='/register' element={<SignIn register />} />
           <Route path='/admin' element={<AdminPanel/>} />
+          <Route path='/admin/add' element={<AdminAddSneaker/>} />
           <Route path='*' element={<Pnf />} />
         </Routes>
       </AnimatePresence>

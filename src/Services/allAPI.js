@@ -27,3 +27,20 @@ export const getAddressAPI = async (reqHeader) => {
 export const updateAddressAPI = async (id, reqBody, reqHeader) => {
     return await commonAPI("PUT", `${SERVERURL}/address/${id}`, reqBody, reqHeader)
 }
+
+// ------------- SNEAKER SECTION -------------------------------------
+
+// add sneaker
+export const addSneakerAPI = async (reqBody, reqHeader) => {
+    return await commonAPI("POST", `${SERVERURL}/addSneakers`, reqBody, reqHeader)
+}
+
+// get all sneakrs
+export const getAllSneakersAPI = async (reqHeader) => {
+    return await commonAPI("GET", `${SERVERURL}/allSneakers`, {}, reqHeader)
+}
+
+// get single sneaker
+export const getSingleSneakerAPI = async (sneakerID, reqHeader) => {
+    return await commonAPI("GET", `${SERVERURL}/sneakers,${sneakerID}/view`, {}, reqHeader)
+}

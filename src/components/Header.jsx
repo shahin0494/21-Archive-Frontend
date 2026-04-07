@@ -92,6 +92,8 @@ const PremiumHeader = () => {
   });
 
   const location = useLocation();
+  const darkPages = ["/about", "/archive"]; // add your routes here
+  const isDarkPage = darkPages.includes(location.pathname);
 
   // 2. Timer to trigger header appearance after 4 seconds
   useEffect(() => {
@@ -129,10 +131,13 @@ const PremiumHeader = () => {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: "-20%", opacity: 0 }}
         transition={{ duration: 0.54, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0  bg-white left-0 w-full z-50 transition-colors duration-500 border-b  ${isScrolled
-            ? 'bg-white/95 backdrop-blur py-4 border-red-100'
-            : 'bg-transparent py-4 border-transparent'
-          }`}
+        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 border-b ${
+          isDarkPage
+            ? "bg-black text-white py-4 border-neutral-800"
+            : isScrolled
+            ? "bg-white/95 backdrop-blur py-4 border-red-100"
+            : "bg-transparent py-4 border-transparent"
+        }`}
       >
         <div className="max-w-[1600px] h-full mx-auto px-6  lg:px-12">
           <motion.nav
