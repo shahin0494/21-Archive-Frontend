@@ -32,23 +32,23 @@ const navContainerVariants = {
 
 // --- Reusable Components ---
 
-const MagnetLink = ({ label, path, index }) => {
+const MagnetLink = ({ label, path, index, textColor }) => {
   return (
-    <Link to={path} className="group  relative block overflow-hidden cursor-pointer py-2">
-      <div className="relative overflow-hidden text-xs lg:text-sm font-bold uppercase tracking-[0.2em] text-neutral-900">
+    <Link to={path} className={`group relative block overflow-hidden cursor-pointer py-2 ${textColor}`}>
+      <div className="relative overflow-hidden text-xs lg:text-sm font-bold uppercase tracking-[0.2em]">
         <motion.span
           className="block group-hover:-translate-y-full sat transition-transform duration-500 ease-[0.16,1,0.3,1]"
         >
           {label}
         </motion.span>
         <motion.span
-          className="absolute top-0 left-0 block sat translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.16,1,0.3,1] text-red-700"
+          className={`absolute top-0 left-0 block sat translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.16,1,0.3,1] ${textColor}`}
           aria-hidden="true"
         >
           {label}
         </motion.span>
       </div>
-      <span className="absolute bottom-0 left-0 w-full h-[1px] bg-neutral-900 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" />
+      <span className="absolute bottom-0 left-0 w-full h-[1px] bg-current origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" />
     </Link>
   );
 };
@@ -92,8 +92,14 @@ const PremiumHeader = () => {
   });
 
   const location = useLocation();
-  const darkPages = ["/about", "/archive"]; // add your routes here
-  const isDarkPage = darkPages.includes(location.pathname);
+  const pageStyles = {
+    "/": { base: "text-neutral-900", scrolled: "text-black" },
+    "/about": { base: "text-red-700", scrolled: "text-red-700" },
+    "/news": { base: "text-red-700", scrolled: "text-red-900" },
+  };
+
+  const currentPage = pageStyles[location.pathname] || pageStyles["/"];
+  const currentTextColor = isScrolled ? currentPage.scrolled : currentPage.base;
 
   // 2. Timer to trigger header appearance after 4 seconds
   useEffect(() => {
@@ -120,6 +126,7 @@ const PremiumHeader = () => {
     { label: "Women", path: "/shop/women" },
     { label: "Red", path: "/archive" },
     { label: "Origin", path: "/about" },
+    { label: "Briefs", path: "/news" },
   ];
 
   return (
@@ -131,12 +138,12 @@ const PremiumHeader = () => {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: "-20%", opacity: 0 }}
         transition={{ duration: 0.54, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 border-b ${
-          isDarkPage
-            ? "bg-black text-white py-4 border-neutral-800"
+        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500  ${
+          ["/about", "/archive"].includes(location.pathname)
+            ? "bg-black text-white py-4 "
             : isScrolled
-            ? "bg-white/95 backdrop-blur py-4 border-red-100"
-            : "bg-transparent py-4 border-transparent"
+            ? "bg-white backdrop-blur-3xl text-white py-4 "
+            : "bg-transparent backdrop-blur text-white  py-4 "
         }`}
       >
         <div className="max-w-[1600px] h-full mx-auto px-6  lg:px-12">
@@ -177,12 +184,13 @@ const PremiumHeader = () => {
                   key={i}
                   {...link}
                   index={i}
+                  textColor={currentTextColor}
                 />
               ))}
             </div>
             {/* Right Section: Utilities */}
             <div className="flex-1 flex items-center justify-end gap-8">
-              <div className={`relative flex items-center transition-all duration-300 ${isSearchOpen ? 'w-48' : 'w-24'}`}>
+              {/* <div className={`relative flex items-center transition-all duration-300 ${isSearchOpen ? 'w-48' : 'w-24'}`}>
                 <Search size={16} strokeWidth={1.5} className="absolute left-0 text-neutral-900 pointer-events-none" />
                 <input
                   type="text"
@@ -191,8 +199,8 @@ const PremiumHeader = () => {
                   onBlur={() => setIsSearchOpen(false)}
                   className="w-full sat bg-transparent border-b border-neutral-300 focus:border-black py-1 pl-6 text-[10px] font-bold tracking-widest uppercase placeholder:text-neutral-400 outline-none transition-all"
                 />
-              </div>
-              <div className="hidden sm:flex items-center gap-6">
+              </div> */}
+              <div className="hidden sm:flex items-center gap-6 ">
                 <UtilityItem label="Account" path="/account" />
                 <UtilityItem label="Login" path="/login" />
                 <UtilityItem label="Cart" path="/cart" count={2} />

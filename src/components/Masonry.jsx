@@ -99,7 +99,7 @@ const Masonry = ({
     if (!width) return { gridItems: [], containerHeight: 0 };
 
     const colHeights = new Array(columns).fill(0);
-    const gap = 16;
+    const gap = 0;
     const totalGaps = (columns - 1) * gap;
     const columnWidth = (width - totalGaps) / columns;
 
@@ -187,8 +187,8 @@ const Masonry = ({
   };
 
   return (
-    <div 
-      ref={containerRef} 
+    <div
+      ref={containerRef}
       className="relative w-full"
       style={{ height: containerHeight ? `${containerHeight}px` : '100vh' }}
     >
@@ -201,13 +201,14 @@ const Masonry = ({
           onClick={() => window.open(item.url, '_blank', 'noopener')}
           onMouseEnter={e => handleMouseEnter(item.id, e.currentTarget)}
           onMouseLeave={e => handleMouseLeave(item.id, e.currentTarget)}>
-          <div
-            className="absolute w-full h-full bg-cover bg-center rounded-[10px]  uppercase text-[10px] leading-[10px]"
-            style={{ backgroundImage: `url(${item.img})` }}>
-            {colorShiftOnHover && (
-              <div
-                className="color-overlay absolute inset-0 rounded-[10px] bg-gradient-to-tr from-pink-500/50 to-sky-500/50 opacity-0 pointer-events-none" />
-            )}
+          <div className="relative bg-red-600 w-full h-full rounded-[2px] overflow-hidden">
+            <img
+              src={item.img}
+              alt=""
+              className="w-full h-full object-cover opacity-80 mix-blend-multiply transition-all"
+              draggable={false}
+            />
+            {colorShiftOnHover && (<div className="color-overlay absolute inset-0  rounded-[10px] bg-gradient-to-tr from-pink-500/50 to-sky-500/50 opacity-0 pointer-events-none" />)}
           </div>
         </div>
       ))}

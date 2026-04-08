@@ -4,7 +4,6 @@ import Header from '../components/Header'
 import { Search, ChevronUp, Globe, Hexagon, Anchor, Cpu, Triangle, Calendar, ArrowRight, ArrowLeft, ShoppingBag, Quote, ArrowUpRight, Plus, ChevronDown, X, Minimize2, Maximize2, Zap, ChevronLeft, ChevronRight, Heart, Star, Ghost, Sparkle, LoaderCircle, Footprints } from 'lucide-react'
 import FooterCleanClassic from '../components/Footer'
 import CurtainTransition from '../components/CurtainTransition'
-import Masonry from '../components/Masonry'
 
 const hasLoadedOnce = sessionStorage.getItem("hasLoadedOnce");
 const baseDelay = hasLoadedOnce ? 0 : 4;
@@ -100,8 +99,6 @@ export const SplitText = ({ text, variants, className }) => {
   );
 };
 
-
-
 const SNEAKERS = [
   {
     id: 1,
@@ -187,7 +184,6 @@ const DROPSNEAKERS = [
     bg: "#f8fafc"
   }
 ];
-
 
 const VerticalSplit = () => {
   const [index, setIndex] = useState(0);
@@ -375,194 +371,75 @@ const GlassItem = ({ product }) => {
   );
 };
 
-const DROPS = [
-  {
-    id: 1,
-    name: "Air Jordan 1 'Lost & Found'",
-    date: "2023-11-19T09:00:00",
-    price: "$180",
-    image: "./feedsnkr1.png",
-    brand: "Jordan",
-    status: "Dropping Soon",
-    sku: "DZ5485-612",
-    colorway: "Varsity Red / Black / Sail"
-  },
-
-];
-const DROPS1 = [
-  {
-    id: 2,
-    name: "Dunk Low 'GATO'",
-    date: "2023-11-21T10:00:00",
-    price: "$110",
-    image: "./feedsnkr2.png",
-    brand: "Nike",
-    status: "Restock",
-    sku: "DD1391-100",
-    colorway: "White / Black"
-  }
-];
-const DROPS2 = [
-  {
-    id: 4,
-    name: "VANS AHS Knu-Skool",
-    date: "2023-12-01T00:00:00",
-    price: "$200",
-    image: "./feedsnkr3.png",
-    brand: "VANS",
-    status: "Upcoming",
-    sku: "M990GL6",
-    colorway: "Grey / Castlerock"
-  }
-];
-
-
-
 const items = [
   {
     id: "1",
-    img: "./fd1.jpg",
+    img: "./fd4.jpg",
     url: "./fd1.png",
-    height: 400,
+    height: 600,
   },
   {
     id: "2",
-    img: "./fd2.jpg",
+    img: "./fd6.jpg",
     url: "./fd2.jpg",
-    height: 550,
+    height: 600,
   },
   {
     id: "3",
-    img: "./fd3.jpg",
+    img: "./fd7.jpg",
     url: "./fd3.jpg",
-    height: 600,
+    height: 700,
   },
   {
     id: "4",
-    img: "./fd4.jpg",
+    img: "./fd8.avif",
     url: "./fd1.png",
-    height: 400,
+    height: 600,
   },
   {
     id: "5",
-    img: "./fd5.jpg",
+    img: "./fd9.avif",
     url: "./fd5.jpg",
-    height: 350,
+    height: 400,
   },
   {
     id: "6",
-    img: "./fd6.jpg",
+    img: "./fd10.jpeg",
     url: "./fd6.jpg",
-    height: 600,
+    height: 500,
   },
   {
     id: "7",
-    img: "./fd7.jpg",
+    img: "./fd11.jpeg",
     url: "./fd7.png",
-    height: 400,
+    height: 700,
   },
   {
     id: "8",
-    img: "./lg2.jpg",
+    img: "./fd12.jpeg",
     url: "./lg2.jpg",
-    height: 350,
+    height: 700,
   },
   {
     id: "9",
-    img: "./lg1.jpg",
+    img: "./fd13.jpeg",
     url: "./fd3.jpg",
-    height: 600,
+    height: 700,
   },
   {
     id: "10",
-    img: "./1g3.jpg",
+    img: "./fd14.jpeg",
     url: "./fd1.png",
-    height: 400,
+    height: 600,
   },
   {
     id: "11",
-    img: "./lg5.jpg",
+    img: "./fd15.avif",
     url: "./fd2.jpg",
-    height: 450,
-  },
-  {
-    id: "12",
-    img: "./fd3.jpg",
-    url: "./fd3.jpg",
-    height: 600,
-  },
-  // ... more items
+    height: 400,
+  }
+
 ];
-
-
-
-
-const EditorialDrop = ({ drop }) => {
-  return (
-    <div className="bg-stone-100 grid grid-cols-2  text-slate-900 bottom-0  mx-auto overflow-hidden group p-20 ">
-      <div className="relative mx-[5rem] rounded mb-5 h-[25rem] bottom-0 w-[45rem] overflow-hidden">
-        <img src={drop.image} alt="Editorial" className="w-full  h-full bottom-0 object-cover transition-transform duration-1000 group-hover:scale-105" />
-        <div className="absolute inset-0 bottom-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-        {/* <div className="absolute flex flex-col justify-between bottom-0 left-0 w-full px-1 md:p- text-white">
-          <p className="text-7xl  font-bold  text-white ">{drop.name}</p>
-          <h3 className="font-medium  ">{drop.brand}</h3>
-          <h3 className="font-medium  ">{drop.date}</h3>
-          <p className='font-medium max-w-4xl text-justify'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, dolores quos quisquam placeat dolore dolorum esse nisi! Quas aliquid quam expedita nobis repudiandae, eius non? Provident veritatis ratione repellat officiis.
-            Expedita nesciunt illum, aperiam itaque iste sunt, provident nulla earum dicta suscipit reiciendis tenetur numquam optio fugit ipsam, vitae cum ducimus ratione eos rerum sapiente sequi. Voluptas quod quibusdam dolorem?
-            Numquam, debitis! Natus nostrum dignissimos eveniet, et odio ipsum aperiam recusandae debitis molestiae alias ipsa officia nulla quos fugit repellendus, voluptates, sit mollitia nemo quis. Eum nobis corporis nesciunt ab.
-            Voluptates fugit ea quasi molestias. Maiores numquam eius, quas eligendi quaerat, distinctio tempore laudantium debitis non recusandae, perspiciatis a placeat saepe veritatis eveniet! Dignissimos fugit optio laboriosam quisquam a corporis.</p>
-          <span className="font-medium">{drop.sku}</span>
-        </div> */}
-        <>
-
-          {/* <h2 className="text-4xl absolute right-0 bottom-0 text-white md:text-6xl font-light tracking-tight leading-tight max-w-2xl 4">{drop.status}</h2> */}
-
-        </>
-
-      </div>
-
-      <div className=" flex flex-col leading-none ms-80 mb-5 items-end justify-start  w-[30rem] px-1 md:p- text-stone-600">
-        <p className="text-5xl  font-black goth  text-black ">{drop.name}</p>
-        <h3 className="font-medium goth text-xs ">{drop.brand}</h3>
-          {/* <span className="font-medium  ">{drop.date}</span> */}
-          <span className="font-medium goth text-xs">{drop.sku}</span>
-        <p className='font-medium sat max-w-4xl text-xs text-justify'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, dolores quos quisquam placeat dolore dolorum esse nisi! Quas aliquid quam expedita nobis repudiandae, eius non? Provident veritatis ratione repellat officiis.
-          Expedita nesciunt illum, aperiam itaque iste sunt, provident nulla earum dicta suscipit reiciendis tenetur numquam optio fugit ipsam, vitae cum ducimus ratione eos rerum sapiente sequi. Voluptas quod quibusdam dolorem?
-          Numquam, debitis! Natus nostrum dignissimos eveniet, et odio ipsum aperiam recusandae debitis molestiae alias ipsa officia nulla quos fugit repellendus, voluptates, sit mollitia nemo quis. Eum nobis corporis nesciunt ab.
-          Voluptates fugit ea quasi molestias. Maiores numquam eius, quas eligendi quaerat, distinctio tempore laudantium debitis non recusandae, perspiciatis a placeat saepe ddw</p>
-        
-      </div>
-
-      {/* <div className="flex flex-col md:flex-row gap-12 p-8 md:p-12 bg-white">
-        <div className="md:w-1/3 space-y-6 text-sm">
-          <div className="border-t border-slate-200 pt-4">
-            <span className="block text-[10px] uppercase tracking-widest text-slate-400 mb-1">Release Info</span>
-            <span className="font-medium">{drop.price}</span>
-          </div>
-          <div className="border-t border-slate-200 pt-4">
-            <span className="block text-[10px] uppercase tracking-widest text-slate-400 mb-1">Words By</span>
-            <span className="font-medium">{drop.brand}</span>
-          </div>
-        </div>
-
-        <div className="md:w-2/3">
-          <p className="text-xl md:text-2xl font-light leading-relaxed text-slate-600 mb-8">
-            {drop.name}
-          </p>
-          <p className="text-sm leading-loose text-slate-500 max-w-xl">
-            {drop.name}
-          </p>
-          <button className="mt-8 flex items-center gap-3 text-sm font-bold uppercase tracking-widest hover:text-red-600 transition-colors">
-            Read Full Story <ArrowRight size={16} />
-          </button>
-        </div>
-      </div> */}
-    </div>
-  );
-};
-
-
 
 const testimonials = [
   {
@@ -636,7 +513,9 @@ const TestimonialSpeechBubble = () => {
 function Home() {
   return (
     <>
-      <Header />
+      <div className='mb-25'>
+        <Header />
+      </div>
       <CurtainTransition>
         <div className='bg-neutral-50'>
 
@@ -661,28 +540,21 @@ function Home() {
               {/* <ArrowUpRight className="w-15 h-5  transition-transform group-hover:translate-x-1" /> */}
             </button>
           </div>
-          <h2 className="text-9xl font-black  text-center py-2 uppercase grotesq">FEED</h2>
-          <section className="space-y-0">
-            {/* <Masonry
-              items={items}
-              ease="power3.out"
-              duration={0.6}
-              stagger={0.05}
-              animateFrom="bottom"
-              scaleOnHover
-              hoverScale={0.95}
-              blurToFocus
-              colorShiftOnHover={false}
-            /> */}
-            <EditorialDrop drop={DROPS[0]} />
-            <EditorialDrop drop={DROPS1[0]} />
-            <EditorialDrop drop={DROPS2[0]} />
-          </section>
+          {/* <h2 className="text-9xl font-black  text-center py-2 uppercase grotesq">FEED</h2> */}
+
         </div>
         <div>
           <TestimonialSpeechBubble />
         </div>
         <FooterCleanClassic />
+
+
+        <div style={{ height: '500px', position: 'relative', overflow: 'hidden' }} className='bg-black' >
+          
+        </div>
+
+
+
       </CurtainTransition>
     </>
   )

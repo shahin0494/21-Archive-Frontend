@@ -34,7 +34,7 @@ export default function BoldRedApp() {
       <Header />
       <Curtain>
 
-        <div className="min-h-screen bg-red-800 text-black font-sans mt-24 selection:bg-white selection:text-black">
+        <div className="min-h-screen bg-red-800 text-black font-sans mt-22 selection:bg-white selection:text-black">
           {/* 1. Header */}
           <header className="px-6 md:px-12 py-8 flex justify-between items-center mix-blend-normal  top-0 z-50">
             {/* <div className="bg-black text-white px-2 py-1 font-bold text-xl tracking-tighter">

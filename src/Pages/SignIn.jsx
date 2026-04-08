@@ -150,7 +150,7 @@ const Variant1 = () => {
         sessionStorage.setItem("token", result.data.token)
         setTimeout(() => {
           if (result.data.user.role=="admin") {
-            navigate("/admin-dashboard")
+            navigate("/admin")
           }else {
             navigate("/")
           }

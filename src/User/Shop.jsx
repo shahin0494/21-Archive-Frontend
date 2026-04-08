@@ -5,39 +5,41 @@ import Header from '../components/Header'
 import { useLocation } from "react-router-dom";
 import CurtainTransition from "../components/CurtainTransition";
 import { getAllSneakersAPI } from "@/Services/allAPI";
+import { Link } from "react-router-dom";
 
 export default function App() {
 
   // 1. UPDATED SNEAKER CARD TO HANDLE EMPTY IMAGES SAFELY
   const SneakerCard = ({ sneaker, onSelect }) => (
-    <motion.article
-      layoutId={`card-${sneaker._id}`}
-      onClick={() => onSelect?.(sneaker)}
-      initial={{ opacity: 0, y: 0 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      whileHover={{ y: 0 }}
-      className="group cursor-pointer border border-neutral-100 rounded-2xl bg-white hover:border-neutral-300 transition-all duration-200"
-    >
-      <div className="relative aspect-[4/5] overflow-hidden rounded-t-2xl bg-neutral-50 flex items-center justify-center">
-        {/* Safely check if photos array exists AND has items */}
-        {sneaker.photos && sneaker.photos.length > 0 ? (
-           <img
-           src={sneaker.photos[0]}   
-           alt={sneaker.sneakerName}
-           className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
-         />
-        ) : (
-          <span className="text-gray-400 text-sm">No Image</span>
-        )}
-      </div>
-
-      <div className="px-4 py-4">
-        <p className="text-xs text-gray-400 uppercase">{sneaker.brand}</p>
-        <h3 className="text-sm font-medium uppercase">{sneaker.sneakerName}</h3>
-        <p className="text-sm font-semibold mt-1">₹{sneaker.price}</p>
-      </div>
-    </motion.article>
+    <Link to={`/sneakers/${sneaker._id}/view`}>
+      <motion.article
+        layoutId={`card-${sneaker._id}`}
+        onClick={() => onSelect?.(sneaker)}
+        initial={{ opacity: 0, y: 0 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        whileHover={{ y: 0 }}
+        className="group cursor-pointer border border-neutral-100 rounded-2xl bg-white hover:border-neutral-300 transition-all duration-200"
+      >
+        <div className="relative aspect-[4/5] overflow-hidden rounded-t-2xl bg-neutral-50 flex items-center justify-center">
+          {/* Safely check if photos array exists AND has items */}
+          {sneaker.photos && sneaker.photos.length > 0 ? (
+            <img
+              src={sneaker.photos[0]}
+              alt={sneaker.sneakerName}
+              className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
+            />
+          ) : (
+            <span className="text-gray-400 text-sm">No Image</span>
+          )}
+        </div>
+        <div className="px-4 py-4">
+          <p className="text-xs text-gray-400 uppercase">{sneaker.brand}</p>
+          <h3 className="text-sm font-medium uppercase">{sneaker.sneakerName}</h3>
+          <p className="text-sm font-semibold mt-1">₹{sneaker.price}</p>
+        </div>
+      </motion.article>
+    </Link>
   );
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -48,7 +50,9 @@ export default function App() {
 
   const [token, setToken] = useState("");
   const [sneaker, setSneaker] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  console.log(sneaker);
+  
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (sessionStorage.getItem("token")) {
@@ -56,7 +60,7 @@ export default function App() {
       setToken(userToken);
       getAllSneakers(userToken);
     } else {
-      setLoading(false); 
+      setLoading(false);
     }
   }, []);
 
@@ -85,13 +89,13 @@ export default function App() {
   // 2. FIXED GENDER FILTERING (Matches "Male" to "men" and includes "Unisex")
   const filteredSneakers =
     activeGender === "all"
-      ? sneaker  
+      ? sneaker
       : sneaker.filter((s) => {
-          const dbGender = (s.gender || "").toLowerCase();
-          if (activeGender === "men") return dbGender === "male" || dbGender === "unisex";
-          if (activeGender === "women") return dbGender === "female" || dbGender === "unisex";
-          return true;
-        });
+        const dbGender = (s.gender || "").toLowerCase();
+        if (activeGender === "men") return dbGender === "men" || dbGender === "unisex";
+        if (activeGender === "women") return dbGender === "women" || dbGender === "unisex";
+        return true;
+      });
 
   // 3. FIXED CATEGORY AND PRICE SORTING (Uses s.type, and Number(s.price))
   const visibleSneakers = filteredSneakers
@@ -114,7 +118,7 @@ export default function App() {
       <CurtainTransition>
         <div className="min-h-screen mt-25 px-5 bg-white text-gray-900">
           <main className="ma mx-auto px-6 pt-5 ">
-            
+
             {/* Header / Controls */}
             <div className=" text-start flex justify-center py-3 0">
               <div className={`relative flex items-center transition-all duration-300 ${isSearchOpen ? 'w-98' : 'w-66'}`}>
@@ -128,7 +132,7 @@ export default function App() {
                 />
               </div>
               <div className="flex items-center gap-6 ml-8">
-                
+
                 {/* SORTING */}
                 <select
                   value={sortBy}
@@ -149,11 +153,11 @@ export default function App() {
                   <option value="all">All</option>
                   <option value="modern">Modern</option>
                   <option value="skateboarding">Skateboarding</option>
-                  <option value="cultural`">Cultural</option> 
+                  <option value="cultural`">Cultural</option>
                 </select>
               </div>
             </div>
-            
+
             <hr className="py-4 ms-1 text-neutral-200" />
 
             {/* Grid */}
@@ -177,17 +181,7 @@ export default function App() {
               </div>
             )}
           </main>
-          
-          {/* Modal - Uncomment this once you have your SneakerModal component imported! */}
-          {/* <AnimatePresence>
-            {activeSneaker && (
-              <SneakerModal
-                sneaker={activeSneaker}
-                onClose={() => setActiveSneaker(null)}
-              />
-            )}
-          </AnimatePresence> */}
-          
+
         </div>
       </CurtainTransition>
     </>

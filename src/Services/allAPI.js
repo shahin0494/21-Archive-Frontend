@@ -42,5 +42,12 @@ export const getAllSneakersAPI = async (reqHeader) => {
 
 // get single sneaker
 export const getSingleSneakerAPI = async (sneakerID, reqHeader) => {
-    return await commonAPI("GET", `${SERVERURL}/sneakers,${sneakerID}/view`, {}, reqHeader)
+    return await commonAPI("GET", `${SERVERURL}/sneakers/${sneakerID}/view`, {}, reqHeader)
+}
+
+// ------------- WISHLISt SECTION -------------------------------------
+
+// add to wishlist
+export const addToWishlistAPI = async (id, reqHeader) => {
+    return await commonAPI("POST", `${SERVERURL}/wishlist/${id}/add`, {}, reqHeader)
 }

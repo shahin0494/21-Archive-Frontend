@@ -1,91 +1,106 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Twitter, Instagram, Github, Mail, Heart, Zap, Send, MessageCircle } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
-const footerLinks = [
-  { title: "The Archive", items: ["Origins", "Icons", "Heat", "Collabs"] },
-  { title: "The Brand", items: ["About Us", "Work With Us", "Media", "Contact"] },
-  { title: "Fine Print", items: ["Terms", "Privacy", "Cookies"] },
-];
+const App = () => {
+  return (
+    <>
+      {/* Content Spacer to show footer at bottom */}
 
-const socialLinks = [
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Github, href: "#", label: "Github" },
-];
+      <footer className="bg-black  text-zinc-50 pt-16 pb-4 px-6 md:px-10 border-t border-zinc-700">
+        <div className="max-w-[1600px] mx-auto">
+          
+          {/* Top Column Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 text-center gap-0 mb-20">
+            
+            {/* Column 1: Description */}
+            <div className="pr-8 pb-12  md:pb-0">
+              <h3 className="font-bold mb-6 text-sm">SOCIALS</h3>
+              <div className='flex items-center justify-center'>
+                <ul className="text-m grotesq uppercase font-medium leading-relaxed text-red-600 max-w-[280px]">
+                 Instagram
+                </ul>
+                <ArrowUpRight className='text-xl font-medium'/>
+              </div>
+              <div className='flex items-center justify-center'>
+                <ul className="text-m grotesq uppercase font-medium leading-relaxed text-red-600 max-w-[280px]">
+                 Facebook
+                </ul>
+                <ArrowUpRight className='text-xl font-medium'/>
+              </div>
+              <div className='flex items-center justify-center'>
+                <ul className="text-m grotesq uppercase font-medium leading-relaxed text-red-600 max-w-[280px]">
+                 X
+                </ul>
+                <ArrowUpRight className='text-xl font-medium'/>
+              </div>
+            </div>
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 }
-  }
-};
+            {/* Column 2: Location */}
+            <div className="md:border-l border-zinc-700 px-8 pb-12 md:pb-0">
+              <h3 className="font-bold mb-6 text-sm">Montréal</h3>
+              <address className="text-sm not-italic text-center leading-relaxed text-red-600">
+                160 rue St-Viateur Est<br />
+                Suite 800<br />
+                Montréal, Québec<br />
+                H2T 1A8
+              </address>
+            </div>
 
-const fadeUpItem = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
-};
+            {/* Column 3: Contact */}
+            <div className="md:border-l border-zinc-700 px-8 pb-12 md:pb-0">
+              <h3 className="font-bold mb-6 text-sm">Contact</h3>
+              <a 
+                href="mailto:contact@telescopefilms.ca" 
+                className="text-sm text-red-600  transition-colors"
+              >
+                contact@telescopefilms.ca
+              </a>
+            </div>
 
-// --- 01. The "Next Issue" (Clean & Classic) ---
-// Minimalist white footer with a thick top border and "ink" hover effects.
-const FooterCleanClassic = () => (
-  <footer className="bg-zinc-950 text-zinc-300 pt-20 pb-10">
-    <div className="max-w-7xl mx-auto px-6 lg:px-8">
-      <div className="flex flex-col lg:flex-row justify-between gap-16 mb-24">
-        <div className="lg:w-1/3">
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }} viewport={{ once: true }}>
-            <h2 className="text-3xl font-medium tracking-tighter text-white mb-6">Archive 21</h2>
-            <p className="text-zinc-500 text-sm leading-relaxed mb-8 max-w-sm">
-              Exploring the intersection of modern aesthetics and timeless design principles.
-            </p>
+            {/* Column 4: Socials */}
+            {/* <div className="md:border-l border-zinc-700 px-8 flex flex-col items-start gap-1">
+              {['Instagram', 'Facebook', 'Vimeo'].map((social) => (
+                <a 
+                  key={social} 
+                  href="#" 
+                  className="text-sm text-zinc-500 hover:text-black transition-colors"
+                >
+                  {social}
+                </a>
+              ))}
+            </div> */}
+          </div>
+
+          {/* Middle Credits Row */}
+          <div className="flex flex-col md:flex-row justify-between items-center py-6 border-t border-zinc-700 text-[11px] font-medium text-zinc-400 tracking-wider uppercase">
+            <div className="flex items-center gap-1">
+              <span>© 2025 ARCHIVED</span>
+            </div>
+            <div className="mt-4 md:mt-0">
+              {/* <span className="opacity-60">Web Design</span> <span className="text-zinc-900">Caserne</span> */}
+            </div>
+          </div>
+
+          {/* Giant Bottom Logo Branding */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="w-full overflow-hidden pt-4"
+          >
+            <h1 className="text-[17vw] leading-[0.8] font-[900] tracking-[-0.04em] text-red-600 text-center uppercase whitespace-nowrap overflow-visible" 
+                style={{ 
+                  fontFamily: 'system-ui, -apple-system, sans-serif',
+                  transform: 'scaleY(1.1)' 
+                }}>
+              21 ARCHIVE
+            </h1>
           </motion.div>
         </div>
+      </footer>
+    </>
+  );
+};
 
-        <motion.div 
-          variants={staggerContainer} initial="hidden" whileInView="show" viewport={{ once: true }}
-          className="lg:w-2/3 grid grid-cols-2 md:grid-cols-3 gap-8"
-        >
-          {footerLinks.map((section, i) => (
-            <motion.div variants={fadeUpItem} key={i}>
-              <h3 className="text-zinc-100 font-medium mb-6 text-sm">{section.title}</h3>
-              <ul className="space-y-3">
-                {section.items.map((item, j) => (
-                  <li key={j}>
-                    <motion.a
-                      href="#"
-                      whileHover={{ x: 4, color: '#fff' }}
-                      className="inline-flex items-center text-sm text-zinc-500 transition-colors"
-                    >
-                      {item}
-                    </motion.a>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-
-      <div className="border-t border-zinc-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="flex items-center gap-4">
-          <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-xs text-zinc-600 font-medium tracking-wide uppercase">Systems Operational</span>
-        </div>
-        <div className="flex gap-4">
-           {socialLinks.map((social, i) => (
-            <motion.a
-              key={i} href={social.href}
-              whileHover={{ scale: 1.1, color: '#fff' }}
-              className="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-400 transition-colors hover:bg-zinc-800"
-            >
-              <social.icon size={18} strokeWidth={1.5} />
-            </motion.a>
-          ))}
-        </div>
-      </div>
-    </div>
-  </footer>
-);
-
-export default FooterCleanClassic;
+export default App;
