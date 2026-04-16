@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, ArrowRight, Heart, ChevronDown, Star, Truck, RotateCcw, ShieldCheck } from 'lucide-react';
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import { useParams } from 'react-router-dom';
 import { getSingleSneakerAPI } from '@/Services/allAPI';
+import { addToWishlistAPI } from '@/Services/allAPI';
+import { addToCartAPI } from '@/Services/allAPI';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 
@@ -27,6 +30,86 @@ const App = () => {
   const [activeImage, setActiveImage] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
   const [activeAccordion, setActiveAccordion] = useState(null);
+  
+
+  const handleAddToWishlist = async () => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      toast.warning("Please login first");
+      return;
+    }
+
+    if (!selectedSize) {
+      toast.warning("Please select a size");
+      return;
+    }
+
+    try {
+      const reqHeader = {
+        Authorization: `Bearer ${token}`
+      };
+
+      const body = {
+        size: selectedSize
+      };
+
+      const result = await addToWishlistAPI(id, body, reqHeader);
+
+      if (result.status === 200) {
+        toast.success("Added to wishlist");
+        setIsFavorite(true);
+      } else if (result.status === 409) {
+        toast.warning("Already in wishlist");
+      }
+    } catch (error) {
+      if (error.response?.status === 409) {
+        toast.warning("Already in wishlist");
+      } else {
+        toast.error("Something went wrong");
+        console.log(error);
+      }
+    }
+  };
+
+  const handleAddToCart = async () => {
+    const token = sessionStorage.getItem("token");
+
+    if (!token) {
+      toast.warning("Please login first");
+      return;
+    }
+
+    if (!selectedSize) {
+      toast.warning("Please select a size");
+      return;
+    }
+
+    try {
+      const reqHeader = {
+        Authorization: `Bearer ${token}`
+      };
+
+      const body = {
+        size: selectedSize,
+        quantity: 1
+      };
+
+      const result = await addToCartAPI(id, body, reqHeader);
+
+      if (result.status === 200) {
+        toast.success("Added to cart");
+      }
+    } catch (error) {
+      if (error.response?.status === 400) {
+        toast.warning(error.response.data);
+      } else if (error.response?.status === 409) {
+        toast.warning("Stock issue");
+      } else {
+        toast.error("Something went wrong");
+        console.log(error);
+      }
+    }
+  };
 
   const { id } = useParams()
   const [sneakerV, setSneakerV] = useState({})
@@ -197,6 +280,7 @@ const App = () => {
             {/* Action Buttons */}
             <motion.div variants={itemVariants} className="flex gap-3 mb-12">
               <button
+                onClick={handleAddToCart}
                 disabled={!selectedSize}
                 className={`
                 flex-1 py-4 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300
@@ -209,7 +293,7 @@ const App = () => {
               </button>
 
               <button
-                onClick={() => setIsFavorite(!isFavorite)}
+                onClick={handleAddToWishlist}
                 className={`
                 w-14 border flex items-center justify-center transition-all duration-300 bg-white
                 ${isFavorite ? 'border-red-200 bg-red-50' : 'border-gray-200 hover:border-black'}
@@ -262,6 +346,7 @@ const App = () => {
 
         </div>
       </div>
+      <Footer/>
 
       <Toaster
         position="top-right"

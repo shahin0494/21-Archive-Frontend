@@ -547,14 +547,6 @@ function Home() {
           <TestimonialSpeechBubble />
         </div>
         <FooterCleanClassic />
-
-
-        <div style={{ height: '500px', position: 'relative', overflow: 'hidden' }} className='bg-black' >
-          
-        </div>
-
-
-
       </CurtainTransition>
     </>
   )

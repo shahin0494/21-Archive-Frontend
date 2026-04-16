@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion'; // Ensure AnimatePresence is imported if you plan to use it later
-import { ShoppingBag, Search, User, Menu } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import CurtainTransition from './CurtainTransition'
+import StaggeredMenu from './StaggeredMenu'; // Ensure this path matches your directory structure
 
 // --- Animation Variants ---
-
 const springRiseVariant = {
   hidden: { y: "100%", opacity: 0 },
   show: (i) => ({
@@ -31,14 +29,11 @@ const navContainerVariants = {
 };
 
 // --- Reusable Components ---
-
 const MagnetLink = ({ label, path, index, textColor }) => {
   return (
     <Link to={path} className={`group relative block overflow-hidden cursor-pointer py-2 ${textColor}`}>
       <div className="relative overflow-hidden text-xs lg:text-sm font-bold uppercase tracking-[0.2em]">
-        <motion.span
-          className="block group-hover:-translate-y-full sat transition-transform duration-500 ease-[0.16,1,0.3,1]"
-        >
+        <motion.span className="block group-hover:-translate-y-full sat transition-transform duration-500 ease-[0.16,1,0.3,1]">
           {label}
         </motion.span>
         <motion.span
@@ -53,40 +48,9 @@ const MagnetLink = ({ label, path, index, textColor }) => {
   );
 };
 
-const UtilityItem = ({ icon: Icon, label, count, path }) => {
-  return (
-    <Link
-      to={path}
-      className="group flex items-center gap-2 text-neutral-900 hover:text-neutral-500 transition-colors"
-    >
-      <div className="relative overflow-hidden h-4 w-auto flex items-center">
-        {Icon && <Icon size={16} strokeWidth={1.5} className="mr-2" />}
-        <div className="flex flex-col h-full relative">
-          <span className="text-[10px] sat font-bold uppercase tracking-widest leading-4 group-hover:-translate-y-4 transition-transform duration-300 ease-out">
-            {label}
-          </span>
-          <span className="absolute sat top-0 left-0 text-[10px] font-bold uppercase tracking-widest leading-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out text-red-700">
-            {label}
-          </span>
-        </div>
-      </div>
-      {count !== undefined && (
-        <span className="text-[10px] font-medium text-neutral-400 group-hover:text-black">
-          ({count})
-        </span>
-      )}
-    </Link>
-  );
-};
-
 // --- Main Header Component ---
-
 const PremiumHeader = () => {
-
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  // 1. New State to track preloader status
   const [isLoaded, setIsLoaded] = useState(() => {
     return sessionStorage.getItem("headerLoaded") === "true";
   });
@@ -101,15 +65,12 @@ const PremiumHeader = () => {
   const currentPage = pageStyles[location.pathname] || pageStyles["/"];
   const currentTextColor = isScrolled ? currentPage.scrolled : currentPage.base;
 
-  // 2. Timer to trigger header appearance after 4 seconds
   useEffect(() => {
     if (isLoaded) return;
-
     const timer = setTimeout(() => {
       setIsLoaded(true);
       sessionStorage.setItem("headerLoaded", "true");
     }, 4000);
-
     return () => clearTimeout(timer);
   }, [isLoaded]);
 
@@ -129,90 +90,100 @@ const PremiumHeader = () => {
     { label: "Briefs", path: "/news" },
   ];
 
+const token = sessionStorage.getItem("token");
+
+  // Map your old utilities into the StaggeredMenu structure
+  const menuItems = [
+    { label: "Account", link: "/account" },
+    ...(token
+      ? [{ label: "Profile", link: "/profile" }]
+      : [{ label: "Login", link: "/login" }]),
+    { label: "Wishlist", link: "/wishlist" },
+    { label: "Cart", link: "/cart" }
+  ];
+
+  // Dynamic menu button color based on background/scroll state
+  const isDarkBg = ["/about", "/archive"].includes(location.pathname) || (!isScrolled && location.pathname === "/");
+  const menuBtnColor = isDarkBg ? "#000000" : "#000000";
+
   return (
-    // 3. Changed <header> to <motion.header> for entrance animation
-    <>
-      <motion.header
-        key={location.pathname}
-        initial={{ y: "-20%", opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: "-20%", opacity: 0 }}
-        transition={{ duration: 0.54, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500  ${
-          ["/about", "/archive"].includes(location.pathname)
-            ? "bg-black text-white py-4 "
-            : isScrolled
-            ? "bg-white backdrop-blur-3xl text-white py-4 "
-            : "bg-transparent backdrop-blur text-white  py-4 "
-        }`}
-      >
-        <div className="max-w-[1600px] h-full mx-auto px-6  lg:px-12">
-          <motion.nav
-            className="flex items-center justify-between"
-            variants={navContainerVariants}
-            initial="hidden"
-            // 4. Bind the internal items animation to the loading state
-            animate={isLoaded ? "show" : "hidden"}
-          >
-            {/* Left Section: Logo & Brand */}
-            <div className="flex-1 flex items-center justify-start">
-              <Link to="/" className="group relative z-20">
-                <div className="overflow-hidden">
-                  <motion.h1
-                    variants={springRiseVariant}
-                    custom={0}
-                    className="text-5xl goth font-black tracking-wid text-red-800 leading-none"
-                  >
-                    21 ARCHIVE
-                  </motion.h1>
-                </div>
-                <div className="overflow-hidden">
-                  <motion.span
-                    variants={springRiseVariant}
-                    custom={1}
-                    className="text-[9px] sat font-bold tracking-[0.3em] uppercase text-neutral-400 block ml-1"
-                  >
-                    Est. 2006 — Pluto
-                  </motion.span>
-                </div>
-              </Link>
-            </div>
-            {/* Center Section: Navigation Links */}
-            <div className="hidden md:flex flex-1 items-center justify-center gap-12">
-              {navLinks.map((link, i) => (
-                <MagnetLink
-                  key={i}
-                  {...link}
-                  index={i}
-                  textColor={currentTextColor}
-                />
-              ))}
-            </div>
-            {/* Right Section: Utilities */}
-            <div className="flex-1 flex items-center justify-end gap-8">
-              {/* <div className={`relative flex items-center transition-all duration-300 ${isSearchOpen ? 'w-48' : 'w-24'}`}>
-                <Search size={16} strokeWidth={1.5} className="absolute left-0 text-neutral-900 pointer-events-none" />
-                <input
-                  type="text"
-                  placeholder="SEARCH"
-                  onFocus={() => setIsSearchOpen(true)}
-                  onBlur={() => setIsSearchOpen(false)}
-                  className="w-full sat bg-transparent border-b border-neutral-300 focus:border-black py-1 pl-6 text-[10px] font-bold tracking-widest uppercase placeholder:text-neutral-400 outline-none transition-all"
-                />
-              </div> */}
-              <div className="hidden sm:flex items-center gap-6 ">
-                <UtilityItem label="Account" path="/account" />
-                <UtilityItem label="Login" path="/login" />
-                <UtilityItem label="Cart" path="/cart" count={2} />
+    <motion.header
+      key={location.pathname}
+      initial={{ y: "-20%", opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: "-20%", opacity: 0 }}
+      transition={{ duration: 0.54, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 ${
+        ["/about", "/archive"].includes(location.pathname)
+          ? "bg-black text-white py-4 "
+          : isScrolled
+          ? "bg-transparent backdrop-blur-xl text-white py-4 "
+          : "bg-transparent backdrop-blur text-white py-4 "
+      }`}
+    >
+      <div className="max-w-[1600px] h-full mx-auto px-6 lg:px-12 relative">
+        <motion.nav
+          className="flex items-center justify-between"
+          variants={navContainerVariants}
+          initial="hidden"
+          animate={isLoaded ? "show" : "hidden"}
+        >
+          {/* Left Section: Logo & Brand */}
+          <div className="flex-1 flex items-center justify-start">
+            <Link to="/" className="group relative z-20">
+              <div className="overflow-hidden">
+                <motion.h1
+                  variants={springRiseVariant}
+                  custom={0}
+                  className="text-5xl goth font-black tracking-wid text-red-800 leading-none"
+                >
+                  21 ARCHIVE
+                </motion.h1>
               </div>
-              <button className="md:hidden text-neutral-900">
-                <Menu size={24} strokeWidth={1} />
-              </button>
+              <div className="overflow-hidden">
+                <motion.span
+                  variants={springRiseVariant}
+                  custom={1}
+                  className="text-[9px] sat font-bold tracking-[0.3em] uppercase text-neutral-400 block ml-1"
+                >
+                  Est. 2006 — Pluto
+                </motion.span>
+              </div>
+            </Link>
+          </div>
+
+          {/* Center Section: Navigation Links */}
+          <div className="hidden md:flex flex-1 items-center justify-center gap-12 z-50 relative pointer-events-auto">
+            {navLinks.map((link, i) => (
+              <MagnetLink
+                key={i}
+                {...link}
+                index={i}
+                textColor={currentTextColor}
+              />
+            ))}
+          </div>
+
+          {/* Right Section: Staggered Menu */}
+          <div className="flex-1 flex items-center justify-end z-50 relative pointer-events-auto">
+            {/* The wrapper ensures the fixed menu coordinates correctly with your max-w container */}
+            <div className="relative w-auto h-8 flex items-center justify-end">
+              <StaggeredMenu
+                items={menuItems}
+                position="right"
+                // Clean, minimal black/dark-grey overlay panels
+                colors={['#1a1a1a', '#E53935']} 
+                accentColor="#b91c1c" // Matches your red-800 brand color
+                menuButtonColor={menuBtnColor}
+                openMenuButtonColor="#000000"
+                isFixed={true}
+                displayItemNumbering={false}
+              />
             </div>
-          </motion.nav>
-        </div>
-      </motion.header>
-    </>
+          </div>
+        </motion.nav>
+      </div>
+    </motion.header>
   );
 };
 

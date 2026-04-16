@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search } from "lucide-react";
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import { useLocation } from "react-router-dom";
 import CurtainTransition from "../components/CurtainTransition";
 import { getAllSneakersAPI } from "@/Services/allAPI";
@@ -116,7 +117,7 @@ export default function App() {
     <>
       <Header />
       <CurtainTransition>
-        <div className="min-h-screen mt-25 px-5 bg-white text-gray-900">
+        <div className="pb-20 mt-25 px-5 bg-white text-gray-900">
           <main className="ma mx-auto px-6 pt-5 ">
 
             {/* Header / Controls */}
@@ -184,6 +185,7 @@ export default function App() {
 
         </div>
       </CurtainTransition>
+      <Footer/>
     </>
   );
 }

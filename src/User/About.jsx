@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, MoveDownLeft } from 'lucide-react';
 import Curtain from '../components/CurtainTransition'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const blockReveal = {
   hidden: { y: '0%' },
@@ -303,6 +304,7 @@ export default function BoldRedApp() {
           </footer>
         </div>
       </Curtain>
+      <Footer/>
     </>
   );
 }

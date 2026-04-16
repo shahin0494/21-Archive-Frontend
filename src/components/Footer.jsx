@@ -7,7 +7,7 @@ const App = () => {
     <>
       {/* Content Spacer to show footer at bottom */}
 
-      <footer className="bg-black  text-zinc-50 pt-16 pb-4 px-6 md:px-10 border-t border-zinc-700">
+      <footer className="bg-white  text-zinc-950 pt-16 pb-4 px-6 md:px-10 border-t border-zinc-100">
         <div className="max-w-[1600px] mx-auto">
           
           {/* Top Column Grid */}
@@ -37,7 +37,7 @@ const App = () => {
             </div>
 
             {/* Column 2: Location */}
-            <div className="md:border-l border-zinc-700 px-8 pb-12 md:pb-0">
+            <div className="md:border-l border-zinc-200 px-8 pb-12 md:pb-0">
               <h3 className="font-bold mb-6 text-sm">Montréal</h3>
               <address className="text-sm not-italic text-center leading-relaxed text-red-600">
                 160 rue St-Viateur Est<br />
@@ -48,7 +48,7 @@ const App = () => {
             </div>
 
             {/* Column 3: Contact */}
-            <div className="md:border-l border-zinc-700 px-8 pb-12 md:pb-0">
+            <div className="md:border-l border-zinc-200 px-8 pb-12 md:pb-0">
               <h3 className="font-bold mb-6 text-sm">Contact</h3>
               <a 
                 href="mailto:contact@telescopefilms.ca" 
@@ -73,7 +73,7 @@ const App = () => {
           </div>
 
           {/* Middle Credits Row */}
-          <div className="flex flex-col md:flex-row justify-between items-center py-6 border-t border-zinc-700 text-[11px] font-medium text-zinc-400 tracking-wider uppercase">
+          <div className="flex flex-col md:flex-row justify-between items-center py-6 border-t border-zinc-200 text-[11px] font-medium text-zinc-400 tracking-wider uppercase">
             <div className="flex items-center gap-1">
               <span>© 2025 ARCHIVED</span>
             </div>

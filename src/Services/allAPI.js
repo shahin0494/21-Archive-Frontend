@@ -48,6 +48,43 @@ export const getSingleSneakerAPI = async (sneakerID, reqHeader) => {
 // ------------- WISHLISt SECTION -------------------------------------
 
 // add to wishlist
-export const addToWishlistAPI = async (id, reqHeader) => {
-    return await commonAPI("POST", `${SERVERURL}/wishlist/${id}/add`, {}, reqHeader)
+export const addToWishlistAPI = (id, body, reqHeader) => {
+    return commonAPI("POST", `${SERVERURL}/wishlist/${id}/add`, body, reqHeader);
+};
+
+// get all wishlist
+export const getAllWishlistAPI = async (reqHeader) => {
+    return await commonAPI("GET", `${SERVERURL}/wishlists`, {}, reqHeader)
+}
+
+// delete wishlist
+export const deleteWishlistAPI = async (id, reqHeader) => {
+    return await commonAPI("DELETE", `${SERVERURL}/wishlist/${id}/delete`, {}, reqHeader)
+}
+
+// add to cart from wishlist
+export const wishlistToCartAPI = async (id, reqHeader) => {
+    return await commonAPI("POST", `${SERVERURL}/wishlist/${id}/cart`, {}, reqHeader)
+}
+
+// ------------- CART SECTION -------------------------------------
+
+// add to cart
+export const addToCartAPI = async (id, body,reqHeader) => {
+    return await commonAPI("POST", `${SERVERURL}/cart/${id}/add`, body, reqHeader)
+}
+
+// delete cart
+export const deleteCartAPI = async (id, reqHeader) => {
+    return await commonAPI("DELETE", `${SERVERURL}/cart/${id}/delete`, {}, reqHeader)
+}
+
+// get all cart
+export const getAllCartAPI = async (reqHeader) => {
+    return await commonAPI("GET", `${SERVERURL}/cart`, {}, reqHeader)
+}
+
+// create order 
+export const createOrderAPI = async (reqHeader) => {
+    return await commonAPI("POST", `${SERVERURL}/order/create`, {}, reqHeader)
 }
