@@ -1,4 +1,5 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 
 export const StaggeredMenu = ({
@@ -10,15 +11,24 @@ export const StaggeredMenu = ({
   displayItemNumbering = true,
   className,
   logoUrl = '/src/assets/logos/reactbits-gh-white.svg',
-  menuButtonColor = '#fff',
-  openMenuButtonColor = '#fff',
+  menuButtonColor = '#F44336',
+  openMenuButtonColor = '#F44336',
   changeMenuColorOnOpen = true,
   isFixed = false,
-  accentColor = '#5227FF',
+  accentColor = '##F44336',
   closeOnClickAway = true,
   onMenuOpen,
   onMenuClose
 }) => {
+  const navigate = useNavigate();
+  const token = sessionStorage.getItem('token');
+
+  const handleLogout = () => {
+    sessionStorage.clear();
+    closeMenu();
+    navigate('/login');
+  };
+
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
 
@@ -355,7 +365,7 @@ export const StaggeredMenu = ({
   return (
     <div
       className={`sm-scope z-40 pointer-events-none ${isFixed ? 'fixed top-0 left-0 w-screen h-screen overflow-hidden' : 'w-full h-full'}`}>
-        <div
+      <div
         className={
           (className ? className + ' ' : '') + 'staggered-menu-wrapper pointer-events-none relative w-full h-full'
         }
@@ -498,6 +508,17 @@ export const StaggeredMenu = ({
                     </li>
                   ))}
                 </ul>
+              </div>
+            )}
+            {token && (
+              <div className="flex items-start justify-start border-t border-black/10 mt-4 pt-3">
+                <button
+                  onClick={handleLogout}
+                  className="text-[3.5rem] py-3 uppercase font-bold text-red-500 leading-none hover:text-[var(--sm-accent,#ff0000)] transition-colors duration-300"
+                  type="button"
+                >
+                  Logout
+                </button>
               </div>
             )}
           </div>

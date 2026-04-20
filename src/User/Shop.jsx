@@ -56,17 +56,20 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (sessionStorage.getItem("token")) {
-      const userToken = sessionStorage.getItem("token");
+    const userToken = sessionStorage.getItem("token");
+
+    if (userToken) {
       setToken(userToken);
       getAllSneakers(userToken);
     } else {
-      setLoading(false);
+      getAllSneakers();
     }
   }, []);
 
   const getAllSneakers = async (userToken) => {
-    const reqHeader = { "Authorization": `Bearer ${userToken}` };
+    const reqHeader = userToken
+      ? { "Authorization": `Bearer ${userToken}` }
+      : {};
     try {
       const result = await getAllSneakersAPI(reqHeader);
       if (result.status === 200) {
@@ -122,7 +125,7 @@ export default function App() {
 
             {/* Header / Controls */}
             <div className=" text-start flex justify-center py-3 0">
-              <div className={`relative flex items-center transition-all duration-300 ${isSearchOpen ? 'w-98' : 'w-66'}`}>
+              {/* <div className={`relative flex items-center transition-all duration-300 ${isSearchOpen ? 'w-98' : 'w-66'}`}>
                 <Search size={16} strokeWidth={1.5} className="absolute left-0 text-neutral-900 pointer-events-none" />
                 <input
                   type="text"
@@ -131,7 +134,7 @@ export default function App() {
                   onBlur={() => setIsSearchOpen(false)}
                   className="w-full sat bg-transparent border-b border-neutral-300 focus:border-black py-1 pl-6 text-[10px] font-bold tracking-widest uppercase placeholder:text-neutral-400 outline-none transition-all"
                 />
-              </div>
+              </div> */}
               <div className="flex items-center gap-6 ml-8">
 
                 {/* SORTING */}

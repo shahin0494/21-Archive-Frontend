@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { getAllCartAPI, deleteCartAPI , createOrderAPI } from '@/Services/allAPI';
+import { getAllCartAPI, deleteCartAPI, createOrderAPI } from '@/Services/allAPI';
 import { toast } from 'sonner';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import {
@@ -26,9 +26,12 @@ import {
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import ScrollVelocity from '../components/ScrollVelocity';
+import { useNavigate } from 'react-router-dom';
+import { Toaster } from 'sonner';
 
 export default function App() {
   const [items, setItems] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchCart();
@@ -38,7 +41,7 @@ export default function App() {
     const token = sessionStorage.getItem("token");
 
     if (!token) {
-      toast.warning("Please login");
+      // toast.warning("Please login");
       return;
     }
 
@@ -93,40 +96,35 @@ export default function App() {
   };
 
   const handleCreateOrder = async () => {
-  const token = sessionStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
-  if (!token) {
-    toast.warning("Please login");
-    return;
-  }
-
-  try {
-    const reqHeader = {
-      Authorization: `Bearer ${token}`
-    };
-
-    const result = await createOrderAPI(reqHeader);
-
-    if (result.status === 200) {
-      toast.success("Order placed successfully 🎉");
-      console.log("ORDER:", result.data);
-
-      // optional: clear cart UI
-      fetchCart();
+    if (!token) {
+      // toast.warning("Please login");
+      return;
     }
 
-  } catch (err) {
-    if (err.response?.status === 400) {
-      toast.warning("Cart is empty");
-    } else if (err.response?.status === 409) {
-      toast.error(err.response.data); // stock issue
-    } else {
-      toast.error("Order failed");
-    }
+    try {
+      const reqHeader = {
+        Authorization: `Bearer ${token}`
+      };
 
-    console.log(err);
-  }
-};
+      const result = await createOrderAPI(reqHeader);
+
+      if (result.status === 200) {
+        const orderId = result.data._id;
+
+        toast.success("Proceeding to checkout");
+
+        navigate("/checkout", {
+          state: { orderId }
+        });
+      }
+
+    } catch (err) {
+      console.log(err);
+      toast.error("Order creation failed");
+    }
+  };
 
 
   return (
@@ -143,11 +141,11 @@ export default function App() {
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="w-full"
             >
-              <MonolithCart 
-                items={items} 
-                update={updateQuantity} 
-                remove={removeItem} 
-                subtotal={subtotal} 
+              <MonolithCart
+                items={items}
+                update={updateQuantity}
+                remove={removeItem}
+                subtotal={subtotal}
                 onCheckout={handleCreateOrder}
               />
             </motion.div>
@@ -155,6 +153,21 @@ export default function App() {
         </LayoutGroup>
       </main>
       <Footer />
+      <Toaster
+        position="top-right"
+        richColors
+        theme="dark"
+        toastOptions={{
+          classNames: {
+            toast:
+              "backdrop-blur-xl bg-black/60 border border-white/10 text-white shadow-2xl",
+            title: "text-white font-semibold",
+            description: "text-white/70",
+            actionButton: "bg-white text-black",
+            cancelButton: "bg-white/10 text-white"
+          }
+        }}
+      />
     </div>
   );
 }
@@ -173,19 +186,30 @@ const LuxuryButton = ({ total, label = "Finalize Order", onClick }) => (
 function MonolithCart({ items, update, remove, subtotal, onCheckout }) {
   if (!items || items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-[40vh] text-center">
-        <ScrollVelocity
-          texts={[
-            <span className='lowercase'>Your cart is empty</span>,
-            <span className="text-red-500 lowercase font-black">Your cart is empty</span>,
-            <span className='lowercase'>Your cart is empty</span>,
-          ]}
-          velocity={100}
-          className="custom-scroll-text"
-          numCopies={12}
-          damping={100}
-          stiffness={400}
-        />
+      <div className="flex flex-col h-[60vh] w-full bg-white text-zinc-900 items-center justify-center p-8 relative overflow-hidden font-sans">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} className="absolute top-8 left-8 text-xs font-bold tracking-widest text-zinc-300">
+          WH-01 // STOCK
+        </motion.div>
+        <div className="relative w-48 h-48 mb-8">
+          {/* 3 Minimal Isometric Boxes Stacked */}
+          <motion.svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.5" className="absolute bottom-0 w-full h-full text-zinc-300">
+            <motion.path initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, type: "spring" }} d="M3 14l9 4 9-4-9-4-9 4z" />
+            <motion.path initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, type: "spring" }} d="M3 14v4l9 4 9-4v-4" />
+
+            <motion.path initial={{ y: -30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.1, type: "spring" }} d="M4 10l8 3.5 8-3.5-8-3.5-8 3.5z" />
+            <motion.path initial={{ y: -30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.1, type: "spring" }} d="M4 10v3.5l8 3.5 8-3.5V10" />
+
+            <motion.path initial={{ y: -40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.2, type: "spring" }} d="M5 5l7 3 7-3-7-3-7 3z" />
+            <motion.path initial={{ y: -40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.2, type: "spring" }} d="M5 5v3l7 3 7-3V5" />
+          </motion.svg>
+        </div>
+        <h2 className="text-2xl font-light tracking-tight mb-2">Empty Cart</h2>
+        <p className="text-zinc-400 text-sm mb-8 text-center max-w-xs leading-relaxed">
+          Your reserved items will appear here. The stockroom is currently clear.
+        </p>
+        {/* <button className="px-8 py-3 bg-zinc-900 text-white text-xs uppercase tracking-widest hover:bg-zinc-700 transition-colors">
+          Browse Stock
+        </button> */}
       </div>
     );
   }

@@ -123,50 +123,39 @@ const App = () => {
 
   const viewSneakerDetails = async () => {
     const token = sessionStorage.getItem("token");
-    if (token) {
-      const reqHeader = {
-        "Authorization": `Bearer ${token}`
-      }
-      try {
-        const result = await getSingleSneakerAPI(id, reqHeader)
+    const reqHeader = token
+      ? { Authorization: `Bearer ${token}` }
+      : {};
 
-        if (result.status === 200) {
-          const data = result.data
+    try {
+      const result = await getSingleSneakerAPI(id, reqHeader);
 
-          // Helper to clean the path and prevent duplicate base URLs
-          const formatImageUrl = (path) => {
-            if (!path) return "";
-            // Remove brackets, quotes, and whitespace
-            const cleanedPath = path.replace(/^[\[\("\s]+|[\]"\)\s]+$/g, '');
+      if (result.status === 200) {
+        const data = result.data;
 
-            // If it's a Cloudinary URL (or any absolute URL), return it directly
-            if (cleanedPath.startsWith('http')) {
-              return cleanedPath;
-            }
+        const formatImageUrl = (path) => {
+          if (!path) return "";
+          const cleanedPath = path.replace(/^[\[\("\s]+|[\]"\)\s]+$/g, '');
 
-            // If it's a local file path, append localhost
-            return `http://localhost:3000/${cleanedPath}`;
-          };
-
-          const updatedData = {
-            ...data,
-            image: data.photos?.length
-              ? formatImageUrl(data.photos[0])
-              : "",
-            gallery: data.photos?.map(img => formatImageUrl(img)) || []
+          if (cleanedPath.startsWith('http')) {
+            return cleanedPath;
           }
 
-          setSneakerV(updatedData)
-          setActiveImage(updatedData.image || updatedData.gallery?.[0] || "");
-        }
+          return `http://localhost:3000/${cleanedPath}`;
+        };
 
-      } catch (error) {
-        if (error.response?.status === 401) {
-          toast.warning(error.response.data)
-        } else {
-          console.log("API ERROR:", error)
-        }
+        const updatedData = {
+          ...data,
+          image: data.photos?.length ? formatImageUrl(data.photos[0]) : "",
+          gallery: data.photos?.map(img => formatImageUrl(img)) || []
+        };
+
+        setSneakerV(updatedData);
+        setActiveImage(updatedData.image || updatedData.gallery?.[0] || "");
       }
+    } catch (error) {
+      console.log("API ERROR:", error);
+      toast.error("Failed to load sneaker details");
     }
   }
 
@@ -244,10 +233,10 @@ const App = () => {
                 <div>
                   <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">{sneakerV?.brand}</p>
                   <h1 className="text-4xl md:text-5xl font-semibold tracking-tighter mb-2 leading-none">{sneakerV?.sneakerName}</h1>
-                  <p className="text-sm text-gray-500 font-medium">{sneakerV?.category}</p>
+                  <p className="text-sm text-gray-500 font-medium">{sneakerV?.type}</p>
                 </div>
               </div>
-              <div className="text-xl font-medium tracking-tight mt-4">{sneakerV?.price} USD</div>
+              <div className="text-xl font-medium tracking-tight mt-2">{sneakerV?.price} USD</div>
             </motion.div>
 
             {/* Size Selection */}
@@ -349,9 +338,9 @@ const App = () => {
       <Footer/>
 
       <Toaster
-        position="top-right"
+        position="bottom-right"
         richColors
-        theme="dark" />
+        theme="light" />
     </>
 
   );

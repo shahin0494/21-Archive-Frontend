@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import StaggeredMenu from './StaggeredMenu'; // Ensure this path matches your directory structure
+import CurtainTransition from '../components/CurtainTransition'
 
 // --- Animation Variants ---
 const springRiseVariant = {
@@ -57,7 +58,7 @@ const PremiumHeader = () => {
 
   const location = useLocation();
   const pageStyles = {
-    "/": { base: "text-neutral-900", scrolled: "text-black" },
+    "/": { base: "text-red-600", scrolled: "text-red-600" },
     "/about": { base: "text-red-700", scrolled: "text-red-700" },
     "/news": { base: "text-red-700", scrolled: "text-red-900" },
   };
@@ -85,21 +86,20 @@ const PremiumHeader = () => {
   const navLinks = [
     { label: "Men", path: "/shop/men" },
     { label: "Women", path: "/shop/women" },
-    { label: "Red", path: "/archive" },
-    { label: "Origin", path: "/about" },
-    { label: "Briefs", path: "/news" },
+    { label: "Red", path: "/archive" }
   ];
 
-const token = sessionStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   // Map your old utilities into the StaggeredMenu structure
   const menuItems = [
-    { label: "Account", link: "/account" },
     ...(token
-      ? [{ label: "Profile", link: "/profile" }]
+      ? [{ label: "Account", link: "/account" }]
       : [{ label: "Login", link: "/login" }]),
+    { label: "Origin", link: "/about" },
+    { label: "Briefs", link: "/news" },
     { label: "Wishlist", link: "/wishlist" },
-    { label: "Cart", link: "/cart" }
+    { label: "Cart", link: "/cart" },
   ];
 
   // Dynamic menu button color based on background/scroll state
@@ -113,13 +113,12 @@ const token = sessionStorage.getItem("token");
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: "-20%", opacity: 0 }}
       transition={{ duration: 0.54, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 ${
-        ["/about", "/archive"].includes(location.pathname)
-          ? "bg-black text-white py-4 "
-          : isScrolled
+      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 ${["/about", "/archive"].includes(location.pathname)
+        ? "bg-black text-white py-4 "
+        : isScrolled
           ? "bg-transparent backdrop-blur-xl text-white py-4 "
           : "bg-transparent backdrop-blur text-white py-4 "
-      }`}
+        }`}
     >
       <div className="max-w-[1600px] h-full mx-auto px-6 lg:px-12 relative">
         <motion.nav
@@ -165,22 +164,24 @@ const token = sessionStorage.getItem("token");
           </div>
 
           {/* Right Section: Staggered Menu */}
-          <div className="flex-1 flex items-center justify-end z-50 relative pointer-events-auto">
-            {/* The wrapper ensures the fixed menu coordinates correctly with your max-w container */}
-            <div className="relative w-auto h-8 flex items-center justify-end">
-              <StaggeredMenu
-                items={menuItems}
-                position="right"
-                // Clean, minimal black/dark-grey overlay panels
-                colors={['#1a1a1a', '#E53935']} 
-                accentColor="#b91c1c" // Matches your red-800 brand color
-                menuButtonColor={menuBtnColor}
-                openMenuButtonColor="#000000"
-                isFixed={true}
-                displayItemNumbering={false}
-              />
+          
+            <div className="flex-1 flex items-center justify-end z-50 relative pointer-events-auto">
+              {/* The wrapper ensures the fixed menu coordinates correctly with your max-w container */}
+              <div className="relative w-auto h-8 flex items-center justify-end">
+                <StaggeredMenu
+                  items={menuItems}
+                  position="right"
+                  // Clean, minimal black/dark-grey overlay panels
+                  colors={['#1a1a1a', '#E53935']}
+                  accentColor="#b91c1c" // Matches your red-800 brand color
+                  menuButtonColor="#F44336"
+                  openMenuButtonColor="#ff0000"
+                  isFixed={true}
+                  displayItemNumbering={false}
+                />
+              </div>
             </div>
-          </div>
+          
         </motion.nav>
       </div>
     </motion.header>

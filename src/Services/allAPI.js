@@ -88,3 +88,23 @@ export const getAllCartAPI = async (reqHeader) => {
 export const createOrderAPI = async (reqHeader) => {
     return await commonAPI("POST", `${SERVERURL}/order/create`, {}, reqHeader)
 }
+
+// ------------- PAYMENT SECTION -------------------------------------
+
+// create stripe payment
+export const createPaymentAPI = async (reqBody, reqHeader) => {
+    return await commonAPI("POST", `${SERVERURL}/stripe/create`, reqBody, reqHeader)
+}
+
+// ------------- ORDER SECTION -------------------------------------
+
+// get all orders
+export const getMyOrdersAPI = async (reqHeader) => {
+    return await commonAPI("GET", `${SERVERURL}/orders`, {}, reqHeader)
+}
+
+// get single order details
+export const getSingleOrderAPI = async (id, reqHeader) => {
+    return await commonAPI("GET", `${SERVERURL}/orders/${id}/view`, {}, reqHeader)
+}
+

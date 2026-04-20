@@ -1,33 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
 import { ShoppingBag, Heart, Settings, LogOut, Package, CreditCard, User, ArrowRight, ChevronRight, X, Plus, LayoutGrid, MapPin, Bell, Shield } from 'lucide-react';
 import Curtain from '../components/CurtainTransition'
 import Header from '../components/Header'
-import { addAddressAPI, getAddressAPI, updateAddressAPI } from '@/Services/allAPI';
+import { addAddressAPI, getAddressAPI, updateAddressAPI, getMyOrdersAPI, getAllWishlistAPI, deleteWishlistAPI } from '@/Services/allAPI';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
-// --- MOCK DATA ---
-const USER = {
-    name: "Jordan Hayes",
-    email: "jordan@example.com",
-    memberId: "MBR-9382",
-    tier: "HYPE TIER",
-    points: 4500
-};
-
-const ORDERS = [
-    { id: "ORD-9921", date: "Oct 24", items: ["Air Max Pulse", "Tech Fleece"], total: "$245", status: "Delivered" },
-    { id: "ORD-9984", date: "Nov 02", items: ["Dunk Low Retro"], total: "$115", status: "Shipped" },
-    { id: "ORD-9912", date: "Nov 15", items: ["Yeezy Boost 350"], total: "$220", status: "Processing" },
-    { id: "ORD-9800", date: "Sep 12", items: ["Jordan 4 Retro"], total: "$210", status: "Delivered" },
-];
-
-const WISHLIST = [
-    { id: 1, name: "Jordan 1 Retro", price: "$180", added: "2d", tag: "GRAIL" },
-    { id: 2, name: "Yeezy Slide", price: "$70", added: "1w", tag: "DROP" },
-    { id: 3, name: "NB 9060", price: "$150", added: "3w", tag: "RESTOCK" },
-    { id: 4, name: "Air Max 97", price: "$175", added: "1mo", tag: "CLASSIC" },
-];
 
 // --- SHARED COMPONENTS ---
 const SneakerIcon = ({ className }) => (
@@ -43,7 +24,7 @@ const SneakerIcon = ({ className }) => (
 const DesignOne = () => {
     const [activeTab, setActiveTab] = useState('Overview');
 
-    const [isEditMode, setIsEditMode] = useState(false); 
+    const [isEditMode, setIsEditMode] = useState(false);
     const [addressId, setAddressId] = useState("");
 
     const [addressData, setAddressData] = useState({
@@ -59,7 +40,11 @@ const DesignOne = () => {
         country: ""
     });
 
-    // UPDATED: Fetch address on mount
+    // NEW: Orders and wishlist state
+    const [ordersData, setOrdersData] = useState([]);
+    const [wishlistData, setWishlistData] = useState([]);
+
+    // UPDATED: Fetch address, orders, and wishlist on mount
     useEffect(() => {
         const fetchUserDataAndAddress = async () => {
             const userData = JSON.parse(sessionStorage.getItem("user"));
@@ -84,19 +69,39 @@ const DesignOne = () => {
                     const result = await getAddressAPI(reqHeader);
                     if (result.status === 200) {
                         const userAddress = result.data.find(addr => addr.userID === userData._id);
-                        
+
                         if (userAddress) {
                             // Merge DB address BUT preserve the email from session storage
                             setAddressData({
                                 ...userAddress,
                                 email: userData.email // Ensures email stays visible even if DB doesn't have it
-                            }); 
-                            setAddressId(userAddress._id); 
-                            setIsEditMode(true); 
+                            });
+                            setAddressId(userAddress._id);
+                            setIsEditMode(true);
                         }
                     }
                 } catch (error) {
                     console.log("Error fetching address:", error);
+                }
+
+                // Fetch orders
+                try {
+                    const ordersResult = await getMyOrdersAPI(reqHeader);
+                    if (ordersResult.status === 200) {
+                        setOrdersData(ordersResult.data);
+                    }
+                } catch (error) {
+                    console.log('Error fetching orders:', error);
+                }
+
+                // Fetch wishlist
+                try {
+                    const wishlistResult = await getAllWishlistAPI(reqHeader);
+                    if (wishlistResult.status === 200) {
+                        setWishlistData(wishlistResult.data);
+                    }
+                } catch (error) {
+                    console.log('Error fetching wishlist:', error);
                 }
             }
         };
@@ -127,20 +132,20 @@ const DesignOne = () => {
                 </div>
 
                 <div className="space-y-0">
-                    {ORDERS.slice(0, 3).map((order, i) => (
+                    {ordersData.slice(0, 3).map((order, i) => (
                         <div key={i} className="group flex items-center justify-between py-6 border-b border-gray-100 hover:border-gray-200 transition-colors cursor-pointer">
                             <div className="flex items-center gap-6">
                                 <div className="w-12 h-12 bg-gray-50 flex items-center justify-center text-gray-300 group-hover:bg-red-50 group-hover:text-red-500 transition-colors duration-500">
                                     <Package size={20} strokeWidth={1.5} />
                                 </div>
                                 <div>
-                                    <h3 className="font-medium text-sm group-hover:translate-x-1 transition-transform duration-300">{order.items[0]}</h3>
-                                    <p className="text-xs text-gray-400 mt-1">{order.id} • {order.date}</p>
+                                    <h3 className="font-medium text-sm group-hover:translate-x-1 transition-transform duration-300">{order.items?.[0]?.sneakerName || 'Order Item'}</h3>
+                                    <p className="text-xs text-gray-400 mt-1">{order._id.slice(-6)} • {new Date(order.createdAt).toLocaleDateString()}</p>
                                 </div>
                             </div>
                             <div className="text-right">
-                                <p className="text-sm font-medium">{order.total}</p>
-                                <p className="text-[10px] font-bold uppercase text-gray-400 group-hover:text-black transition-colors">{order.status}</p>
+                                <p className="text-sm font-medium">${order.orderTotal}</p>
+                                <p className="text-[10px] font-bold uppercase text-gray-400 group-hover:text-black transition-colors">{order.orderStatus}</p>
                             </div>
                         </div>
                     ))}
@@ -154,18 +159,18 @@ const DesignOne = () => {
                     <button onClick={() => setActiveTab('Wishlist')} className="text-xs font-medium hover:text-red-600 transition-colors">View All</button>
                 </div>
                 <div className="grid grid-cols-1 gap-4">
-                    {WISHLIST.slice(0, 3).map((item) => (
-                        <div key={item.id} className="group p-4 border border-gray-100 hover:border-red-200 hover:shadow-sm transition-all duration-300 bg-white">
+                    {wishlistData.slice(0, 3).map((item) => (
+                        <div key={item._id || item.id} className="group p-4 border border-gray-100 hover:border-red-200 hover:shadow-sm transition-all duration-300 bg-white">
                             <div className="flex justify-between items-start mb-4">
                                 <SneakerIcon className="w-8 h-8 text-gray-300 group-hover:text-black transition-colors" />
                                 <Heart size={14} className="text-gray-200 group-hover:text-red-600 transition-colors" />
                             </div>
                             <div className="flex justify-between items-end">
                                 <div>
-                                    <div className="text-xs font-bold uppercase text-gray-900">{item.name}</div>
-                                    <div className="text-[10px] text-gray-400 mt-1">{item.added} ago</div>
+                                    <div className="text-xs font-bold uppercase text-gray-900">{item.sneakerName}</div>
+                                    <div className="text-[10px] text-gray-400 mt-1">{item.added ? `${item.added} ago` : ''}</div>
                                 </div>
-                                <div className="text-xs font-medium">{item.price}</div>
+                                <div className="text-xs font-medium">${item.price}</div>
                             </div>
                         </div>
                     ))}
@@ -194,20 +199,20 @@ const DesignOne = () => {
                     <div className="col-span-2 text-right">Total</div>
                 </div>
                 {/* Table Rows */}
-                {ORDERS.map((order, i) => (
+                {ordersData.map((order, i) => (
                     <div key={i} className="group grid grid-cols-12 gap-4 py-6 border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer items-center">
-                        <div className="col-span-2 font-mono text-xs text-gray-500 group-hover:text-black transition-colors">{order.id}</div>
+                        <div className="col-span-2 font-mono text-xs text-gray-500 group-hover:text-black transition-colors">{order._id.slice(-6)}</div>
                         <div className="col-span-4 text-sm font-medium">
-                            {order.items.join(", ")}
-                            {order.items.length > 1 && <span className="text-xs text-gray-400 ml-1">...</span>}
+                            {order.items?.map((itm) => itm.sneakerName).join(', ')}
+                            {order.items && order.items.length > 1 && <span className="text-xs text-gray-400 ml-1">...</span>}
                         </div>
-                        <div className="col-span-2 text-xs text-gray-500">{order.date}</div>
+                        <div className="col-span-2 text-xs text-gray-500">{new Date(order.createdAt).toLocaleDateString()}</div>
                         <div className="col-span-2">
-                            <span className={`text-[10px] font-bold uppercase px-2 py-1 rounded-full border ${order.status === 'Processing' ? 'border-yellow-200 text-yellow-700 bg-yellow-50' : 'border-gray-100 text-black bg-white'}`}>
-                                {order.status}
+                            <span className={`text-[10px] font-bold uppercase px-2 py-1 rounded-full border ${order.orderStatus === 'Processing' ? 'border-yellow-200 text-yellow-700 bg-yellow-50' : 'border-gray-100 text-black bg-white'}`}>
+                                {order.orderStatus}
                             </span>
                         </div>
-                        <div className="col-span-2 text-right text-sm font-medium">{order.total}</div>
+                        <div className="col-span-2 text-right text-sm font-medium">${order.orderTotal}</div>
                     </div>
                 ))}
             </div>
@@ -218,34 +223,47 @@ const DesignOne = () => {
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex items-center justify-between border-b border-black pb-4 mb-8">
                 <h2 className="text-sm font-bold uppercase tracking-widest">My Grails</h2>
-                <span className="text-xs text-gray-400">{WISHLIST.length} Items</span>
+                <span className="text-xs text-gray-400">{wishlistData.length} Items</span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {WISHLIST.map((item) => (
-                    <div key={item.id} className="group border border-gray-100 p-6 flex flex-col justify-between h-64 hover:border-black transition-colors duration-300 relative bg-white">
+                {wishlistData.map((item) => (
+                    <div key={item._id || item.id} className="group border border-gray-100 p-6  flex flex-col justify-between h-94 hover:border-black transition-colors duration-300 relative bg-white">
                         <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button className="p-2 hover:bg-gray-100 rounded-full"><X size={14} /></button>
                         </div>
-                        <div className="flex-1 flex items-center justify-center">
-                            <SneakerIcon className="w-24 h-24 text-gray-200 group-hover:text-red-600 group-hover:scale-110 transition-all duration-500" />
+                        <div className="md:col-span-8 lg:col-span-9 order-first md:order-last">
+                            <div className="aspect-[3/4] md:aspect-[16/10] bg-gray-50 overflow-hidden w-full">
+                                <motion.img
+                                    whileHover={{ scale: 1.02 }}
+                                    transition={{ duration: 1.2, ease: "easeOut" }}
+                                    src={
+                                        item.photos?.[0]?.startsWith("http")
+                                            ? item.photos[0]
+                                            : `http://localhost:3000/${item.photos?.[0]}`
+                                    }
+                                    alt={item.sneakerName}
+                                    className="w-full h-full object-cover grayscale-[10%] hover:grayscale-0 transition-all duration-700"
+                                />
+                            </div>
                         </div>
+
                         <div>
                             <div className="flex justify-between items-end mb-1">
-                                <span className="text-sm font-bold uppercase tracking-wide">{item.name}</span>
-                                <span className="text-sm font-medium">{item.price}</span>
+                                <span className="text-sm font-bold uppercase tracking-wide">{item.sneakerName}</span>
+                                <span className="text-sm font-medium">${item.price}</span>
                             </div>
                             <div className="flex justify-between items-center">
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">{item.tag}</span>
-                                <button className="text-[10px] font-bold uppercase underline hover:text-red-600">Add to Cart</button>
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Wishlist</span>
+                                {/* <button className="text-[10px] font-bold uppercase underline hover:text-red-600">Add to Cart</button> */}
                             </div>
                         </div>
                     </div>
                 ))}
-                {/* Add New Card */}
+                {/* Add New Card
                 <div className="border border-dashed border-gray-200 p-6 flex flex-col items-center justify-center h-64 hover:border-red-300 hover:bg-red-50 transition-colors cursor-pointer text-gray-300 hover:text-red-500 gap-4">
                     <Plus size={32} strokeWidth={1} />
                     <span className="text-xs font-bold uppercase tracking-widest">Add Grail</span>
-                </div>
+                </div> */}
             </div>
         </div>
     );
@@ -253,11 +271,11 @@ const DesignOne = () => {
     // UPDATED: handleReset now preserves the user's permanent data
     const handleReset = () => {
         const userData = JSON.parse(sessionStorage.getItem("user"));
-        
+
         setAddressData({
-            userID: userData?._id || "", 
-            name: userData?.username || "", 
-            email: userData?.email || "", 
+            userID: userData?._id || "",
+            name: userData?.username || "",
+            email: userData?.email || "",
             phone: "", street: "", city: "", state: "", landmark: "", pincode: "", country: ""
         });
         setIsEditMode(false);
@@ -374,7 +392,7 @@ const DesignOne = () => {
                                     className="w-full border-b border-gray-200 py-2 text-xl focus:outline-none focus:border-red-600 transition-colors bg-transparent"
                                 />
                             </div>
-                            
+
                             {/* UPDATED: Email Input is now read-only and styled to look disabled */}
                             <div className="space-y-2">
                                 <label className="text-[10px] font-bold uppercase tracking-widest">Email</label>
@@ -386,7 +404,7 @@ const DesignOne = () => {
                                     className="w-full border-b border-gray-200 py-2 text-xl text-red-400 cursor-not-allowed focus:outline-none bg-transparent"
                                 />
                             </div>
-                            
+
                             <div className="space-y-2">
                                 <label className="text-[10px] font-bold uppercase tracking-widest">Phone</label>
                                 <input
@@ -441,12 +459,12 @@ const DesignOne = () => {
                             </div>
                         </div>
                     </section>
-                    
+
                     <div className="pt-8 flex justify-end gap-4">
                         <button type="button" onClick={handleReset} className="px-6 py-3 text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-red-700 transition-colors">Clear</button>
-                        <button 
-                            type='button' 
-                            onClick={isEditMode ? handleUpdateAddress : handleAddAddress} 
+                        <button
+                            type='button'
+                            onClick={isEditMode ? handleUpdateAddress : handleAddAddress}
                             className="px-6 py-3  bg-black text-white text-xs font-bold uppercase tracking-widest hover:bg-red-600 transition-colors"
                         >
                             {isEditMode ? "Update Details" : "Save Changes"}
@@ -457,12 +475,20 @@ const DesignOne = () => {
         </form>
     );
 
+    const navigate = useNavigate()
+
+    const logout = () => {
+        sessionStorage.clear();
+        toast.success("Logged out successfully");
+        navigate("/login");
+    }
+
     return (
-        <div className="flex h-full bg-white text-black font-sans selection:bg-red-100">
+        <div className="flex h-full mt-20 bg-white text-black font-sans selection:bg-red-100">
             {/* Sidebar */}
             <div className="w-64 p-12 border-r border-gray-100 hidden md:flex flex-col justify-between">
                 <div>
-                    <div className="text-xl font-bold tracking-tighter mb-16">21ARCHIVE<span className="text-red-600">.</span></div>
+                    {/* <div className="text-xl font-bold tracking-tighter mb-16">21ARCHIVE<span className="text-red-600">.</span></div> */}
                     <div className="space-y-1">
                         {['Overview', 'Orders', 'Wishlist', 'Settings'].map(item => (
                             <MenuItem key={item} label={item} />
@@ -470,27 +496,25 @@ const DesignOne = () => {
                     </div>
                 </div>
                 <div className="space-y-4">
-                    <div className="p-4 bg-gray-50 rounded-none border border-gray-100">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">Status</div>
-                        <div className="text-sm font-bold">{USER.tier}</div>
-                    </div>
-                    <button className="flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-red-600 transition-colors">
-                        <LogOut size={14} /> Sign Out
+                    <button
+                        onClick={logout}
+                        className="flex items-end bottom-0 mt-[35rem] gap-2 text-lg font-bold text-gray-400 hover:text-red-600 transition-colors">
+                        <LogOut size={34} /> Sign Out
+
                     </button>
                 </div>
             </div>
 
             {/* Content */}
-            <div className="flex-1 p-12 overflow-y-auto">
+            <div className="flex-1 mt- p-12 overflow-y-auto">
                 <header className="flex justify-between items-baseline mb-20">
                     <h1 className="text-4xl font-light tracking-tight text-gray-900">
                         {activeTab === 'Overview' ? (
-                            <>Welcome back, <span className="font-bold text-red-700">{USER.name.split(' ')[0]}</span></>
+                            <>Welcome back, <span className="font-bold text-red-700">{addressData.name}</span></>
                         ) : (
                             <span className="font-bold">{activeTab}</span>
                         )}
                     </h1>
-                    <span className="text-xs font-mono text-red-600">{USER.points} PTS</span>
                 </header>
                 {activeTab === 'Overview' && OverviewSection()}
                 {activeTab === 'Orders' && OrdersSection()}
