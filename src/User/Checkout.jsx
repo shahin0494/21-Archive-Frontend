@@ -76,7 +76,7 @@ const CheckoutForm = ({ orderData, userAddress }) => {
           {orderData.items.length > 0 && (
             <div className="bg-zinc-50 p-6 rounded-xl text-left border border-zinc-100 flex items-center gap-4">
               <div className="w-20 h-20 bg-zinc-200 rounded-md overflow-hidden">
-                 <img src={`http://localhost:3000/${orderData.items[0].photos || 'default.jpg'}`} alt={orderData.items[0].sneakerName} className="w-full h-full object-cover" />
+                 {/* <img src={`http://localhost:3000/${orderData.items[0].photos || 'default.jpg'}`} alt={orderData.items[0].sneakerName} className="w-full h-full object-cover" /> */}
               </div>
               <div>
                   <p className="font-semibold text-zinc-900 uppercase">{orderData.items[0].sneakerName}</p>
@@ -160,11 +160,9 @@ const CheckoutForm = ({ orderData, userAddress }) => {
             
             <div className="space-y-4 max-h-[40vh] overflow-y-auto scrollbar-hide mb-6">
               {orderData.items.map((item) => (
-                <div key={item.sneakerID + item.size} className="flex justify-between items-center gap-4 border-b border-zinc-200 pb-4">
+                <div key={item.sneakerID + item.size} className="flex justify-between items-center gap-4 b border-zinc-200 ">
                   <div className="flex gap-4 items-center">
-                    <div className="w-16 h-16 bg-zinc-200 rounded-md overflow-hidden">
-                       <img src={`http://localhost:3000/${item.photos || 'default.jpg'}`} alt={item.sneakerName} className="w-full h-full object-cover" />
-                    </div>
+                    
                     <div>
                       <h4 className="font-bold text-sm uppercase">{item.brand}</h4>
                       <p className="text-xs text-zinc-500 uppercase">{item.sneakerName}</p>
