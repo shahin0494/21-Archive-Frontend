@@ -35,7 +35,7 @@ export default function BoldRedApp() {
       <Header />
       <Curtain>
 
-        <div className="min-h-screen bg-red-800 text-black font-sans mt-22 selection:bg-white selection:text-black">
+        <div className="min-h-screen bg-red-800 text-neutral-950 font-sans mt-22 selection:bg-white selection:text-black">
           {/* 1. Header */}
           <header className="px-6 md:px-12 py-8 flex justify-between items-center mix-blend-normal  top-0 z-50">
             {/* <div className="bg-black text-white px-2 py-1 font-bold text-xl tracking-tighter">
@@ -251,7 +251,7 @@ export default function BoldRedApp() {
             </div>
           </section>
           {/* 4. Big Data / Minimal Content */}
-          <section className="bg-black text-[#D00000] px-6 md:px-12 py-52 relative overflow-hidden">
+          <section className="bg-neutral-950 text-[#D00000] px-6 md:px-12 py-52 relative overflow-hidden">
             {/* Decorative Background Text */}
             <div className="absolute top-0 right-0 text-[20vw] font-black text-[#1a1a1a] leading-none -mt-10 select-none pointer-events-none">
               DATA
@@ -284,7 +284,7 @@ export default function BoldRedApp() {
             </div>
           </section>
           {/* 5. Contrast Footer */}
-          <footer className="bg-white px-6 md:px-12 py-40">
+          {/* <footer className="bg-white px-6 md:px-12 py-40">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end">
               <div>
                 <h2 className="text-[#D00000] text-5xl md:text-6xl font-black uppercase tracking-tight mb-2">
@@ -301,7 +301,7 @@ export default function BoldRedApp() {
                 </p>
               </div>
             </div>
-          </footer>
+          </footer> */}
         </div>
       </Curtain>
       <Footer/>

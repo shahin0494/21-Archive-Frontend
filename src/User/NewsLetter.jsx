@@ -77,13 +77,12 @@ const VariantOne = () => {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="w-full h-full flex items-center justify-center "
+            className="w-full min-h-screen flex items-center justify-center"
             style={{ backgroundColor: colors.bgDark }}
         >
 
             
-
-            <div  className="w-full bg-neutral-900  h-full  flex flex-col relative overflow-hidden shadow-2xl"
+            <div className="w-full bg-neutral-900 min-h-screen flex flex-col relative overflow-hidden shadow-2xl"
                 style={{
                     color: colors.textDark,
                     // backgroundImage: `url(./lg2.jpg)`,
@@ -94,10 +93,9 @@ const VariantOne = () => {
 <Header/>
 
                 {/* Top Section */}
-                <div className=" flex-1 flex mt-25 flex-col justify-between border-t border-red-900 pt-3">
-                   
+                <div className="flex-1 flex mt-20 md:mt-25 flex-col justify-between border-t border-red-900 pt-3 px-4 md:px-8">
                     {/* <Header /> */}
-                    <div className="flex justify-between  items-end">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={active.id}
@@ -109,32 +107,31 @@ const VariantOne = () => {
                                 className=""
                             >
                                 <h3 className='grotesq text-red-600 font-medium text-lg tracking-wide '></h3> 
-                                <h1 className="font-black goth text-4xl md:text-9xl lg:text-9xl leading-[0.9]  -tracking-normal text-red-800 uppercase">{active.title}</h1>
-                                <span className='text-4xl grotesq  font-black uppercase p-0  text-neutral-600 tracking-normal  '>{active.subtitle}</span>
-                                <p className="text-red-800 tracking-tight max-w-7xl font-medium  text-sm text-justify">{active.description}</p>
+                                <h1 className="font-black goth text-3xl sm:text-5xl md:text-9xl leading-[0.95] md:leading-[0.9] tracking-normal text-red-800 uppercase">{active.title}</h1>
+                                <span className='text-xl sm:text-2xl md:text-4xl grotesq font-black uppercase p-0 text-neutral-600 tracking-normal'>{active.subtitle}</span>
+                                <p className="text-red-800 tracking-tight max-w-7xl font-medium text-xs sm:text-sm text-justify mt-3">{active.description}</p>
                             </motion.div>
                         </AnimatePresence>
 
                         {/* Top Right Meta / Thumbnail */}
-                        <motion.div variants={itemVariants} className="hidden md:flex mt-2 flex-col items-end gap-2">
+                        <motion.div variants={itemVariants} className="flex md:flex mt-2 flex-row md:flex-col items-start md:items-end gap-2 overflow-x-auto w-full md:w-auto pb-2">
                             {active.images.map((img, index) => (
                                 <div
                                     key={index}
                                     onClick={() => setActiveIndex(index)}
-                                    className={`w-16 h-20 overflow-hidden cursor-pointer transition-all ${activeIndex === index ? "ring-2 ring-black" : "opacity-60 hover:opacity-100"
+                                    className={`w-14 h-16 md:w-16 md:h-20 overflow-hidden cursor-pointer transition-all shrink-0 ${activeIndex === index ? "ring-2 ring-black" : "opacity-60 hover:opacity-100"
                                         }`}
                                 >
                                     <img src={img} alt="detail" className="w-full h-full object-cover " />
                                 </div>
                             ))}
-                            
                         </motion.div>
                     </div>
 
                 </div>
 
                 {/* Bottom Section: Feature Image */}
-                <motion.div variants={itemVariants} className="h-[50%]  w-full bg-red-600 relative ">
+                <motion.div variants={itemVariants} className="h-[34vh] md:h-[50%] w-full bg-red-600 relative mt-4 md:mt-0">
                     <div className="w-full h-full overflow-hidden">
                         <AnimatePresence mode="wait">
                             <motion.img
@@ -161,9 +158,8 @@ const VariantOne = () => {
 // ==========================================
 export default function App() {
     return (
-        <div className="w-full h-screen relative overflow-hidden">
+        <div className="w-full min-h-screen relative overflow-x-hidden">
             {/* Content Area */}
-
             <VariantOne />
         </div>
     );

@@ -6,6 +6,7 @@ import { ArrowUpRight } from 'lucide-react';
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import ScrollVelocity from '@/components/ScrollVelocity';
+import { Toaster } from '@/components/ui/sonner';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -88,7 +89,7 @@ export default function App() {
 const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-[#111] font-sans selection:bg-[#EAEAEA] selection:text-black pb-20">
+    <div className="min-h-screen bg-[#F2F3F4] text-[#111] font-sans selection:bg-[#EAEAEA] selection:text-black ">
 
       {/* Main Content Area */}
       <main className="max-w-[1600px] mx-auto p-6 md:p-12">
@@ -105,6 +106,9 @@ const navigate = useNavigate()
         </AnimatePresence>
       </main>
       <Footer />
+      <Toaster
+        position="bottom-center"
+        theme="dark" />
     </div>
   );
 }

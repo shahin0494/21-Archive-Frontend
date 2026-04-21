@@ -511,7 +511,7 @@ export const StaggeredMenu = ({
               </div>
             )}
             {token && (
-              <div className="flex items-start justify-start border-t border-black/10 mt-4 pt-3">
+              <div className="flex items-start justify-start border-t border-black/10 3">
                 <button
                   onClick={handleLogout}
                   className="text-[3.5rem] py-3 uppercase font-bold text-red-500 leading-none hover:text-[var(--sm-accent,#ff0000)] transition-colors duration-300"

@@ -20,9 +20,9 @@ export default function App() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
         whileHover={{ y: 0 }}
-        className="group cursor-pointer border border-neutral-100 rounded-2xl bg-white hover:border-neutral-300 transition-all duration-200"
+        className="group cursor-pointer border border-neutral-100 rounded-xl md:rounded-2xl bg-[white] hover:border-neutral-300 transition-all duration-200"
       >
-        <div className="relative aspect-[4/5] overflow-hidden rounded-t-2xl bg-neutral-50 flex items-center justify-center">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-t-xl md:rounded-t-2xl bg-neutral-50 flex items-center justify-center">
           {/* Safely check if photos array exists AND has items */}
           {sneaker.photos && sneaker.photos.length > 0 ? (
             <img
@@ -34,10 +34,10 @@ export default function App() {
             <span className="text-gray-400 text-sm">No Image</span>
           )}
         </div>
-        <div className="px-4 py-4">
-          <p className="text-xs text-gray-400 uppercase">{sneaker.brand}</p>
-          <h3 className="text-sm font-medium uppercase">{sneaker.sneakerName}</h3>
-          <p className="text-sm font-semibold mt-1">₹{sneaker.price}</p>
+        <div className="px-3 md:px-4 py-3 md:py-4">
+          <p className="text-[10px] md:text-xs text-gray-400 uppercase truncate">{sneaker.brand}</p>
+          <h3 className="text-xs md:text-sm font-medium uppercase truncate">{sneaker.sneakerName}</h3>
+          <p className="text-xs md:text-sm font-semibold mt-1">₹{sneaker.price}</p>
         </div>
       </motion.article>
     </Link>
@@ -120,11 +120,11 @@ export default function App() {
     <>
       <Header />
       <CurtainTransition>
-        <div className="pb-20 mt-25 px-5 bg-white text-gray-900">
-          <main className="ma mx-auto px-6 pt-5 ">
+        <div className="pb-20 min-h-screen mt-20 md:mt-25 px-4 md:px-5 bg-[#F2F3F4] text-gray-900">
+          <main className="mx-auto px-0 md:px-6 pt-4 md:pt-5">
 
             {/* Header / Controls */}
-            <div className=" text-start flex justify-center py-3 0">
+            <div className="text-start flex justify-center md:justify-center py-3">
               {/* <div className={`relative flex items-center transition-all duration-300 ${isSearchOpen ? 'w-98' : 'w-66'}`}>
                 <Search size={16} strokeWidth={1.5} className="absolute left-0 text-neutral-900 pointer-events-none" />
                 <input
@@ -135,13 +135,13 @@ export default function App() {
                   className="w-full sat bg-transparent border-b border-neutral-300 focus:border-black py-1 pl-6 text-[10px] font-bold tracking-widest uppercase placeholder:text-neutral-400 outline-none transition-all"
                 />
               </div> */}
-              <div className="flex items-center gap-6 ml-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 ml-0 sm:ml-8 w-full sm:w-auto">
 
                 {/* SORTING */}
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="sat bg-transparent border-b border-neutral-300 text-[10px] font-bold tracking-widest uppercase outline-none"
+                  className="sat bg-transparent border-b border-neutral-300 text-[10px] md:text-[11px] font-bold tracking-widest uppercase outline-none w-full sm:w-auto py-1"
                 >
                   <option value="default">Sort</option>
                   <option value="price-low">Price: Low → High</option>
@@ -152,7 +152,7 @@ export default function App() {
                 <select
                   value={categoryFilter}
                   onChange={(e) => setCategoryFilter(e.target.value)}
-                  className="sat bg-transparent border-b border-neutral-300 text-[10px] font-bold tracking-widest uppercase outline-none"
+                  className="sat bg-transparent border-b border-neutral-300 text-[10px] md:text-[11px] font-bold tracking-widest uppercase outline-none w-full sm:w-auto py-1"
                 >
                   <option value="all">All</option>
                   <option value="modern">Modern</option>
@@ -162,7 +162,7 @@ export default function App() {
               </div>
             </div>
 
-            <hr className="py-4 ms-1 text-neutral-200" />
+            <hr className="py-3 md:py-4 ms-0 md:ms-1 text-neutral-200" />
 
             {/* Grid */}
             {loading ? (
@@ -170,7 +170,7 @@ export default function App() {
                 Loading Data...
               </div>
             ) : visibleSneakers.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-5">
                 {visibleSneakers.map((snk) => (
                   <SneakerCard
                     key={snk._id}

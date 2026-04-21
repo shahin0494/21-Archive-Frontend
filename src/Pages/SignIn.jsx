@@ -89,7 +89,7 @@ const Input = ({ type = "text", placeholder, theme, value, onChange }) => {
 
 const Variant1 = () => {
   const [mode, setMode] = useState('login'); // 'login' | 'register'
-  const images = ['./lg1.jpg', './lg2.jpg', './lg3.jpg',];
+  const images = ['./a1.png','./a2.png','./a5.png','./a7.png','./a9.png','./a11.png'];
   const [imageIndex, setImageIndex] = useState(0);
 
   const [formData, setFormData] = useState({ username: "", email: "", password: "", confirmPassword: "" })
@@ -98,7 +98,7 @@ const Variant1 = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setImageIndex((prev) => (prev + 1) % images.length);
-    }, 7500); // slow cinematic change
+    }, 6500); // slow cinematic change
     return () => clearInterval(interval);
   }, []);
 
@@ -179,18 +179,18 @@ const Variant1 = () => {
       <div className="relative z-10 flex flex-col md:grid md:grid-cols-2 h-full w-full">
 
         {/* Left: Content */}
-        <div className="relative h-64 md:h-full border-b md:border-b-0 md:border-r-2 border-red-800/20 flex flex-col justify-between p-8 md:p-12 overflow-hidden">
+        <div className="relative h-[42vh] sm:h-[48vh] md:h-full border-b md:border-b-0 md:border-r-2 border-red-800/20 flex flex-col justify-between p-6 md:p-12 overflow-hidden">
           <div className="z-10">
             {/* <h2 className="text-xl font-black tracking-tighter uppercase">Drop_001</h2> */}
           </div>
 
           {/* Full-size Image Background */}
-          <AnimatePresence mode="wait">
+          <AnimatePresence >
             <motion.img
               key={imageIndex}
               src={images[imageIndex]}
               alt="Skate sneaker editorial"
-              className="absolute inset-0 w-full h-full object-cover contrast-125"
+              className="absolute inset-0 w-full h-full object-cover object-center contrast-125 scale-105 md:scale-100"
               initial={{ opacity: 0, filter: 'blur(12px)', scale: 1.08 }}
               animate={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
               exit={{ opacity: 0, filter: 'blur(16px)', scale: 1.04 }}
@@ -299,10 +299,8 @@ const App = () => {
     <div className="w-full h-screen bg-gray-100 overflow-hidden relative">
 
       <Toaster
-        position="top-right"
-        richColors
+        position="bottom-center"
         theme="dark" />
-
       <div className="w-full h-full">
         <AnimatePresence mode="wait">
           <motion.div

@@ -128,7 +128,7 @@ export default function App() {
 
 
   return (
-    <div className={`min-h-screen font-sans transition-colors duration-700 ease-in-out bg-white text-black`}>
+    <div className={`min-h-screen font-sans transition-colors duration-700 ease-in-out bg-[#F2F3F4] text-black`}>
       <Header />
       {/* Main Experience Container */}
       <main className="pt-32 pb-20 px-4 md:px-8 max-w-[1600px] mx-auto min-h-screen">
@@ -154,9 +154,8 @@ export default function App() {
       </main>
       <Footer />
       <Toaster
-        position="top-right"
-        richColors
-        theme="dark"
+        position="bottom-center"
+        theme="light"
         toastOptions={{
           classNames: {
             toast:
@@ -186,10 +185,7 @@ const LuxuryButton = ({ total, label = "Finalize Order", onClick }) => (
 function MonolithCart({ items, update, remove, subtotal, onCheckout }) {
   if (!items || items.length === 0) {
     return (
-      <div className="flex flex-col h-[60vh] w-full bg-white text-zinc-900 items-center justify-center p-8 relative overflow-hidden font-sans">
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} className="absolute top-8 left-8 text-xs font-bold tracking-widest text-zinc-300">
-          WH-01 // STOCK
-        </motion.div>
+      <div className="flex flex-col h-[60vh] w-full bg-[#F2F3F4] text-zinc-900 items-center justify-center mt-20 p-8 relative overflow-hidden font-sans">
         <div className="relative w-48 h-48 mb-8">
           {/* 3 Minimal Isometric Boxes Stacked */}
           <motion.svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.5" className="absolute bottom-0 w-full h-full text-zinc-300">
@@ -262,7 +258,7 @@ function MonolithCart({ items, update, remove, subtotal, onCheckout }) {
         ))}
       </div>
 
-      <div className="sticky top-40 bg-black/5 border border-black/10 p-10 rounded-3xl backdrop-blur-3xl">
+      <div className="relative md:sticky md:top-40 bg-black/5 border border-black/10 p-5 md:p-10 rounded-2xl md:rounded-3xl backdrop-blur-3xl">
         <h3 className="text-xs uppercase tracking-[0.3em] font-black mb-10 pb-6 border-b border-black/10">Valuation Summary</h3>
         <div className="space-y-6 mb-12">
           {[

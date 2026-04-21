@@ -21,7 +21,7 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.2, ease: "easeOut" } }
 };
 
 const App = () => {
@@ -338,9 +338,8 @@ const App = () => {
       <Footer/>
 
       <Toaster
-        position="bottom-right"
-        richColors
-        theme="light" />
+        position="bottom-center"
+        theme="dark" />
     </>
 
   );

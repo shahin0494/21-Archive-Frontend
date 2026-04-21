@@ -58,7 +58,7 @@ const PremiumHeader = () => {
 
   const location = useLocation();
   const pageStyles = {
-    "/": { base: "text-red-600", scrolled: "text-red-600" },
+    "/": { base: "text-neutral-600", scrolled: "text-neutral-600" },
     "/about": { base: "text-red-700", scrolled: "text-red-700" },
     "/news": { base: "text-red-700", scrolled: "text-red-900" },
   };
@@ -92,10 +92,22 @@ const PremiumHeader = () => {
   const token = sessionStorage.getItem("token");
 
   // Map your old utilities into the StaggeredMenu structure
+  // Replace your menuItems block with this:
+
   const menuItems = [
+    // Show Men / Women / Red only on mobile inside StaggeredMenu
+    ...(window.innerWidth < 768
+      ? [
+          { label: "Men", link: "/shop/men" },
+          { label: "Women", link: "/shop/women" },
+          { label: "Red", link: "/archive" },
+        ]
+      : []),
+
     ...(token
       ? [{ label: "Account", link: "/account" }]
       : [{ label: "Login", link: "/login" }]),
+
     { label: "Origin", link: "/about" },
     { label: "Briefs", link: "/news" },
     { label: "Wishlist", link: "/wishlist" },
@@ -103,8 +115,12 @@ const PremiumHeader = () => {
   ];
 
   // Dynamic menu button color based on background/scroll state
-  const isDarkBg = ["/about", "/archive"].includes(location.pathname) || (!isScrolled && location.pathname === "/");
-  const menuBtnColor = isDarkBg ? "#000000" : "#000000";
+  const isDarkBg = ["/about", "/news"].includes(location.pathname) || (!isScrolled && location.pathname === "/");
+  const menuBtnColor = ["/about", "/news"].includes(location.pathname)
+    ? "#DC2626"
+    : isScrolled
+      ? "#111111"
+      : "#111111";
 
   return (
     <motion.header
@@ -114,9 +130,9 @@ const PremiumHeader = () => {
       exit={{ y: "-20%", opacity: 0 }}
       transition={{ duration: 0.54, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 ${["/about", "/archive"].includes(location.pathname)
-        ? "bg-black text-white py-4 "
+        ? "bg-neutral-900 text-white py-4 "
         : isScrolled
-          ? "bg-transparent backdrop-blur-xl text-white py-4 "
+          ? "bg-[#F2F3F4] backdrop-blur-xl text-white py-4 "
           : "bg-transparent backdrop-blur text-white py-4 "
         }`}
     >
@@ -164,24 +180,24 @@ const PremiumHeader = () => {
           </div>
 
           {/* Right Section: Staggered Menu */}
-          
-            <div className="flex-1 flex items-center justify-end z-50 relative pointer-events-auto">
-              {/* The wrapper ensures the fixed menu coordinates correctly with your max-w container */}
-              <div className="relative w-auto h-8 flex items-center justify-end">
-                <StaggeredMenu
-                  items={menuItems}
-                  position="right"
-                  // Clean, minimal black/dark-grey overlay panels
-                  colors={['#1a1a1a', '#E53935']}
-                  accentColor="#b91c1c" // Matches your red-800 brand color
-                  menuButtonColor="#F44336"
-                  openMenuButtonColor="#ff0000"
-                  isFixed={true}
-                  displayItemNumbering={false}
-                />
-              </div>
+
+          <div className="flex-1 flex items-center justify-end z-50 relative pointer-events-auto">
+            {/* The wrapper ensures the fixed menu coordinates correctly with your max-w container */}
+            <div className="relative w-auto h-8 flex items-center justify-end">
+              <StaggeredMenu
+                items={menuItems}
+                position="right"
+                // Clean, minimal black/dark-grey overlay panels
+                colors={['#1a1a1a', '#E53935']}
+                accentColor="#b91c1c" // Matches your red-800 brand color
+                menuButtonColor={menuBtnColor}
+                openMenuButtonColor={menuBtnColor}
+                isFixed={true}
+                displayItemNumbering={false}
+              />
             </div>
-          
+          </div>
+
         </motion.nav>
       </div>
     </motion.header>

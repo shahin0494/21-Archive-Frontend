@@ -204,10 +204,10 @@ const VerticalSplit = () => {
   const current = SNEAKERS[index];
 
   return (
-    <div className="relative w-full h-screen flex flex-col md:flex-row bg-neutral-50 overflow-hidden">
+    <div className="relative w-full h-screen flex flex-col md:flex-row bg-[#F2F3F4] overflow-hidden">
 
       {/* Left: Text */}
-      <div className="w-full md:w-1/2 h-1/2 md:h-full flex items-center justify-center p-8 md:p-20 relative z-10 bg-white">
+      <div className="w-full md:w-1/2 h-1/2 md:h-full flex items-center justify-center p-8 md:p-20 relative z-10 bg-[#F2F3F4]">
         <AnimatePresence mode="wait">
           <motion.div
             key={index}
@@ -265,7 +265,7 @@ const VerticalSplit = () => {
         </AnimatePresence>
 
         {/* Vertical Controls */}
-        <div className="absolute right-0 bottom-0 md:top-1/2 md:-translate-y-1/2 flex flex-row md:flex-col bg-white border-l border-t md:border-t-0 border-neutral-200">
+        <div className="absolute right-0 bottom-0 md:top-1/2 md:-translate-y-1/2 flex flex-row md:flex-col bg-[#F2F3F4] border-l border-t md:border-t-0 border-neutral-200">
           <button
             onClick={prevSlide}
             className="p-6 hover:bg-neutral-50 transition-colors"
@@ -467,7 +467,7 @@ const testimonials = [
 
 const TestimonialSpeechBubble = () => {
   return (
-    <section className="py-8 ">
+    <section className="py-8 bg-[#F2F3F4]">
       <div className="container mx-auto px-4">
         <div className="mb-10 text-start">
           <h2 className="text-7xl font-black mt-2 grotesq uppercase">What They Say :)</h2>
@@ -485,12 +485,12 @@ const TestimonialSpeechBubble = () => {
               className="relative group"
             >
               {/* Bubble */}
-              <div className="relative bg-white border-2 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 rounded-xl">
+              <div className="relative bg-[#F2F3F4] border-2 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 rounded-xl">
                 <Quote className="w-8 h-8 mb-4 fill-yellow-400 text-black" />
                 <p className=" grotesq font-medium text-lg mb-4 text-neutral-800">"{t.content}"</p>
 
                 {/* Bubble Tail (CSS Triangle) */}
-                <div className="absolute -bottom-3 left-8 w-6 h-6 bg-white border-b-2 border-r-2 border-black rotate-45"></div>
+                <div className="absolute -bottom-3 left-8 w-6 h-6 bg-[#F2F3F4] border-b-2 border-r-2 border-black rotate-45"></div>
               </div>
 
               {/* Author */}
@@ -517,7 +517,7 @@ function Home() {
         <Header />
       </div>
       <CurtainTransition>
-        <div className='bg-neutral-50'>
+        <div className='bg-[#F2F3F4]'>
 
           <motion.div
             variants={delayedRevealVariant}
@@ -534,11 +534,7 @@ function Home() {
             </section>
           </div>
           <div className="flex flex-col items-center gap-4 py-5  border-b-4  ">
-            <button
-              className="group relative inline-flex items-center hover:bg-red-700 hover:text-white justify-center px-8 py-3 font-bold text-black transition-all duration-200 bg-neutral-50 font-sans border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none">
-              <span className="mr-2 text-3xl  uppercase tracking-tight">Explore More</span>
-              {/* <ArrowUpRight className="w-15 h-5  transition-transform group-hover:translate-x-1" /> */}
-            </button>
+            
           </div>
           {/* <h2 className="text-9xl font-black  text-center py-2 uppercase grotesq">FEED</h2> */}
 
